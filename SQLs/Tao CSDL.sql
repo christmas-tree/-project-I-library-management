@@ -1,3 +1,5 @@
+CREATE DATABASE ThuVienDB;
+go
 USE ThuVienDB;
 
 CREATE TABLE [category] (
@@ -9,11 +11,11 @@ CREATE TABLE [publisher] (
 	pubName nvarchar(50) NOT NULL);
 
 CREATE TABLE [language] (
-	languageId varchar(2) PRIMARY KEY,
-	languageName nvarchar(30) NOT NULL);
+	[langId] varchar(2) PRIMARY KEY,
+	[language] nvarchar(30) NOT NULL);
 
 CREATE TABLE [book] (
-	bid int IDENTITY(1,1) PRIMARY KEY,
+	bid varchar(6) PRIMARY KEY,
 	created datetime DEFAULT CURRENT_TIMESTAMP,
 	bookName nvarchar(100) NOT NULL,
 	price int NOT NULL,
@@ -21,16 +23,16 @@ CREATE TABLE [book] (
 	author nvarchar(30) NOT NULL,
 	pubId varchar(3) NOT NULL,
 	pubYear int NOT NULL,
-	languageId varchar(2) NOT NULL,
+	[langId] varchar(2) NOT NULL,
 	[location] nvarchar(50),
 	quantity int NOT NULL,
 	availQuantity int NOT NULL,
 	FOREIGN KEY (catId) REFERENCES category,
 	FOREIGN KEY (pubId) REFERENCES publisher,
-	FOREIGN KEY (languageId) REFERENCES [language]);
+	FOREIGN KEY ([langId]) REFERENCES [language]);
 
 CREATE TABLE [reader] (
-	id int IDENTITY(1,1) PRIMARY KEY,
+	rid int IDENTITY(1,1) PRIMARY KEY,
 	created datetime DEFAULT CURRENT_TIMESTAMP,
 	[name] nvarchar(50) NOT NULL,
 	dob date NOT NULL,
@@ -40,7 +42,7 @@ CREATE TABLE [reader] (
 	canBorrow bit DEFAULT 1 NOT NULL);
 
 CREATE TABLE [staff] (
-	id int IDENTITY(1,1) PRIMARY KEY,
+	[sid] int IDENTITY(1,1) PRIMARY KEY,
 	created datetime DEFAULT CURRENT_TIMESTAMP,
 	isAdmin bit NOT NULL,
 	username varchar(20) NOT NULL,
@@ -56,16 +58,18 @@ CREATE TABLE [transaction] (
 	borrowingDate datetime NOT NULL,
 	rid int NOT NULL,
 	borrowStaffId int NOT NULL,
-	FOREIGN KEY (rid) REFERENCES reader(id),
-	FOREIGN KEY (borrowStaffId) REFERENCES staff(id));
+	FOREIGN KEY (rid) REFERENCES reader(rid),
+	FOREIGN KEY (borrowStaffId) REFERENCES staff([sid]));
 
 CREATE TABLE [transactionDetail] (
-	detailId int IDENTITY(1,1) PRIMARY KEY,
 	transactId int NOT NULL,
+	bid varchar(6) NOT NULL,
 	returnStaffId int,
 	dueDate datetime NOT NULL,
 	returnDate datetime,
 	deposit int NOT NULL,
 	isExtended bit DEFAULT 0 NOT NULL,
 	FOREIGN KEY (transactId) REFERENCES [transaction],
-	FOREIGN KEY (returnStaffId) REFERENCES staff(id));
+	FOREIGN KEY (returnStaffId) REFERENCES staff([sid]),
+	FOREIGN KEY (bid) REFERENCES book(bid),
+	PRIMARY KEY (transactId, bid));
