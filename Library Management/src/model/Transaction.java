@@ -66,7 +66,7 @@ public class Transaction {
 
     //public void removeDetail(b)
 
-    private class TransactionDetail {
+    public class TransactionDetail {
         private Book book;
         private Staff returnStaff;
         private Timestamp dueDate;
@@ -75,7 +75,7 @@ public class Transaction {
         private boolean isExtended;
         private int fine;
 
-        public TransactionDetail(Book book, Timestamp dueDate, int deposit) {
+        private TransactionDetail(Book book, Timestamp dueDate, int deposit) {
             this.book = book;
             this.dueDate = dueDate;
             this.deposit = deposit;

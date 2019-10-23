@@ -16,6 +16,18 @@ public class Staff {
     private int idCardNum;
     private String address;
 
+    public Staff(int uid, Timestamp created, boolean isAdmin, String username, String name, Date dob, boolean gender, int idCardNum, String address) {
+        this.uid = uid;
+        this.created = created;
+        this.isAdmin = isAdmin;
+        this.username = username;
+        this.name = name;
+        this.dob = dob;
+        this.gender = gender;
+        this.idCardNum = idCardNum;
+        this.address = address;
+    }
+
     public int getUid() {
         return uid;
     }
@@ -72,7 +84,7 @@ public class Staff {
         this.dob = dob;
     }
 
-    public boolean isGender() {
+    public boolean getGender() {
         return gender;
     }
 

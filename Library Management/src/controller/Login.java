@@ -1,16 +1,13 @@
 package controller;
 
-import dao.UserDAO;
+import dto.UserDTO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import model.User;
-import util.AlertPanel;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.sql.SQLException;
 
 public class Login {
@@ -22,14 +19,14 @@ public class Login {
     @FXML
     private Button loginBtn;
 
-    public void login() throws SQLException, ClassNotFoundException {
+    public void login() throws ClassNotFoundException, SQLException {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        UserDAO userDao = new UserDAO();
+        UserDTO userDTO = new UserDTO();
 
 //        try {
-            User user = userDao.authenticate(username, password);
+            User user = userDTO.authenticate(username, password);
 
             if (user != null) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

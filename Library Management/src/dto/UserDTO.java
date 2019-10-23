@@ -1,4 +1,4 @@
-package dao;
+package dto;
 
 import model.User;
 import util.DbConnection;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-public class UserDAO {
+public class UserDTO {
 
     public User authenticate(String username, String password) throws SQLException {
         Connection con = DbConnection.getConnection();
@@ -25,16 +25,16 @@ public class UserDAO {
         System.out.println(sql2);
         Statement stmt = con.createStatement();
 
-        ResultSet result = stmt.executeQuery(sql2);
+        ResultSet rs = stmt.executeQuery(sql2);
 
         User user = null;
 
-        if (result.next()) {
+        if (rs.next()) {
             user = new User();
-            user.setUid(result.getInt("id"));
-            user.setAdmin(result.getBoolean("isAdmin"));
-            user.setName(result.getString("name"));
-            user.setUsername(result.getString("username"));
+            user.setUid(rs.getInt("id"));
+            user.setAdmin(rs.getBoolean("isAdmin"));
+            user.setName(rs.getString("name"));
+            user.setUsername(rs.getString("username"));
         }
 
         con.close();
