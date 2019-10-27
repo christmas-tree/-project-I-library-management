@@ -16,6 +16,23 @@ public class Book {
     private int quantity;
     private int availQuantity;
 
+    public Book() {
+    }
+
+    public Book(String bid, String bookName, int price, Category category, String author, Publisher publisher, int pubYear, Language language, String location, int quantity, int availQuantity) {
+        this.bid = bid;
+        this.bookName = bookName;
+        this.price = price;
+        this.category = category;
+        this.author = author;
+        this.publisher = publisher;
+        this.pubYear = pubYear;
+        this.language = language;
+        this.location = location;
+        this.quantity = quantity;
+        this.availQuantity = availQuantity;
+    }
+
     public String getBid() {
         return bid;
     }

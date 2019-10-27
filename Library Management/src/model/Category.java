@@ -24,4 +24,6 @@ public class Category {
     public void setCatName(String catName) {
         this.catName = catName;
     }
+
+
 }

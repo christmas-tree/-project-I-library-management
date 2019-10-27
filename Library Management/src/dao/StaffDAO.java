@@ -1,16 +1,14 @@
-package dto;
+package dao;
 
 import model.Staff;
-import util.AlertPanel;
 import util.DbConnection;
 
 import java.sql.*;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StaffDTO {
-    public StaffDTO() {
+public class StaffDAO {
+    public StaffDAO() {
     }
 
     // CREATE
@@ -24,7 +22,7 @@ public class StaffDTO {
 
         stmt.setBoolean(1, staff.isAdmin());
         stmt.setString(2, staff.getUsername());
-        stmt.setString(3, staff.getPassword());
+        stmt.setNString(3, staff.getPassword());
         stmt.setNString(4, staff.getName());
         stmt.setDate(5, staff.getDob());
         stmt.setBoolean(6, staff.getGender());

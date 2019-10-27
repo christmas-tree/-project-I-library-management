@@ -1,6 +1,6 @@
 package controller;
 
-import dto.UserDTO;
+import dao.UserDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -23,7 +23,7 @@ public class Login {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        UserDTO userDTO = new UserDTO();
+        UserDAO userDTO = new UserDAO();
 
 //        try {
             User user = userDTO.authenticate(username, password);

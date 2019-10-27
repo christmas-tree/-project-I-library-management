@@ -28,6 +28,17 @@ public class Staff {
         this.address = address;
     }
 
+    public Staff(boolean isAdmin, String username, String password, String name, Date dob, boolean gender, int idCardNum, String address) {
+        this.isAdmin = isAdmin;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.dob = dob;
+        this.gender = gender;
+        this.idCardNum = idCardNum;
+        this.address = address;
+    }
+
     public int getUid() {
         return uid;
     }
