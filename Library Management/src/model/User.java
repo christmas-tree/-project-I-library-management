@@ -1,6 +1,9 @@
-package model;
+/*
+ * Copyright (c) 2019 Nghia Tran.
+ * Project I - Library Management System
+ */
 
-import util.DbConnection;
+package model;
 
 public class User {
     private String username;

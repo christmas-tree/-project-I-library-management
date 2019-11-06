@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2019 Nghia Tran.
+ * Project I - Library Management System
+ */
+
 package dao;
 
 import model.Category;
@@ -11,6 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CategoryDAO {
+
+    public CategoryDAO() {
+    }
 
     // CREATE
     public boolean createCategory(Category category) throws SQLException {

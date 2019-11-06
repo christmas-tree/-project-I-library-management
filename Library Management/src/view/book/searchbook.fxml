@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<!--
+  ~ Copyright (c) 2019 Nghia Tran.
+  ~ Project I - Library Management System
+  -->
 
-<AnchorPane prefHeight="800" prefWidth="1600" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.book.SearchBookController">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane prefHeight="800" prefWidth="1600" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.book.SearchBookController">
    <children>
       <TableView layoutX="115.0" layoutY="125.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <columns>
@@ -27,29 +28,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <MenuBar layoutX="48.0" layoutY="37.0" prefHeight="32.0" prefWidth="1633.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Thoát" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Chỉnh sửa">
-            <items>
-                  <MenuItem mnemonicParsing="false" text="Thêm sách" />
-                  <MenuItem mnemonicParsing="false" text="Sửa sách đang chọn" />
-              <MenuItem mnemonicParsing="false" text="Xoá sách đang chọn" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Nhập sách" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Trợ giúp">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
       <Label layoutX="43.0" layoutY="44.0" text="Tìm kiếm theo" />
       <ChoiceBox layoutX="156.0" layoutY="39.0" prefWidth="150.0" />
    </children>

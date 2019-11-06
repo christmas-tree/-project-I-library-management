@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2019 Nghia Tran.
+ * Project I - Library Management System
+ */
+
 package dao;
 
 import model.Publisher;
@@ -7,12 +12,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PublisherDAO {
+
+    public PublisherDAO() {
+    }
 
     // CREATE
     public boolean createPublisher(Publisher publisher) throws SQLException {

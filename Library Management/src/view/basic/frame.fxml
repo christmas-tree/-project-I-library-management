@@ -1,20 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<!--
+  ~ Copyright (c) 2019 Nghia Tran.
+  ~ Project I - Library Management System
+  -->
 
-<GridPane styleClass="login-container" alignment="CENTER" hgap="20.0" vgap="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.basic.Welcome">
-   <children>
-      <Label text="HỆ THỐNG QUẢN LÝ THƯ VIỆN 2019" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="0">
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0"/>
-         </padding>
-      </Label>
-      <Button fx:id="trasactBtn" maxWidth="1.7976931348623157E308" prefHeight="100.0" text="Mượn trả" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-      <Button fx:id="bookBtn" prefHeight="100.0" prefWidth="175.0" text="Quản lý sách" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.rowIndex="2" />
-      <Button fx:id="readerBtn" prefHeight="100.0" prefWidth="175.0" text="Quản lý độc giả" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="2" />
-      <Button fx:id="staffBtn" prefHeight="100.0" prefWidth="175.0" text="Quản lý nhân viên" GridPane.columnIndex="2" GridPane.columnSpan="1" GridPane.rowIndex="2" />
-   </children>
-</GridPane>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<BorderPane fx:id="window" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.basic.IndexController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Thoát" onAction="#exit"/>
+                    </items>
+                </Menu>
+                <Menu fx:id="menuEdit" mnemonicParsing="false" text="Chỉnh sửa">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                    </items>
+                </Menu>
+                <Menu fx:id="menuHelp" mnemonicParsing="false" text="Trợ giúp">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Giới thiệu" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <left>
+        <VBox fx:id="leftVBox" xmlns:fx="http://javafx.com/fxml">
+            <children>
+                <TreeView fx:id="sideMenu" prefHeight="820.0" prefWidth="200.0" showRoot="false" />
+            </children>
+        </VBox>
+    </left>
+    <bottom>
+        <HBox alignment="CENTER">
+            <Label fx:id="footerNote" alignment="CENTER" contentDisplay="CENTER" text="Trần Trung Nghĩa - 20173281 - © 2019" textAlignment="CENTER" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

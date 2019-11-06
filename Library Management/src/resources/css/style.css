@@ -1,10 +1,15 @@
-.root{
-    -fx-font-family: "Roboto";
+/*
+ * Copyright (c) 2019 Nghia Tran.
+ * Project I - Library Management System
+ */
+
+.login-container {
+    -fx-background-image: url("/resources/img/lib-background.jpg");
+    /*-fx-background-position: ;*/
+
 }
 
-.login JFXButton {
-    -jfx-button-type: FLAT;
-    -fx-background-color: blue;
-    -fx-text-fill: white;
-    -jfx-disable-visual-focus: true;
+.login-header {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
 }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2019 Nghia Tran.
+ * Project I - Library Management System
+ */
+
 package dao;
 
 import model.Language;
@@ -7,12 +12,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class LanguageDAO {
+
+    public LanguageDAO() {
+    }
 
     public boolean createLanguage(Language language) throws SQLException {
         String sql = "INSERT INTO [language](langId, language) VALUES (?, ?)";

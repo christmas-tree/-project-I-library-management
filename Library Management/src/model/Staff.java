@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2019 Nghia Tran.
+ * Project I - Library Management System
+ */
+
 package model;
 
 import java.sql.Date;
@@ -5,7 +10,7 @@ import java.sql.Timestamp;
 
 public class Staff {
 
-    private int uid;
+    private int sid;
     private Timestamp created;
     private boolean isAdmin;
     private String username;
@@ -17,7 +22,7 @@ public class Staff {
     private String address;
 
     public Staff(int uid, Timestamp created, boolean isAdmin, String username, String name, Date dob, boolean gender, int idCardNum, String address) {
-        this.uid = uid;
+        this.sid = uid;
         this.created = created;
         this.isAdmin = isAdmin;
         this.username = username;
@@ -39,12 +44,12 @@ public class Staff {
         this.address = address;
     }
 
-    public int getUid() {
-        return uid;
+    public int getSid() {
+        return sid;
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
+    public void setSid(int uid) {
+        this.sid = uid;
     }
 
     public Timestamp getCreated() {

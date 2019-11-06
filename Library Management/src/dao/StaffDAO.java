@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2019 Nghia Tran.
+ * Project I - Library Management System
+ */
+
 package dao;
 
 import model.Staff;
@@ -30,6 +35,8 @@ public class StaffDAO {
         stmt.setNString(8, staff.getAddress());
 
         boolean result = (stmt.executeUpdate() > 0);
+
+        stmt.close();
         con.close();
 
         return result;
@@ -47,16 +54,6 @@ public class StaffDAO {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-//            staff = new Staff();
-//            staff.setUid(rs.getInt("uid"));
-//            staff.setCreated(rs.getTimestamp("created"));
-//            staff.setAdmin(rs.getBoolean("isAdmin"));
-//            staff.setUsername(rs.getNString("username"));
-//            staff.setName(rs.getNString("name"));
-//            staff.setDob(rs.getDate("dob"));
-//            staff.setGender(rs.getBoolean("gender"));
-//            staff.setIdCardNum(rs.getInt("idCardNum"));
-//            staff.setAddress(rs.getNString("address"));
             staff = new Staff(
                     rs.getInt("uid"),
                     rs.getTimestamp("created"),
@@ -70,6 +67,7 @@ public class StaffDAO {
             );
         }
         rs.close();
+        stmt.close();
         con.close();
 
         return staff;
@@ -100,6 +98,7 @@ public class StaffDAO {
             staffSearchResults.add(staff);
         }
         rs.close();
+        stmt.close();
         con.close();
 
         return staffSearchResults;
@@ -177,6 +176,7 @@ public class StaffDAO {
             staffSearchResults.add(staff);
         }
         rs.close();
+        stmt.close();
         con.close();
 
         return staffSearchResults;
@@ -211,6 +211,7 @@ public class StaffDAO {
             staffSearchResults.add(staff);
         }
         rs.close();
+        stmt.close();
         con.close();
 
         return staffSearchResults;
@@ -241,9 +242,10 @@ public class StaffDAO {
         stmt.setBoolean(6, staff.getGender());
         stmt.setInt(7, staff.getIdCardNum());
         stmt.setNString(8, staff.getAddress());
-        stmt.setInt(9, staff.getUid());
+        stmt.setInt(9, staff.getSid());
 
         boolean result = (stmt.executeUpdate() > 0);
+        stmt.close();
         con.close();
 
         return result;
@@ -255,9 +257,10 @@ public class StaffDAO {
         String sql = "DELETE FROM [staff] WHERE uid = ?";
         Connection con = DbConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(sql);
-        stmt.setInt(1, staff.getUid());
+        stmt.setInt(1, staff.getSid());
 
         boolean result = (stmt.executeUpdate() > 0);
+        stmt.close();
         con.close();
 
         return result;

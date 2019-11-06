@@ -1,22 +1,36 @@
+/*
+ * Copyright (c) 2019 Nghia Tran.
+ * Project I - Library Management System
+ */
+
 package controller;
 
+import controller.basic.LoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import util.AlertPanel;
+import jfxtras.styles.jmetro.JMetro;
+import jfxtras.styles.jmetro.Style;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/basic/login.fxml"));
-        primaryStage.setTitle("Libary Management");
-        primaryStage.setScene(new Scene(root, 520, 320));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource("view/basic/login.fxml"));
+        Parent root = loader.load();
+        Scene firstScene = new Scene(root, 1000, 600);
+        firstScene.getStylesheets().add(getClass().getResource("/resources/css/style.css").toExternalForm());
+        new JMetro(root, Style.DARK);
+        primaryStage.setTitle("Đăng nhập - QLTV");
+        primaryStage.setScene(firstScene);
+        primaryStage.setResizable(false);
         primaryStage.show();
+        LoginController loginController = loader.getController();
+        loginController.init();
     }
-
 
     public static void main(String[] args) {
         launch(args);

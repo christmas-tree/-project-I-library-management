@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2019 Nghia Tran.
+ * Project I - Library Management System
+ */
+
 package dao;
 
 import model.Book;
@@ -12,10 +17,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 public class BookDAO {
+
+    private static BookDAO instance = new BookDAO();
+
+    private BookDAO() {
+    }
+
+    public static BookDAO getInstance() {
+        return instance;
+    }
+
     //CREATE
 
     public boolean createBook(Book book) throws SQLException {
@@ -36,6 +50,8 @@ public class BookDAO {
         stmt.setInt(11, book.getAvailQuantity());
 
         boolean result = (stmt.executeUpdate() > 0);
+
+        stmt.close();
         con.close();
 
         return result;
@@ -143,6 +159,7 @@ public class BookDAO {
             bookList.add(book);
         }
         rs.close();
+        stmt.close();
         con.close();
 
         return bookList;
@@ -178,6 +195,8 @@ public class BookDAO {
         stmt.setInt(11, book.getAvailQuantity());
 
         boolean result = (stmt.executeUpdate() > 0);
+
+        stmt.close();
         con.close();
 
         return result;
@@ -192,6 +211,8 @@ public class BookDAO {
         stmt.setString(1, book.getBid());
 
         boolean result = (stmt.executeUpdate() > 0);
+
+        stmt.close();
         con.close();
 
         return result;

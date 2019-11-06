@@ -1,15 +1,31 @@
+/*
+ * Copyright (c) 2019 Nghia Tran.
+ * Project I - Library Management System
+ */
+
 package controller.basic;
 
+import controller.reader.SearchReaderController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.TreeView;
-import javafx.scene.layout.AnchorPane;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
+import model.Reader;
+import model.User;
+import util.ExHandler;
 
-public class Index {
+import java.util.Optional;
+
+public class IndexController {
 
     @FXML
-    private AnchorPane mainArea;
+    private BorderPane window;
 
     @FXML
     private Label footerNote;
@@ -21,15 +37,128 @@ public class Index {
     private Menu menuFile;
 
     @FXML
-    private TreeView sideMenu;
-
-    @FXML
     private Menu menuHelp;
 
-    public void init() {
-        if (!user )
+    @FXML
+    private TreeView sideMenu;
+
+    //Data
+    public static ObservableList<Reader> readerList = FXCollections.observableArrayList();
+
+//    public static void main(String[] args) {
+
+        // add a listener to the ObservableList
+//        observableList.addListener(new ListChangeListener<Double>() {
+//            @Override
+//            public void onChanged(Change<? extends Double> c) {
+//                // c represents the changed element
+//                System.out.println("Added " + c + " to the Observablelist");
+//                // we add the last element added to the observable list to the arraylist
+//                arrayList.add(observableList.get(observableList.size()-1));
+//                System.out.println("Added " + arrayList.get(arrayList.size()-1) + " to the Arraylist");
+//            }
+//        });
+
+    public void init(User user) {
+
+        TreeItem rootItem = new TreeItem("Menu");
+
+        TreeItem transactMenu = new TreeItem("Quản lý mượn trả");
+        transactMenu.getChildren().add(new TreeItem("Tìm kiếm giao dịch"));
+        transactMenu.getChildren().add(new TreeItem("Thêm giao dịch"));
+        rootItem.getChildren().add(transactMenu);
+
+        TreeItem bookMenu = new TreeItem("Quản lý sách");
+        bookMenu.getChildren().add(new TreeItem("Tìm kiếm sách"));
+        bookMenu.getChildren().add(new TreeItem("Thêm sách"));
+        bookMenu.getChildren().add(new TreeItem("Thể loại"));
+        bookMenu.getChildren().add(new TreeItem("Nhà xuất bản"));
+        bookMenu.getChildren().add(new TreeItem("Ngôn ngữ"));
+        rootItem.getChildren().add(bookMenu);
+
+        TreeItem readerMenu = new TreeItem("Quản lý độc giả");
+        readerMenu.getChildren().add(new TreeItem("Tìm kiếm độc giả"));
+        readerMenu.getChildren().add(new TreeItem("Thêm độc giả"));
+        rootItem.getChildren().add(readerMenu);
+
+        if (user.isAdmin()) {
+            TreeItem staffMenu = new TreeItem("Quản lý nhân viên");
+            staffMenu.getChildren().add(new TreeItem("Tìm kiếm nhân viên"));
+            staffMenu.getChildren().add(new TreeItem("Thêm nhân viên"));
+            rootItem.getChildren().add(staffMenu);
+        }
+
+        sideMenu.setRoot(rootItem);
+
+        sideMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
+            Node node = event.getPickResult().getIntersectedNode();
+
+            if (node instanceof Text || (node instanceof TreeCell && ((TreeCell) node).getText() != null)) {
+                String option = (String) ((TreeItem)sideMenu.getSelectionModel().getSelectedItem()).getValue();
+                System.out.println("Đã chọn: " + option);
+                renderMainScene(option);
+            }
+        });
+
     }
 
+    public void exit(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Thoát chương trình");
+        alert.setHeaderText("Bạn chắc chắn muốn thoát?");
+        Optional<ButtonType> option = alert.showAndWait();
+        if (option.get() == ButtonType.OK)
+            System.exit(0);
+    }
+
+    public void renderMainScene(String option) {
+        FXMLLoader loader = new FXMLLoader();
+        switch (option) {
+            // Quan ly giao dich
+            case "Tìm kiếm giao dịch":
+//                SearchTransactionController content = new SearchTransactionController();
+//                window.setCenter(content);
+                break;
+
+            // Quan ly sach
+            case "Tìm kiếm sách":
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/book/searchbook.fxml"));
+                    window.setCenter(loader.load());
+                } catch (Exception e) {
+                    ExHandler.handle(e);
+                }
+                break;
+            case "Thêm sách":
+                break;
+            case "Thể loại":
+                break;
+            case "Nhà xuất bản":
+                break;
+            case "Ngôn ngữ":
+                break;
+
+            // Quan ly doc gia
+            case "Tìm kiếm độc giả":
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/reader/searchreader.fxml"));
+                    window.setCenter(loader.load());
+                    SearchReaderController searchReaderController = loader.getController();
+                    searchReaderController.init();
+                } catch (Exception e) {
+                    ExHandler.handle(e);
+                }
+                break;
+            case "Thêm độc giả":
+                break;
+
+            // Quan ly nhan vien
+            case "Tìm kiếm nhân viên":
+                break;
+            case "Thêm nhân viên":
+                break;
+        }
+    }
 
 }
 

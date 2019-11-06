@@ -1,10 +1,15 @@
+/*
+ * Copyright (c) 2019 Nghia Tran.
+ * Project I - Library Management System
+ */
+
 package model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Reader {
-    private int id;
+    private int rid;
     private Timestamp created;
     private String name;
     private Date dob;
@@ -16,12 +21,31 @@ public class Reader {
     public Reader() {
     }
 
-    public int getId() {
-        return id;
+    public Reader(int rid, Timestamp created, String name, Date dob, boolean gender, int idCardNum, String address, boolean canBorrow) {
+        this.rid = rid;
+        this.created = created;
+        this.name = name;
+        this.dob = dob;
+        this.gender = gender;
+        this.idCardNum = idCardNum;
+        this.address = address;
+        this.canBorrow = canBorrow;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Reader(String name, Date dob, boolean gender, int idCardNum, String address) {
+        this.name = name;
+        this.dob = dob;
+        this.gender = gender;
+        this.idCardNum = idCardNum;
+        this.address = address;
+    }
+
+    public int getRid() {
+        return rid;
+    }
+
+    public void setRid(int rid) {
+        this.rid = rid;
     }
 
     public Timestamp getCreated() {
@@ -48,7 +72,7 @@ public class Reader {
         this.dob = dob;
     }
 
-    public boolean isGender() {
+    public boolean getGender() {
         return gender;
     }
 
