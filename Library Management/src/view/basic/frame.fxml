@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane styleClass="login-container" alignment="CENTER" hgap="20.0" vgap="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.basic.Welcome">
+   <children>
+      <Label text="HỆ THỐNG QUẢN LÝ THƯ VIỆN 2019" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="0">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0"/>
+         </padding>
+      </Label>
+      <Button fx:id="trasactBtn" maxWidth="1.7976931348623157E308" prefHeight="100.0" text="Mượn trả" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <Button fx:id="bookBtn" prefHeight="100.0" prefWidth="175.0" text="Quản lý sách" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.rowIndex="2" />
+      <Button fx:id="readerBtn" prefHeight="100.0" prefWidth="175.0" text="Quản lý độc giả" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="2" />
+      <Button fx:id="staffBtn" prefHeight="100.0" prefWidth="175.0" text="Quản lý nhân viên" GridPane.columnIndex="2" GridPane.columnSpan="1" GridPane.rowIndex="2" />
+   </children>
+</GridPane>

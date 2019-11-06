@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  ~ Copyright (c) 2019 Nghia Tran.
+  ~ Project I - Library Management System
+  -->
+
+<BorderPane fx:id="window" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.basic.IndexController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Thoát" onAction="#exit"/>
+                    </items>
+                </Menu>
+                <Menu fx:id="menuEdit" mnemonicParsing="false" text="Chỉnh sửa">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                    </items>
+                </Menu>
+                <Menu fx:id="menuHelp" mnemonicParsing="false" text="Trợ giúp">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Giới thiệu" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <left>
+        <VBox fx:id="leftVBox" xmlns:fx="http://javafx.com/fxml">
+            <children>
+                <TreeView fx:id="sideMenu" prefHeight="820.0" prefWidth="200.0" showRoot="false" />
+            </children>
+        </VBox>
+    </left>
+    <bottom>
+        <HBox alignment="CENTER">
+            <Label fx:id="footerNote" alignment="CENTER" contentDisplay="CENTER" text="Trần Trung Nghĩa - 20173281 - © 2019" textAlignment="CENTER" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

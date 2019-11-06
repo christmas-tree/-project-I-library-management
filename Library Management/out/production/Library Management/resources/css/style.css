@@ -1,0 +1,15 @@
+/*
+ * Copyright (c) 2019 Nghia Tran.
+ * Project I - Library Management System
+ */
+
+.login-container {
+    -fx-background-image: url("/resources/img/lib-background.jpg");
+    /*-fx-background-position: ;*/
+
+}
+
+.login-header {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}

@@ -1,0 +1,10 @@
+.root{
+    -fx-font-family: "Roboto";
+}
+
+.login JFXButton {
+    -jfx-button-type: FLAT;
+    -fx-background-color: blue;
+    -fx-text-fill: white;
+    -jfx-disable-visual-focus: true;
+}
