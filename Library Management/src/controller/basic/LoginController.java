@@ -38,25 +38,23 @@ public class LoginController {
     private Label statusLabel;
 
     public void init() {
-        Task<Void> checkDbCon = new Task<Void>() {
-            @Override protected Void call() throws Exception {
+        Runnable checkDbCon = new Runnable() {
+            @Override
+            public void run() {
                 Connection con = DbConnection.getConnection();
                 if (con == null) {
-                    Platform.runLater(new Runnable() {
-                        @Override public void run() {
-                            ExHandler.handle(new Exception("Lỗi kết nối tới cơ sở dữ liệu! Chương trình sẽ thoát."));
-                            System.exit(0);
-                        }
+                    Platform.runLater(() -> {
+                        ExHandler.handle(new Exception("Lỗi kết nối tới cơ sở dữ liệu! Chương trình sẽ thoát."));
+                        System.exit(0);
                     });
                 } else {
-                    Platform.runLater(new Runnable() {
-                        @Override public void run() {
-                            statusLabel.setText("Trình trạng CSDL: Đã kết nối");
-                        }
-                    });
-                    con.close();
+                    Platform.runLater(() -> statusLabel.setText("Trình trạng CSDL: Đã kết nối"));
+                    try {
+                        con.close();
+                    } catch (SQLException e) {
+                        ExHandler.handle(e);
+                    }
                 }
-                return null;
             }
         };
         new Thread(checkDbCon).start();

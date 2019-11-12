@@ -1,30 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <!--
   ~ Copyright (c) 2019 Nghia Tran.
   ~ Project I - Library Management System
   -->
 
-<AnchorPane prefHeight="507.0" prefWidth="837.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.reader.SearchReaderController">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="searchReaderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.reader.SearchReaderController">
     <children>
         <TableView fx:id="readerTable" layoutX="115.0" layoutY="125.0" prefHeight="442.0" prefWidth="824.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0">
             <columns>
-                <TableColumn fx:id="idCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="-1.0" text="ID" />
-                <TableColumn fx:id="nameCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="150.0" prefWidth="-1.0" text="Họ tên" />
-                <TableColumn fx:id="dobCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="-1.0" text="Ngày sinh" />
-                <TableColumn fx:id="genderCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="-1.0" text="Giới tính" />
-                <TableColumn fx:id="statusCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="-1.0" text="Trạng thái" />
+                <TableColumn fx:id="idCol" editable="false" minWidth="50.0" prefWidth="50.0" text="ID" />
+                <TableColumn fx:id="nameCol" editable="false" minWidth="150.0" prefWidth="200.0" text="Họ tên" />
+                <TableColumn fx:id="dobCol" editable="false" minWidth="100.0" prefWidth="100.0" text="Ngày sinh" />
+                <TableColumn fx:id="genderCol" editable="false" minWidth="50.0" prefWidth="100.0" text="Giới tính" />
+                <TableColumn fx:id="statusCol" editable="false" minWidth="50.0" prefWidth="100.0" text="Trạng thái" />
             </columns>
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
+            <placeholder>
+                <Label text="Không có dữ liệu." />
+            </placeholder>
         </TableView>
         <Label layoutX="46.0" layoutY="27.0" text="Tìm kiếm theo" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0" />
-        <ChoiceBox fx:id="searchChoice" layoutX="149.0" layoutY="23.0" prefWidth="150.0" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="15.0" />
-      <Label fx:id="dieuKienLabel" text="Điều kiện" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="20.0" />
+        <ChoiceBox fx:id="searchChoiceBox" layoutX="149.0" layoutY="23.0" prefWidth="150.0" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="15.0" />
+        <Label fx:id="dieuKienLabel" text="Điều kiện" visible="false" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="20.0" />
+        <TextField fx:id="searchInputField" prefWidth="250.0" visible="false" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="15.0" />
+        <DatePicker fx:id="searchStartDate" prefWidth="140.0" promptText="Từ ngày" visible="false" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="15.0" />
+        <DatePicker fx:id="searchEndDate" prefWidth="140.0" promptText="Tới ngày" visible="false" AnchorPane.leftAnchor="510.0" AnchorPane.topAnchor="15.0" />
+        <ChoiceBox fx:id="searchConditionChoiceBox" prefWidth="150.0" visible="false" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="15.0" />
+        <Button fx:id="searchBtn" defaultButton="true" mnemonicParsing="false" text="Tìm kiếm" visible="false" AnchorPane.leftAnchor="615.0" AnchorPane.topAnchor="15.0" />
+        <Button fx:id="refreshBtn" layoutY="20.0" mnemonicParsing="false" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0">
+            <graphic>
+                <ImageView fx:id="refreshIcon" fitHeight="18.0" fitWidth="15.0" layoutX="807.0" layoutY="20.0" pickOnBounds="false" preserveRatio="true" AnchorPane.rightAnchor="20.0">
+                    <image>
+                        <Image url="@../../resources/icon/refresh.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="addBtn" layoutX="740.0" layoutY="16.0" mnemonicParsing="false" text="Thêm" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="15.0" />
+        <Button fx:id="deleteBtn" layoutX="675.0" layoutY="16.0" mnemonicParsing="false" text="Xoá" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="15.0" />
+        <Button fx:id="editBtn" layoutX="660.0" layoutY="15.0" mnemonicParsing="false" text="Sửa" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="15.0" />
+
     </children>
 </AnchorPane>

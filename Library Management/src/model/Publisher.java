@@ -29,5 +29,10 @@ public class Publisher {
     public void setPubName(String pubName) {
         this.pubName = pubName;
     }
+
+    @Override
+    public String toString() {
+        return pubName;
+    }
 }
 

@@ -14,7 +14,7 @@ public class ExHandler {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Có lỗi xảy ra!");
         alert.setHeaderText("Có lỗi xảy ra!");
-        alert.setContentText(e.toString());
+        alert.setContentText(e.getMessage());
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         alert.showAndWait();
         e.printStackTrace();

@@ -17,7 +17,13 @@ import java.util.Map;
 
 public class LanguageDAO {
 
-    public LanguageDAO() {
+    private static LanguageDAO instance = new LanguageDAO();
+
+    private LanguageDAO() {
+    }
+
+    public static LanguageDAO getInstance() {
+        return instance;
     }
 
     public boolean createLanguage(Language language) throws SQLException {
@@ -44,7 +50,7 @@ public class LanguageDAO {
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            language = new Language(rs.getString("langId"), rs.getNString("langName"));
+            language = new Language(rs.getString("langId"), rs.getNString("language"));
         }
 
         rs.close();
@@ -63,7 +69,7 @@ public class LanguageDAO {
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            language = new Language(rs.getString("langId"), rs.getNString("langName"));
+            language = new Language(rs.getString("langId"), rs.getNString("language"));
             langList.put(language.getLangId(), language);
         }
 
@@ -101,4 +107,6 @@ public class LanguageDAO {
 
         return result;
     }
+
+
 }

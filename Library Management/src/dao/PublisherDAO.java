@@ -17,9 +17,14 @@ import java.util.Map;
 
 public class PublisherDAO {
 
-    public PublisherDAO() {
+    private static PublisherDAO instance = new PublisherDAO();
+
+    private PublisherDAO() {
     }
 
+    public static PublisherDAO getInstance() {
+        return instance;
+    }
     // CREATE
     public boolean createPublisher(Publisher publisher) throws SQLException {
         String sql = "INSERT INTO [publisher](pubId, pubName) VALUES (?, ?)";

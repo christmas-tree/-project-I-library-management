@@ -2,102 +2,58 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Tooooo much changes -- cannot track.">
-      <change afterPath="$PROJECT_DIR$/.idea/copyright/Nghia.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/jfoenix_9_0_8.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/jmetro_11_5_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/basic/IndexController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/basic/LoginController$1$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/basic/LoginController$1$2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/basic/LoginController$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/basic/LoginController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/book/CategoryController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/book/DetailBookController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/book/EditBookController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/book/LanguageController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/book/PublisherController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/book/SearchBookController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/reader/DetailReaderController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/reader/EditReaderController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/reader/SearchReaderController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/staff/DetailStaffController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/staff/EditStaffController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/staff/SearchStaffController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/transaction/DetailTransactionController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/transaction/EditTransactionController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/controller/transaction/SearchTransactionController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/dao/BookDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/dao/CategoryDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/dao/LanguageDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/dao/PublisherDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/dao/StaffDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/dao/TransactionDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/dao/TransactionDetailDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/dao/UserDAO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/resources/css/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/resources/img/lib-background.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/util/ExHandler.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/view/basic/frame.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/view/book/searchbook.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Library Management/view/reader/searchreader.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/basic/IndexController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/basic/LoginController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/book/CategoryController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/book/DetailBookController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/book/EditBookController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/book/LanguageController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/book/PublisherController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/reader/DetailReaderController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/reader/EditReaderController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/reader/SearchReaderController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/staff/DetailStaffController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/staff/EditStaffController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/staff/SearchStaffController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/transaction/DetailTransactionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/transaction/EditTransactionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/transaction/SearchTransactionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/dao/ReaderDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/dao/TransactionDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/dao/TransactionDetailDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/resources/css/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/resources/img/lib-background.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/basic/frame.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/book/searchbook.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/reader/searchreader.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/view/reader/editreader.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BieuMauBaoCaoQLTV- Tuan 7.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../BieuMauBaoCaoQLTV- Tuan 7.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Library Management.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Library Management.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Library Management/controller/Login.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Library Management/controller/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/controller/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dto/BookDTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dto/CategoryDTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dto/LanguageDTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dto/PublisherDTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dto/StaffDTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dto/UserDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/controller/basic/IndexController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/controller/basic/IndexController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/controller/basic/LoginController$1$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/controller/basic/LoginController$1$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/controller/basic/LoginController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/controller/basic/LoginController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/controller/basic/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/controller/basic/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/controller/book/EditBookController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/controller/book/EditBookController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/controller/book/SearchBookController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/controller/book/SearchBookController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/controller/reader/EditReaderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/controller/reader/EditReaderController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/controller/reader/SearchReaderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/controller/reader/SearchReaderController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/controller/staff/EditStaffController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/controller/staff/EditStaffController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/controller/staff/SearchStaffController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/controller/staff/SearchStaffController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dao/BookDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/dao/BookDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dao/CategoryDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/dao/CategoryDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dao/LanguageDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/dao/LanguageDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dao/PublisherDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/dao/PublisherDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dao/ReaderDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/dao/ReaderDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dao/StaffDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/dao/StaffDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dao/TransactionDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/dao/TransactionDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dao/TransactionDetailDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/dao/TransactionDetailDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/dao/UserDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/dao/UserDAO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Library Management/model/Book.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/model/Book.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Library Management/model/Category.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/model/Category.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Library Management/model/Language.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/model/Language.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Library Management/model/Publisher.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/model/Publisher.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Library Management/model/Reader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/model/Reader.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Library Management/model/Staff.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/model/Staff.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Library Management/model/Transaction$TransactionDetail.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/model/Transaction$TransactionDetail.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Library Management/model/Transaction.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/model/Transaction.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Library Management/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/model/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Library Management/testing/staff_dto_test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/testing/staff_dto_test.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Library Management/util/AlertPanel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Library Management/util/DbConnection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/util/DbConnection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/testing/staff_dto_test.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/util/ExHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/util/ExHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/view/basic/frame.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/view/basic/frame.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Library Management/view/basic/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/view/basic/login.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/BookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/book/SearchBookController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/Login.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/ReaderController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/StaffController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/view/book/searchbook.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/view/book/searchbook.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Library Management/view/reader/searchreader.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Library Management/view/reader/searchreader.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/basic/IndexController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/basic/IndexController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/basic/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/basic/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/book/EditBookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/book/EditBookController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/book/SearchBookController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/book/SearchBookController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/reader/EditReaderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/reader/EditReaderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/reader/SearchReaderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/reader/SearchReaderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/staff/EditStaffController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/staff/EditStaffController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/staff/SearchStaffController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/staff/SearchStaffController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dao/BookDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/BookDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dao/CategoryDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/CategoryDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dao/LanguageDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/LanguageDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dao/PublisherDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/PublisherDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/ReaderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/ReaderDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dao/StaffDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/StaffDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dao/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/TransactionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/TransactionDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/TransactionDetailDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dao/TransactionDetailDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Book.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Category.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Language.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Language.java" afterDir="false" />
@@ -105,12 +61,9 @@
       <change beforePath="$PROJECT_DIR$/src/model/Reader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Reader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Staff.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Staff.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Transaction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/testing/staff_dto_test.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/AlertPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/ExHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/DbConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/DbConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/basic/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/basic/login.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Thiet ke CSDL-QLTV-20173281-TranTrungNghia_Project 1-Tuan7.docx" beforeDir="false" afterPath="$PROJECT_DIR$/../Thiet ke CSDL-QLTV-20173281-TranTrungNghia_Project 1-Tuan7.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/ExHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/ExHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/book/searchbook.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/book/searchbook.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/reader/searchreader.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/reader/searchreader.fxml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -154,6 +107,22 @@
         <item name="ThuVienDB: database" type="ccb7ac2a:MsImplModel$Database" />
         <item name="dbo: schema" type="2865ee2e:MsImplModel$Schema" />
         <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="ThuVienDB@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="ThuVienDB: database" type="ccb7ac2a:MsImplModel$Database" />
+        <item name="dbo: schema" type="2865ee2e:MsImplModel$Schema" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="transaction: table" type="63ab2ba1:MsImplModel$Table" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="ThuVienDB@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="ThuVienDB: database" type="ccb7ac2a:MsImplModel$Database" />
+        <item name="dbo: schema" type="2865ee2e:MsImplModel$Schema" />
+        <item name="tables" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="transactionDetail: table" type="63ab2ba1:MsImplModel$Table" />
       </path>
     </expand>
     <select />
@@ -202,8 +171,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="FxmlFile" />
         <option value="Class" />
+        <option value="FxmlFile" />
       </list>
     </option>
   </component>
@@ -433,6 +402,20 @@
       <workItem from="1573005947680" duration="222000" />
       <workItem from="1573031077540" duration="250000" />
       <workItem from="1573049667519" duration="9105000" />
+      <workItem from="1573098709251" duration="3540000" />
+      <workItem from="1573182758052" duration="10329000" />
+      <workItem from="1573197686825" duration="681000" />
+      <workItem from="1573201083181" duration="3335000" />
+      <workItem from="1573230044436" duration="10398000" />
+      <workItem from="1573313852111" duration="11070000" />
+      <workItem from="1573449920066" duration="2085000" />
+      <workItem from="1573454867872" duration="5579000" />
+      <workItem from="1573473495414" duration="8681000" />
+      <workItem from="1573484437130" duration="729000" />
+      <workItem from="1573494911522" duration="1160000" />
+      <workItem from="1573539179987" duration="6755000" />
+      <workItem from="1573559366034" duration="9057000" />
+      <workItem from="1573574801718" duration="7430000" />
     </task>
     <servers />
   </component>
@@ -462,6 +445,32 @@
     <MESSAGE value="Tooooo much changes -- cannot track." />
     <option name="LAST_COMMIT_MESSAGE" value="Tooooo much changes -- cannot track." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/controller/reader/EditReaderController.java</url>
+          <line>81</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/controller/staff/EditStaffController.java</url>
+          <line>172</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/dao/StaffDAO.java</url>
+          <line>263</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/controller/staff/EditStaffController.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XPathView.XPathProjectComponent">
     <history />

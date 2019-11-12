@@ -13,17 +13,38 @@ public class Transaction {
     private Timestamp borrowingDate;
     private Reader borrower;
     private Staff borrowStaff;
+    private Timestamp dueDate;
+    private int quantity;
     private ArrayList<TransactionDetail> details;
 
     public Transaction() {
     }
 
-    public Transaction(int transactId, Timestamp borrowingDate, Reader borrower, Staff borrowStaff) {
+    public Transaction(int transactId, Timestamp borrowingDate, Reader borrower, Staff borrowStaff, Timestamp dueDate) {
         this.transactId = transactId;
         this.borrowingDate = borrowingDate;
         this.borrower = borrower;
         this.borrowStaff = borrowStaff;
+        this.dueDate = dueDate;
     }
+
+    public Transaction(int transactId, Timestamp borrowingDate, Reader borrower, Staff borrowStaff, Timestamp dueDate, int quantity) {
+        this.transactId = transactId;
+        this.borrowingDate = borrowingDate;
+        this.borrower = borrower;
+        this.borrowStaff = borrowStaff;
+        this.dueDate = dueDate;
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
 
     public int getTransactId() {
         return transactId;
@@ -65,26 +86,44 @@ public class Transaction {
         return details.get(index);
     }
 
-    public void addDetail(Book book, Timestamp dueDate, int deposit) {
-        this.details.add(new TransactionDetail(book, dueDate, deposit));
+    public void addDetail(Book book, long deposit) {
+        this.details.add(new TransactionDetail(book, deposit));
     }
 
-    //public void removeDetail(b)
+    public void addDetail(Book book, Staff returnStaff, Timestamp returnDate, long deposit, boolean isExtended, long fine) {
+        this.details.add(new TransactionDetail(book, returnStaff, returnDate, deposit, isExtended, fine));
+    }
+
+    public Timestamp getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Timestamp dueDate) {
+        this.dueDate = dueDate;
+    }
+//public void removeDetail(b)
 
     public class TransactionDetail {
         private Book book;
         private Staff returnStaff;
-        private Timestamp dueDate;
         private Timestamp returnDate;
-        private int deposit;
+        private long deposit;
         private boolean isExtended;
-        private int fine;
+        private long fine;
 
-        private TransactionDetail(Book book, Timestamp dueDate, int deposit) {
+        public TransactionDetail(Book book, long deposit) {
             this.book = book;
-            this.dueDate = dueDate;
             this.deposit = deposit;
             this.isExtended = false;
+        }
+
+        private TransactionDetail(Book book, Staff returnStaff, Timestamp returnDate, long deposit, boolean isExtended, long fine) {
+            this.book = book;
+            this.returnStaff = returnStaff;
+            this.returnDate = returnDate;
+            this.deposit = deposit;
+            this.isExtended = isExtended;
+            this.fine = fine;
         }
 
         public Book getBook() {
@@ -103,14 +142,6 @@ public class Transaction {
             this.returnStaff = returnStaff;
         }
 
-        public Timestamp getDueDate() {
-            return dueDate;
-        }
-
-        public void setDueDate(Timestamp dueDate) {
-            this.dueDate = dueDate;
-        }
-
         public Timestamp getReturnDate() {
             return returnDate;
         }
@@ -119,11 +150,11 @@ public class Transaction {
             this.returnDate = returnDate;
         }
 
-        public int getDeposit() {
+        public long getDeposit() {
             return deposit;
         }
 
-        public void setDeposit(int deposit) {
+        public void setDeposit(long deposit) {
             this.deposit = deposit;
         }
 
@@ -135,11 +166,11 @@ public class Transaction {
             isExtended = extended;
         }
 
-        public int getFine() {
+        public long getFine() {
             return fine;
         }
 
-        public void setFine(int fine) {
+        public void setFine(long fine) {
             this.fine = fine;
         }
     }

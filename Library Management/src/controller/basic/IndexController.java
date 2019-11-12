@@ -5,7 +5,10 @@
 
 package controller.basic;
 
+import controller.book.SearchBookController;
+import controller.reader.EditReaderController;
 import controller.reader.SearchReaderController;
+import controller.staff.SearchStaffController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -116,8 +119,6 @@ public class IndexController {
         switch (option) {
             // Quan ly giao dich
             case "Tìm kiếm giao dịch":
-//                SearchTransactionController content = new SearchTransactionController();
-//                window.setCenter(content);
                 break;
 
             // Quan ly sach
@@ -125,6 +126,8 @@ public class IndexController {
                 try {
                     loader.setLocation(getClass().getClassLoader().getResource("view/book/searchbook.fxml"));
                     window.setCenter(loader.load());
+                    SearchBookController searchBookController = loader.getController();
+                    searchBookController.init();
                 } catch (Exception e) {
                     ExHandler.handle(e);
                 }
@@ -150,11 +153,26 @@ public class IndexController {
                 }
                 break;
             case "Thêm độc giả":
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/reader/editreader.fxml"));
+                    window.setCenter(loader.load());
+                    EditReaderController editReaderController = loader.getController();
+                    editReaderController.init();
+                } catch (Exception e) {
+                    ExHandler.handle(e);
+                }
                 break;
 
             // Quan ly nhan vien
             case "Tìm kiếm nhân viên":
-                break;
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/staff/searchstaff.fxml"));
+                    window.setCenter(loader.load());
+                    SearchStaffController searchStaffController = loader.getController();
+                    searchStaffController.init();
+                } catch (Exception e) {
+                    ExHandler.handle(e);
+                }
             case "Thêm nhân viên":
                 break;
         }

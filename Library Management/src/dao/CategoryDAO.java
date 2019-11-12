@@ -17,7 +17,13 @@ import java.util.Map;
 
 public class CategoryDAO {
 
-    public CategoryDAO() {
+    private static CategoryDAO instance = new CategoryDAO();
+
+    private CategoryDAO() {
+    }
+
+    public static CategoryDAO getInstance() {
+        return instance;
     }
 
     // CREATE

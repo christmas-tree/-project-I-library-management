@@ -11,7 +11,7 @@ public class Book {
     private String bid;
     private Timestamp created;
     private String bookName;
-    private int price;
+    private long price;
     private Category category;
     private String author;
     private Publisher publisher;
@@ -24,8 +24,9 @@ public class Book {
     public Book() {
     }
 
-    public Book(String bid, String bookName, int price, Category category, String author, Publisher publisher, int pubYear, Language language, String location, int quantity, int availQuantity) {
+    public Book(String bid, Timestamp created, String bookName, long price, Category category, String author, Publisher publisher, int pubYear, Language language, String location, int quantity, int availQuantity) {
         this.bid = bid;
+        this.created = created;
         this.bookName = bookName;
         this.price = price;
         this.category = category;
@@ -35,6 +36,17 @@ public class Book {
         this.language = language;
         this.location = location;
         this.quantity = quantity;
+        this.availQuantity = availQuantity;
+    }
+
+    public Book(String bid, String bookName) {
+        this.bid = bid;
+        this.bookName = bookName;
+    }
+
+    public Book(String bid, String bookName, int availQuantity) {
+        this.bid = bid;
+        this.bookName = bookName;
         this.availQuantity = availQuantity;
     }
 
@@ -62,11 +74,11 @@ public class Book {
         this.bookName = bookName;
     }
 
-    public int getPrice() {
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(long price) {
         this.price = price;
     }
 

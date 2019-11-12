@@ -18,10 +18,10 @@ public class Staff {
     private String name;
     private Date dob;
     private boolean gender;
-    private int idCardNum;
+    private long idCardNum;
     private String address;
 
-    public Staff(int uid, Timestamp created, boolean isAdmin, String username, String name, Date dob, boolean gender, int idCardNum, String address) {
+    public Staff(int uid, Timestamp created, boolean isAdmin, String username, String name, Date dob, boolean gender, long idCardNum, String address) {
         this.sid = uid;
         this.created = created;
         this.isAdmin = isAdmin;
@@ -33,7 +33,7 @@ public class Staff {
         this.address = address;
     }
 
-    public Staff(boolean isAdmin, String username, String password, String name, Date dob, boolean gender, int idCardNum, String address) {
+    public Staff(boolean isAdmin, String username, String password, String name, Date dob, boolean gender, long idCardNum, String address) {
         this.isAdmin = isAdmin;
         this.username = username;
         this.password = password;
@@ -42,6 +42,14 @@ public class Staff {
         this.gender = gender;
         this.idCardNum = idCardNum;
         this.address = address;
+    }
+
+    public Staff() {
+    }
+
+    public Staff(int sid, String name) {
+        this.sid = sid;
+        this.name = name;
     }
 
     public int getSid() {
@@ -108,11 +116,11 @@ public class Staff {
         this.gender = gender;
     }
 
-    public int getIdCardNum() {
+    public long getIdCardNum() {
         return idCardNum;
     }
 
-    public void setIdCardNum(int idCardNum) {
+    public void setIdCardNum(long idCardNum) {
         this.idCardNum = idCardNum;
     }
 
@@ -122,5 +130,10 @@ public class Staff {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

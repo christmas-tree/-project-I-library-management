@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<!--
+  ~ Copyright (c) 2019 Nghia Tran.
+  ~ Project I - Library Management System
+  -->
+
+<AnchorPane prefHeight="499.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.book.EditBookController">
+   <children>
+      <Label fx:id="headerLabel" layoutX="29.0" layoutY="26.0" text="Thêm sách" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label text="ID" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="110.0" />
+      <TextField fx:id="bidTextField" editable="true" prefHeight="31.0" prefWidth="105.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="105.0" />
+      <Label text="Ngày thêm" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="110.0" />
+      <TextField fx:id="createdTextField" disable="true" editable="false" prefHeight="30.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="105.0" />
+      <Label layoutX="30.0" layoutY="153.0" text="Tên sách" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="150.0" />
+      <TextField fx:id="nameTextField" layoutX="110.0" layoutY="148.0" prefHeight="30.0" prefWidth="447.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="145.0" />
+      <Label layoutX="30.0" layoutY="199.0" text="Giá tiền" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="190.0" />
+      <TextField fx:id="priceTextField" layoutX="110.0" layoutY="194.0" prefHeight="30.0" prefWidth="134.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="185.0" />
+      <Label layoutX="70.0" layoutY="239.0" text="Thể loại" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="190.0" />
+      <ComboBox fx:id="catComboBox" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="185.0" />
+      <Label layoutX="40.0" layoutY="209.0" text="Tác giả" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="230.0" />
+      <TextField fx:id="authorTextField" layoutX="120.0" layoutY="204.0" prefHeight="30.0" prefWidth="147.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="225.0" />
+      <Label layoutX="80.0" layoutY="249.0" text="Nhà XB" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="270.0" />
+      <ComboBox fx:id="pubComboBox" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="265.0" />
+      <Label layoutX="50.0" layoutY="219.0" text="Năm XB" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="310.0" />
+      <TextField fx:id="pubYearTextField" layoutX="130.0" layoutY="214.0" prefHeight="30.0" prefWidth="134.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="305.0" />
+      <Label layoutX="90.0" layoutY="259.0" text="Ngôn ngữ" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="310.0" />
+      <ComboBox fx:id="langComboBox" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="305.0" />
+      <Label layoutX="60.0" layoutY="229.0" text="Vị trí" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="350.0" />
+      <TextField fx:id="locationTextField" layoutX="140.0" layoutY="224.0" prefHeight="30.0" prefWidth="147.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="345.0" />
+      <Label layoutX="50.0" layoutY="219.0" text="Số lượng" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="390.0" />
+      <TextField fx:id="quantityTextField" layoutX="150.0" layoutY="234.0" prefHeight="30.0" prefWidth="70.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="385.0" />
+      <Label layoutX="80.0" layoutY="249.0" text="Còn lại" AnchorPane.leftAnchor="210.0" AnchorPane.topAnchor="390.0" />
+      <TextField fx:id="availQuanTextField" layoutX="160.0" layoutY="244.0" prefHeight="30.0" prefWidth="70.0" AnchorPane.leftAnchor="270.0" AnchorPane.topAnchor="385.0" />
+      <Button fx:id="confirmBtn" defaultButton="true" layoutX="455.0" layoutY="408.0" mnemonicParsing="false" prefHeight="30.0" text="Lưu" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="420.0" />
+      <Button fx:id="cancelBtn" cancelButton="true" layoutX="503.0" layoutY="408.0" mnemonicParsing="false" prefHeight="30.0" text="Huỷ" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="420.0" />
+   </children>
+</AnchorPane>

@@ -14,14 +14,14 @@ public class Reader {
     private String name;
     private Date dob;
     private boolean gender;
-    private int idCardNum;
+    private long idCardNum;
     private String address;
     private boolean canBorrow;
 
     public Reader() {
     }
 
-    public Reader(int rid, Timestamp created, String name, Date dob, boolean gender, int idCardNum, String address, boolean canBorrow) {
+    public Reader(int rid, Timestamp created, String name, Date dob, boolean gender, long idCardNum, String address, boolean canBorrow) {
         this.rid = rid;
         this.created = created;
         this.name = name;
@@ -32,12 +32,17 @@ public class Reader {
         this.canBorrow = canBorrow;
     }
 
-    public Reader(String name, Date dob, boolean gender, int idCardNum, String address) {
+    public Reader(String name, Date dob, boolean gender, long idCardNum, String address) {
         this.name = name;
         this.dob = dob;
         this.gender = gender;
         this.idCardNum = idCardNum;
         this.address = address;
+    }
+
+    public Reader(int rid, String name) {
+        this.rid = rid;
+        this.name = name;
     }
 
     public int getRid() {
@@ -80,11 +85,11 @@ public class Reader {
         this.gender = gender;
     }
 
-    public int getIdCardNum() {
+    public long getIdCardNum() {
         return idCardNum;
     }
 
-    public void setIdCardNum(int idCardNum) {
+    public void setIdCardNum(long idCardNum) {
         this.idCardNum = idCardNum;
     }
 
@@ -102,5 +107,10 @@ public class Reader {
 
     public void setCanBorrow(boolean canBorrow) {
         this.canBorrow = canBorrow;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

@@ -30,5 +30,8 @@ public class Category {
         this.catName = catName;
     }
 
-
+    @Override
+    public String toString() {
+        return catName;
+    }
 }

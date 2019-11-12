@@ -1,35 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <!--
   ~ Copyright (c) 2019 Nghia Tran.
   ~ Project I - Library Management System
   -->
 
-<AnchorPane prefHeight="800" prefWidth="1600" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.book.SearchBookController">
-   <children>
-      <TableView layoutX="115.0" layoutY="125.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-        <columns>
-          <TableColumn text="BID" />
-          <TableColumn text="Ngày thêm" />
-            <TableColumn text="Tên sách" />
-            <TableColumn text="Giá tiền" />
-            <TableColumn text="Thể loại" />
-            <TableColumn text="Tác giả" />
-            <TableColumn text="NXB" />
-            <TableColumn text="Năm XB" />
-            <TableColumn text="Ngôn ngữ" />
-            <TableColumn text="Vị trí" />
-            <TableColumn text="Số lượng" />
-            <TableColumn text="Số lượng còn lại" />
-        </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
-      <Label layoutX="43.0" layoutY="44.0" text="Tìm kiếm theo" />
-      <ChoiceBox layoutX="156.0" layoutY="39.0" prefWidth="150.0" />
-   </children>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.book.SearchBookController">
+    <children>
+        <TableView fx:id="bookTable" layoutX="115.0" layoutY="125.0" prefHeight="442.0" prefWidth="824.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+            <placeholder>
+                <Label text="Không có dữ liệu." />
+            </placeholder>
+        </TableView>
+        <Label layoutX="46.0" layoutY="27.0" text="Tìm kiếm theo" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0" />
+        <ChoiceBox fx:id="searchChoiceBox" layoutX="149.0" layoutY="23.0" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="15.0" />
+        <Label fx:id="dieuKienLabel" text="Điều kiện" visible="false" AnchorPane.leftAnchor="285.0" AnchorPane.topAnchor="20.0" />
+        <TextField fx:id="searchInputField" prefHeight="30.0" prefWidth="250.0" visible="false" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="15.0" />
+        <DatePicker fx:id="searchStartDate" prefHeight="30.0" prefWidth="140.0" promptText="Từ ngày" visible="false" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="15.0" />
+        <DatePicker fx:id="searchEndDate" prefHeight="30.0" prefWidth="140.0" promptText="Tới ngày" visible="false" AnchorPane.leftAnchor="510.0" AnchorPane.topAnchor="15.0" />
+        <TextField fx:id="searchStartValue" prefHeight="30.0" prefWidth="140.0" promptText="Từ" visible="false" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="15.0" />
+        <TextField fx:id="searchEndValue" prefHeight="30.0" prefWidth="140.0" promptText="Tới" visible="false" AnchorPane.leftAnchor="510.0" AnchorPane.topAnchor="15.0" />
+        <ChoiceBox fx:id="searchConditionChoiceBox" prefHeight="30.0" prefWidth="150.0" visible="false" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="15.0" />
+        <Button fx:id="searchBtn" defaultButton="true" mnemonicParsing="false" text="Tìm kiếm" visible="false" AnchorPane.leftAnchor="615.0" AnchorPane.topAnchor="15.0" />
+        <Button fx:id="refreshBtn" layoutY="20.0" mnemonicParsing="false" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0">
+            <graphic>
+                <ImageView fx:id="refreshIcon" fitHeight="18.0" fitWidth="15.0" layoutX="807.0" layoutY="20.0" pickOnBounds="false" preserveRatio="true" AnchorPane.rightAnchor="20.0">
+                    <image>
+                        <Image url="@../../resources/icon/refresh.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button fx:id="addBtn" layoutX="740.0" layoutY="16.0" mnemonicParsing="false" text="Thêm" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="15.0" />
+        <Button fx:id="deleteBtn" layoutX="675.0" layoutY="16.0" mnemonicParsing="false" text="Xoá" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="15.0" />
+        <Button fx:id="editBtn" layoutX="660.0" layoutY="15.0" mnemonicParsing="false" text="Sửa" AnchorPane.rightAnchor="160.0" AnchorPane.topAnchor="15.0" />
+
+    </children>
 </AnchorPane>
