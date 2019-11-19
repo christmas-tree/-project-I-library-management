@@ -73,10 +73,10 @@ public class LoginController {
             return;
         }
 
-        UserDAO userDTO = new UserDAO();
+        UserDAO userDAO = UserDAO.getInstance();
 
         try {
-            User user = userDTO.authenticate(username, password);
+            User user = userDAO.authenticate(username, password);
 
             if (user != null) {
                 try {

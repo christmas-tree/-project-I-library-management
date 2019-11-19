@@ -9,30 +9,54 @@
   ~ Project I - Library Management System
   -->
 
-<AnchorPane prefHeight="463.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.reader.EditReaderController">
+<AnchorPane fx:id="editTransactionAP" prefHeight="614.0" prefWidth="1013.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.transaction.EditTransactionController">
    <children>
-      <Label fx:id="headerLabel" layoutX="29.0" layoutY="26.0" text="Thêm độc giả" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
+      <Label fx:id="headerLabel" layoutX="29.0" layoutY="26.0" text="Phiếu mượn trả" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Label text="ID" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="110.0" />
-      <TextField fx:id="ridTextField" disable="true" editable="false" prefHeight="31.0" prefWidth="105.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="105.0" />
-      <Label text="Ngày thêm" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="110.0" />
-      <TextField fx:id="createdTextField" disable="true" editable="false" prefHeight="30.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="105.0" />
-      <Label layoutX="30.0" layoutY="153.0" text="Họ tên" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="153.0" />
-      <TextField fx:id="nameTextField" layoutX="110.0" layoutY="148.0" prefHeight="30.0" prefWidth="447.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="148.0" />
-      <Label layoutX="30.0" layoutY="198.0" text="Ngày sinh" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="198.0" />
-      <Label layoutX="330.0" layoutY="198.0" text="Giới tính" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="198.0" />
-      <ToggleButton fx:id="genderToggle" layoutX="398.0" layoutY="191.0" mnemonicParsing="false" prefHeight="30.0" selected="true" text="Nam" AnchorPane.topAnchor="191.0" />
-      <DatePicker fx:id="dobDatePicker" layoutX="110.0" layoutY="193.0" prefHeight="30.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="193.0" />
-      <Label layoutX="30.0" layoutY="243.0" text="CMTND" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="243.0" />
-      <TextField fx:id="idCardTextField" layoutX="110.0" layoutY="238.0" prefHeight="30.0" prefWidth="227.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="238.0" />
-      <Label layoutX="30.0" layoutY="288.0" text="Địa chỉ" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="288.0" />
-      <TextArea fx:id="addressTextArea" layoutX="110.0" layoutY="283.0" prefHeight="60.0" prefWidth="447.0" wrapText="true" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="283.0" />
-      <Label layoutX="30.0" layoutY="368.0" prefWidth="63.0" text="Được mượn" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="368.0" />
-      <CheckBox fx:id="canBorrowCheckBox" layoutX="110.0" layoutY="368.0" mnemonicParsing="false" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="368.0" />
-      <Button fx:id="confirmBtn" defaultButton="true" layoutX="455.0" layoutY="408.0" mnemonicParsing="false" prefHeight="30.0" text="Lưu" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="408.0" />
-      <Button fx:id="cancelBtn" cancelButton="true" layoutX="503.0" layoutY="408.0" mnemonicParsing="false" prefHeight="30.0" text="Huỷ" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="408.0" />
+      <Button fx:id="printBtn" layoutX="607.0" layoutY="44.0" mnemonicParsing="false" prefHeight="30.0" text="Xuất phiếu" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="45.0" />
+      <Label text="Mã mượn trả" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="110.0" />
+      <TextField fx:id="transactIdTextField" disable="true" editable="false" prefHeight="31.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="105.0" />
+      <Label layoutX="30.0" layoutY="153.0" text="Mã độc giả" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="153.0" />
+      <TextField fx:id="ridTextField" disable="true" layoutX="110.0" layoutY="148.0" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="148.0" />
+      <Label layoutX="300.0" layoutY="154.0" text="Tên độc giả" AnchorPane.leftAnchor="300.0" />
+      <ComboBox fx:id="rnameComboBox" layoutX="385.0" layoutY="149.0" prefHeight="30.0" AnchorPane.leftAnchor="385.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="148.0" />
+      <Label layoutX="29.0" layoutY="194.0" text="Mã NV mượn" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="193.0" />
+      <TextField fx:id="sidTextField" disable="true" layoutX="110.0" layoutY="191.0" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="188.0" />
+      <Label layoutX="300.0" layoutY="197.0" text="Tên NV mượn" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="193.0" />
+      <ComboBox fx:id="snameComboBox" disable="true" layoutX="395.0" layoutY="158.0" prefHeight="30.0" AnchorPane.leftAnchor="385.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="188.0" />
+      <Label layoutX="30.0" layoutY="237.0" text="Ngày mượn" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="233.0" />
+      <TextField fx:id="borrowDateTextField" disable="true" editable="false" layoutX="110.0" layoutY="232.0" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="228.0" />
+      <Label layoutX="300.0" layoutY="231.0" text="Ngày hẹn trả" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="233.0" />
+      <TextField fx:id="dueDateTextField" layoutX="375.0" layoutY="226.0" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="385.0" AnchorPane.topAnchor="228.0" />
+      <Label layoutX="30.0" layoutY="278.0" text="Tổng cọc" AnchorPane.leftAnchor="580.0" AnchorPane.topAnchor="233.0" />
+      <TextField fx:id="depositSumTextField" editable="false" layoutX="110.0" layoutY="273.0" prefHeight="30.0" prefWidth="150.0" AnchorPane.leftAnchor="650.0" AnchorPane.topAnchor="228.0" />
+      <Button fx:id="addDetailBtn" layoutX="619.0" layoutY="280.0" mnemonicParsing="false" prefHeight="30.0" text="Thêm sách mượn" AnchorPane.rightAnchor="286.79999999999995" AnchorPane.topAnchor="280.0" />
+      <Button fx:id="deleteDetailBtn" layoutX="945.0" layoutY="277.0" mnemonicParsing="false" prefHeight="30.0" text="Xoá" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="280.0" />
+       <TableView fx:id="detailTableView" editable="true" fixedCellSize="0.0" layoutX="30.0" layoutY="336.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="318.0">
+           <placeholder>
+               <Label text="Không có dữ liệu." />
+           </placeholder>
+         <columns>
+            <TableColumn fx:id="indexCol" editable="false" minWidth="50.0" prefWidth="50.0" text="#" />
+            <TableColumn fx:id="bidCol" editable="false" minWidth="100.0" prefWidth="100.0" text="Mã sách" />
+            <TableColumn fx:id="bnameCol" editable="false" minWidth="200.0" prefWidth="200.0" text="Tên sách" />
+            <TableColumn fx:id="returnDateCol" editable="false" minWidth="100.0" prefWidth="150.0" text="Ngày trả" />
+            <TableColumn fx:id="returnStaffCol" editable="false" minWidth="100.0" prefWidth="150.0" text="Nhân viên nhận" />
+            <TableColumn fx:id="depositCol" editable="true" minWidth="100.0" prefWidth="100.0" text="Tiền cọc" />
+            <TableColumn fx:id="isExtendedCol" editable="true" minWidth="75.0" prefWidth="75.0" text="Gia hạn" />
+            <TableColumn fx:id="fineCol" editable="true" minWidth="100.0" prefWidth="100.0" text="Tiền phạt" />
+         </columns>
+       </TableView>
+      <Button fx:id="confirmBtn" defaultButton="true" layoutX="595.0" layoutY="562.0" mnemonicParsing="false" prefHeight="30.0" text="Lưu" AnchorPane.rightAnchor="81.0" AnchorPane.topAnchor="562.0" />
+      <Button fx:id="cancelBtn" cancelButton="true" layoutX="644.0" layoutY="562.0" mnemonicParsing="false" prefHeight="30.0" text="Huỷ" AnchorPane.rightAnchor="30.399999999999977" AnchorPane.topAnchor="562.0" />
+      <Label layoutX="30.0" layoutY="285.0" text="Tên sách" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="285.0" />
+      <Label layoutX="365.0" layoutY="285.0" text="Tiền cọc" AnchorPane.topAnchor="285.0" />
+      <ComboBox fx:id="newBookComboBox" layoutX="110.0" layoutY="280.0" prefHeight="30.0" prefWidth="225.0" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="280.0" />
+      <TextField fx:id="newDepositTextField" layoutX="428.0" layoutY="280.0" prefHeight="30.0" prefWidth="180.0" AnchorPane.topAnchor="280.0" />
+      <Button fx:id="returnBtn" layoutX="882.0" layoutY="280.0" mnemonicParsing="false" prefHeight="30.0" text="Trả sách" AnchorPane.rightAnchor="71.0" AnchorPane.topAnchor="280.0" />
+      <Button fx:id="returnAllBtn" layoutX="813.0" layoutY="279.0" mnemonicParsing="false" prefHeight="30.0" text="Trả tất cả" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="280.0" />
    </children>
 </AnchorPane>

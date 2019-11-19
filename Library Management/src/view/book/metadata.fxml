@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2019 Nghia Tran.
+  ~ Project I - Library Management System
+  -->
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane hgap="20" prefHeight="550.0" prefWidth="1035.0" vgap="15" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.book.MetaController">
+    <children>
+        <Label text="Thể loại" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="0">
+         <font>
+            <Font size="30.0" />
+         </font></Label>
+        <TextField fx:id="catIdField" promptText="Mã thể loại" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="catNameField" promptText="Thể loại" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Button fx:id="addCatBtn" mnemonicParsing="false" prefWidth="150.0" text="Thêm" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+        <Label text="Nhà xuất bản" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="0">
+         <font>
+            <Font size="30.0" />
+         </font></Label>
+        <TextField fx:id="pubIdField" promptText="Mã NXB" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+        <TextField fx:id="pubNameField" promptText="Tên NXB" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+        <Button fx:id="addPubBtn" mnemonicParsing="false" prefWidth="150.0" text="Thêm" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+
+        <Label text="Ngôn ngữ" GridPane.columnIndex="6" GridPane.columnSpan="3" GridPane.rowIndex="0">
+         <font>
+            <Font size="30.0" />
+         </font></Label>
+        <TextField fx:id="langIdField" promptText="Mã NN" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+        <TextField fx:id="languageField" promptText="Ngôn ngữ" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+        <Button fx:id="addLangBtn" mnemonicParsing="false" prefWidth="150.0" text="Thêm" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+<!--        <Button fx:id="refreshBtn" layoutY="20.0" mnemonicParsing="false" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0">-->
+<!--            <graphic>-->
+<!--                <ImageView fx:id="refreshIcon" fitHeight="18.0" fitWidth="15.0" layoutX="807.0" layoutY="20.0" pickOnBounds="false" preserveRatio="true">-->
+<!--                    <image>-->
+<!--                        <Image url="@../../resources/icon/refresh.png" />-->
+<!--                    </image>-->
+<!--                </ImageView>-->
+<!--            </graphic>-->
+<!--        </Button>-->
+        <TableView fx:id="catTable" editable="true" layoutX="115.0" layoutY="125.0" prefHeight="442.0" prefWidth="262.0" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="2">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+            <placeholder>
+                <Label text="Không có dữ liệu." />
+            </placeholder>
+         <columns>
+            <TableColumn fx:id="catIdCol" minWidth="30.0" prefWidth="40.0" text="Mã thể loại" />
+            <TableColumn fx:id="catCol" minWidth="100.0" prefWidth="150.0" text="Thể loại" />
+         </columns>
+        </TableView>
+        <TableView fx:id="pubTable" editable="true" layoutX="357.0" layoutY="65.0" prefHeight="442.0" prefWidth="300.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="2">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+            <placeholder>
+                <Label text="Không có dữ liệu." />
+            </placeholder>
+         <columns>
+            <TableColumn fx:id="pubIdCol" minWidth="30.0" prefWidth="40.0" text="Mã NXB" />
+            <TableColumn fx:id="pubCol" minWidth="100.0" prefWidth="150.0" text="Tên NXB" />
+         </columns>
+        </TableView>
+        <TableView fx:id="langTable" editable="true" layoutX="702.0" layoutY="125.0" prefHeight="442.0" prefWidth="472.0" GridPane.columnIndex="6" GridPane.columnSpan="3" GridPane.rowIndex="2">
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+            <placeholder>
+                <Label text="Không có dữ liệu." />
+            </placeholder>
+         <columns>
+            <TableColumn fx:id="langIdCol" minWidth="30.0" prefWidth="40.0" text="Mã NN" />
+            <TableColumn fx:id="langCol" minWidth="100.0" prefWidth="150.0" text="Ngôn Ngữ" />
+         </columns>
+        </TableView>
+
+    </children>
+   <columnConstraints>
+      <ColumnConstraints hgrow="NEVER" maxWidth="100.80000000000001" minWidth="75.0" prefWidth="75.0" />
+      <ColumnConstraints hgrow="NEVER" maxWidth="135.79999237060545" minWidth="112.79999999999998" prefWidth="117.80000000000001" />
+      <ColumnConstraints hgrow="NEVER" prefWidth="100.0" />
+      <ColumnConstraints minWidth="75.0" prefWidth="75.0" />
+      <ColumnConstraints prefWidth="250.0" />
+      <ColumnConstraints hgrow="NEVER" prefWidth="100.0" />
+      <ColumnConstraints hgrow="NEVER" minWidth="75.0" prefWidth="75.0" />
+      <ColumnConstraints hgrow="NEVER" />
+      <ColumnConstraints hgrow="NEVER" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+</GridPane>

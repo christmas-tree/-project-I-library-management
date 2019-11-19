@@ -5,6 +5,8 @@
 
 package dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.Book;
 import model.Category;
 import model.Language;
@@ -78,11 +80,11 @@ public class BookDAO {
                         "b.location," +
                         "b.quantity," +
                         "b.availQuantity " +
-                "FROM book b " +
+                        "FROM book b " +
                         "LEFT JOIN category c on b.catId = c.catId " +
                         "LEFT JOIN publisher p on b.pubId = p.pubId " +
                         "LEFT JOIN language l on b.langId = l.langId " +
-                "WHERE b.bid=?";
+                        "WHERE b.bid=?";
 
         Connection con = DbConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(sql);
@@ -110,6 +112,38 @@ public class BookDAO {
         return book;
     }
 
+    public ObservableList<Book> getAllBooks() throws SQLException {
+        Book book = null;
+        ObservableList<Book> bookList = FXCollections.observableArrayList();
+
+        String sql =
+                "SELECT " +
+                        "b.bid," +
+                        "b.bookName," +
+                        "b.price," +
+                        "b.availQuantity " +
+                        "FROM book b";
+
+        Connection con = DbConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            book = new Book(
+                    rs.getString("bid"),
+                    rs.getNString("bookName"),
+                    rs.getLong("price"),
+                    rs.getInt("availQuantity"));
+            bookList.add(book);
+        }
+        rs.close();
+        stmt.close();
+        con.close();
+
+        return bookList;
+    }
+
+
     public List<Book> getAllBooks(Map<String, Category> catList, Map<String, Publisher> pubList, Map<String, Language> langList) throws SQLException {
         Book book = null;
         List<Book> bookList = new ArrayList<>();
@@ -128,7 +162,7 @@ public class BookDAO {
                         "b.location," +
                         "b.quantity," +
                         "b.availQuantity " +
-                "FROM book b";
+                        "FROM book b";
 
         Connection con = DbConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(sql);

@@ -271,7 +271,7 @@ public class SearchBookController {
         refreshBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                refresh();
+                bookTable.refresh();
             }
         });
     }
@@ -289,6 +289,7 @@ public class SearchBookController {
                         @Override
                         public void run() {
                             bookTable.setItems(data);
+                            bookTable.refresh();
                         }
                     });
                 } catch (SQLException e) {

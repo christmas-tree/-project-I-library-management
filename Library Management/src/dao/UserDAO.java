@@ -16,7 +16,13 @@ import java.sql.SQLException;
 
 public class UserDAO {
 
-    public UserDAO() {
+    private static UserDAO instance = new UserDAO();
+
+    private UserDAO() {
+    }
+
+    public static UserDAO getInstance() {
+        return instance;
     }
 
     public User authenticate(String username, String password) throws SQLException {
@@ -39,7 +45,7 @@ public class UserDAO {
 
         if (rs.next()) {
             user = new User();
-            user.setUid(rs.getInt("sid"));
+            user.setSid(rs.getInt("sid"));
             user.setAdmin(rs.getBoolean("isAdmin"));
             user.setName(rs.getString("name"));
             user.setUsername(rs.getString("username"));

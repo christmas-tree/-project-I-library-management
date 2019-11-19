@@ -83,6 +83,8 @@ public class EditBookController {
         publishers = pubList;
         languages = langList;
 
+        availQuanTextField.setText("0");
+
         uiInit();
 
         confirmBtn.setOnAction(new EventHandler<>() {
@@ -163,30 +165,16 @@ public class EditBookController {
                 }
             }
         });
-        availQuanTextField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    availQuanTextField.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-            }
-        });
+
         quantityTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
-                if (!newValue.matches("\\d*")) {
                     quantityTextField.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-            }
-        });
-
-        quantityTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                if (!t1)
-                    availQuanTextField.setText(quantityTextField.getText());
+                    int oldQ = Integer.parseInt(oldValue);
+                    int newQ = Integer.parseInt(newValue);
+                    int availQ = Integer.parseInt(availQuanTextField.getText());
+                    availQuanTextField.setText(String.valueOf(availQ+(newQ - oldQ)));
             }
         });
 
@@ -300,8 +288,8 @@ public class EditBookController {
         if (quantityTextField.getText().isBlank()) {
             err += "Không được bỏ trống số lượng.\n";
         }
-        if (availQuanTextField.getText().isBlank()) {
-            err += "Không được bỏ trống số lượng khả dụng.\n";
+        if (Integer.parseInt(availQuanTextField.getText()) < 0) {
+            err += "Số lượng sách không hợp lệ.\n";
         }
         if (err.isBlank()) {
             return true;

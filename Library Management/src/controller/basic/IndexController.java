@@ -5,10 +5,12 @@
 
 package controller.basic;
 
+import controller.book.MetaController;
 import controller.book.SearchBookController;
 import controller.reader.EditReaderController;
 import controller.reader.SearchReaderController;
 import controller.staff.SearchStaffController;
+import controller.transaction.SearchTransactionController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -45,24 +47,11 @@ public class IndexController {
     @FXML
     private TreeView sideMenu;
 
-    //Data
-    public static ObservableList<Reader> readerList = FXCollections.observableArrayList();
-
-//    public static void main(String[] args) {
-
-        // add a listener to the ObservableList
-//        observableList.addListener(new ListChangeListener<Double>() {
-//            @Override
-//            public void onChanged(Change<? extends Double> c) {
-//                // c represents the changed element
-//                System.out.println("Added " + c + " to the Observablelist");
-//                // we add the last element added to the observable list to the arraylist
-//                arrayList.add(observableList.get(observableList.size()-1));
-//                System.out.println("Added " + arrayList.get(arrayList.size()-1) + " to the Arraylist");
-//            }
-//        });
+    private User currentUser;
 
     public void init(User user) {
+
+        this.currentUser = user;
 
         TreeItem rootItem = new TreeItem("Menu");
 
@@ -74,9 +63,7 @@ public class IndexController {
         TreeItem bookMenu = new TreeItem("Quản lý sách");
         bookMenu.getChildren().add(new TreeItem("Tìm kiếm sách"));
         bookMenu.getChildren().add(new TreeItem("Thêm sách"));
-        bookMenu.getChildren().add(new TreeItem("Thể loại"));
-        bookMenu.getChildren().add(new TreeItem("Nhà xuất bản"));
-        bookMenu.getChildren().add(new TreeItem("Ngôn ngữ"));
+        bookMenu.getChildren().add(new TreeItem("Thông tin meta"));
         rootItem.getChildren().add(bookMenu);
 
         TreeItem readerMenu = new TreeItem("Quản lý độc giả");
@@ -84,7 +71,7 @@ public class IndexController {
         readerMenu.getChildren().add(new TreeItem("Thêm độc giả"));
         rootItem.getChildren().add(readerMenu);
 
-        if (user.isAdmin()) {
+        if (currentUser.isAdmin()) {
             TreeItem staffMenu = new TreeItem("Quản lý nhân viên");
             staffMenu.getChildren().add(new TreeItem("Tìm kiếm nhân viên"));
             staffMenu.getChildren().add(new TreeItem("Thêm nhân viên"));
@@ -92,6 +79,8 @@ public class IndexController {
         }
 
         sideMenu.setRoot(rootItem);
+
+        rootItem.setExpanded(true);
 
         sideMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
             Node node = event.getPickResult().getIntersectedNode();
@@ -119,6 +108,14 @@ public class IndexController {
         switch (option) {
             // Quan ly giao dich
             case "Tìm kiếm giao dịch":
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/transaction/searchtransaction.fxml"));
+                    window.setCenter(loader.load());
+                    SearchTransactionController searchTransactionController = loader.getController();
+                    searchTransactionController.init(currentUser);
+                } catch (Exception e) {
+                    ExHandler.handle(e);
+                }
                 break;
 
             // Quan ly sach
@@ -134,11 +131,15 @@ public class IndexController {
                 break;
             case "Thêm sách":
                 break;
-            case "Thể loại":
-                break;
-            case "Nhà xuất bản":
-                break;
-            case "Ngôn ngữ":
+            case "Thông tin meta":
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/book/metadata.fxml"));
+                    window.setCenter(loader.load());
+                    MetaController metaController = loader.getController();
+                    metaController.init();
+                } catch (Exception e) {
+                    ExHandler.handle(e);
+                }
                 break;
 
             // Quan ly doc gia

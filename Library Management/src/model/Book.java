@@ -6,6 +6,7 @@
 package model;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Book {
     private String bid;
@@ -44,9 +45,10 @@ public class Book {
         this.bookName = bookName;
     }
 
-    public Book(String bid, String bookName, int availQuantity) {
+    public Book(String bid, String bookName, long price, int availQuantity) {
         this.bid = bid;
         this.bookName = bookName;
+        this.price = price;
         this.availQuantity = availQuantity;
     }
 
@@ -144,5 +146,24 @@ public class Book {
 
     public void setAvailQuantity(int availQuantity) {
         this.availQuantity = availQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return bookName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Book)) return false;
+        Book book = (Book) o;
+        return bid.equals(book.bid) &&
+                bookName.equals(book.bookName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bid, bookName);
     }
 }

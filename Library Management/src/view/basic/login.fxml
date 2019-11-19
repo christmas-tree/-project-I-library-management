@@ -5,8 +5,6 @@
   ~ Project I - Library Management System
   -->
 
-<?import com.jfoenix.controls.JFXPasswordField?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -22,10 +20,10 @@
       </Label>
 
       <Label alignment="CENTER_LEFT" text="Tên đăng nhập" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
-      <JFXTextField fx:id="usernameField" maxHeight="30.0" maxWidth="250.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" styleClass="loginBtn" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="usernameField" maxHeight="30.0" maxWidth="250.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="250.0" styleClass="loginBtn" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
       <Label text="Mật khẩu" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
-      <JFXPasswordField fx:id="passwordField" maxHeight="30.0" maxWidth="250.0" minHeight="30.0" minWidth="250.0" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <PasswordField fx:id="passwordField" maxHeight="30.0" maxWidth="250.0" minHeight="30.0" minWidth="250.0" prefHeight="30.0" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
       <Button defaultButton="true" mnemonicParsing="false" onAction="#login" styleClass="login-btn" text="Đăng nhập" GridPane.columnSpan="2" GridPane.rowIndex="3">
          <GridPane.margin>

@@ -5,6 +5,9 @@
 
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -14,8 +17,8 @@ public class Transaction {
     private Reader borrower;
     private Staff borrowStaff;
     private Timestamp dueDate;
-    private int quantity;
-    private ArrayList<TransactionDetail> details;
+    private int quantity = 0;
+    private ObservableList<TransactionDetail> details = FXCollections.observableArrayList();
 
     public Transaction() {
     }
@@ -78,7 +81,7 @@ public class Transaction {
         this.borrowStaff = borrowStaff;
     }
 
-    public ArrayList<TransactionDetail> getAllDetails() {
+    public ObservableList<TransactionDetail> getAllDetails() {
         return details;
     }
 
@@ -86,8 +89,10 @@ public class Transaction {
         return details.get(index);
     }
 
-    public void addDetail(Book book, long deposit) {
-        this.details.add(new TransactionDetail(book, deposit));
+    public TransactionDetail addDetail(Book book, long deposit) {
+        TransactionDetail newDetail = new TransactionDetail(book, deposit);
+        this.details.add(newDetail);
+        return newDetail;
     }
 
     public void addDetail(Book book, Staff returnStaff, Timestamp returnDate, long deposit, boolean isExtended, long fine) {
@@ -101,7 +106,12 @@ public class Transaction {
     public void setDueDate(Timestamp dueDate) {
         this.dueDate = dueDate;
     }
-//public void removeDetail(b)
+
+    public void setDetails(ObservableList<TransactionDetail> details) {
+        this.details = details;
+    }
+
+    //public void removeDetail(b)
 
     public class TransactionDetail {
         private Book book;
@@ -110,11 +120,13 @@ public class Transaction {
         private long deposit;
         private boolean isExtended;
         private long fine;
+        private boolean isNew;
 
         public TransactionDetail(Book book, long deposit) {
             this.book = book;
             this.deposit = deposit;
             this.isExtended = false;
+            this.isNew = true;
         }
 
         private TransactionDetail(Book book, Staff returnStaff, Timestamp returnDate, long deposit, boolean isExtended, long fine) {
@@ -124,6 +136,7 @@ public class Transaction {
             this.deposit = deposit;
             this.isExtended = isExtended;
             this.fine = fine;
+            this.isNew = false;
         }
 
         public Book getBook() {
@@ -172,6 +185,10 @@ public class Transaction {
 
         public void setFine(long fine) {
             this.fine = fine;
+        }
+
+        public boolean isNew() {
+            return isNew;
         }
     }
 }

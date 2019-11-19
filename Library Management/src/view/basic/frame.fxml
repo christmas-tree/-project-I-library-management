@@ -6,16 +6,15 @@
   -->
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
+
 <BorderPane fx:id="window" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.basic.IndexController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Thoát" onAction="#exit"/>
+                        <MenuItem mnemonicParsing="false" onAction="#exit" text="Thoát" />
                     </items>
                 </Menu>
                 <Menu fx:id="menuEdit" mnemonicParsing="false" text="Chỉnh sửa">
@@ -34,7 +33,7 @@
     <left>
         <VBox fx:id="leftVBox" xmlns:fx="http://javafx.com/fxml">
             <children>
-                <TreeView fx:id="sideMenu" prefHeight="820.0" prefWidth="200.0" showRoot="false" />
+                <TreeView fx:id="sideMenu" maxHeight="1.7976931348623157E308" prefHeight="741.0" prefWidth="200.0" showRoot="false" />
             </children>
         </VBox>
     </left>

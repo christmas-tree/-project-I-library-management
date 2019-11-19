@@ -203,7 +203,8 @@ public class EditStaffController {
         staff.setName(nameTextField.getText());
         staff.setDob(Date.valueOf(dobDatePicker.getValue()));
         staff.setGender(genderToggle.isSelected());
-        staff.setIdCardNum(idCardTextField.getText().isBlank() ? null : Long.parseLong(idCardTextField.getText()));
+        if (!idCardTextField.getText().isBlank())
+            staff.setIdCardNum(Long.parseLong(idCardTextField.getText()));
         staff.setAddress(addressTextArea.getText());
         staff.setUsername(usernameTextField.getText());
         if (passwordField.getText().isBlank())
