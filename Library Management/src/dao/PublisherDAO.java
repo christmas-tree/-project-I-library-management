@@ -5,6 +5,8 @@
 
 package dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.Publisher;
 import util.DbConnection;
 
@@ -13,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PublisherDAO {
@@ -71,6 +74,26 @@ public class PublisherDAO {
         while (rs.next()) {
             publisher = new Publisher(rs.getString("pubId"), rs.getNString("pubName"));
             pubList.put(publisher.getPubId(), publisher);
+        }
+
+        rs.close();
+        con.close();
+
+        return pubList;
+    }
+
+    public ObservableList<Publisher> getPublisherList() throws SQLException {
+        String sql = "SELECT * FROM [publisher]";
+        Publisher publisher = null;
+        ObservableList<Publisher> pubList = FXCollections.observableArrayList();
+
+        Connection con = DbConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            publisher = new Publisher(rs.getString("pubId"), rs.getNString("pubName"));
+            pubList.add(publisher);
         }
 
         rs.close();

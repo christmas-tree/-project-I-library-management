@@ -5,6 +5,8 @@
 
 package dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.Category;
 import util.DbConnection;
 
@@ -13,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CategoryDAO {
@@ -72,6 +75,26 @@ public class CategoryDAO {
         while (rs.next()) {
             category = new Category(rs.getString("catId"), rs.getNString("catName"));
             catList.put(category.getCatId(), category);
+        }
+
+        rs.close();
+        con.close();
+
+        return catList;
+    }
+
+    public ObservableList<Category> getCategoryList() throws SQLException {
+        String sql = "SELECT * FROM [category]";
+        Category category = null;
+        ObservableList<Category> catList = FXCollections.observableArrayList();
+
+        Connection con = DbConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            category = new Category(rs.getString("catId"), rs.getNString("catName"));
+            catList.add(category);
         }
 
         rs.close();

@@ -94,7 +94,7 @@ public class EditStaffController {
         uiInit();
 
         headerLabel.setText("Sửa nhân viên");
-        sidTextField.setText(String.valueOf(staff.getSid()));
+        sidTextField.setText(String.format("%06d", staff.getSid()));
         createdTextField.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(staff.getSid()));
         nameTextField.setText(staff.getName());
         dobDatePicker.setValue(staff.getDob().toLocalDate());

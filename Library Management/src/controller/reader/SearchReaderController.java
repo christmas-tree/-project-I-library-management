@@ -40,7 +40,7 @@ public class SearchReaderController {
     private TableView<Reader> readerTable;
 
     @FXML
-    private TableColumn<Reader, Integer> idCol;
+    private TableColumn<Reader, String> idCol;
 
     @FXML
     private TableColumn<Reader, String> statusCol;
@@ -96,7 +96,7 @@ public class SearchReaderController {
 
     public void init() {
 
-        idCol.setCellValueFactory(new PropertyValueFactory<>("rid"));
+        idCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%06d", p.getValue().getRid())));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         dobCol.setCellValueFactory(new PropertyValueFactory<>("dob"));
         genderCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<String>(p.getValue().getGender() ? "Nam" : "Nữ"));

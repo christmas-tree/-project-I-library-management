@@ -95,23 +95,23 @@ public class SearchTransactionController {
 
         this.currentUser = currentUser;
 
-        TableColumn<Transaction, Integer> idCol = new TableColumn<>("ID");
+        TableColumn<Transaction, String> idCol = new TableColumn<>("Mã mượn trả");
         TableColumn<Transaction, Timestamp> borowingDateCol = new TableColumn<>("Ngày mượn");
 
-        TableColumn<Transaction, Integer> ridCol = new TableColumn<>("ID Độc giả");
+        TableColumn<Transaction, String> ridCol = new TableColumn<>("ID Độc giả");
         TableColumn<Transaction, String> rnameCol = new TableColumn<>("Họ tên độc giả");
 
-        TableColumn<Transaction, Integer> sidCol = new TableColumn<>("ID Nhân viên mượn");
+        TableColumn<Transaction, String> sidCol = new TableColumn<>("ID Nhân viên mượn");
         TableColumn<Transaction, String> snameCol = new TableColumn<>("Họ tên NV mượn");
 
         TableColumn<Transaction, Date> dueDateCol = new TableColumn<>("Hạn trả");
         TableColumn<Transaction, Integer> quantityCol = new TableColumn<>("Số lượng mượn");
 
-        idCol.setCellValueFactory(new PropertyValueFactory<>("transactId"));
+        idCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%06d", p.getValue().getTransactId())));
         borowingDateCol.setCellValueFactory(new PropertyValueFactory<>("borrowingDate"));
-        ridCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getBorrower().getRid()));
+        ridCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%06d", p.getValue().getBorrower().getRid())));
         rnameCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getBorrower().getName()));
-        sidCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getBorrowStaff().getSid()));
+        sidCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%06d", p.getValue().getBorrowStaff().getSid())));
         snameCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().getBorrowStaff().getName()));
 
         dueDateCol.setCellValueFactory(new PropertyValueFactory<>("dueDate"));
@@ -357,6 +357,7 @@ public class SearchTransactionController {
             EditTransactionController editTransactionController = loader.getController();
             editTransactionController.init(currentUser, focusedTransaction);
 
+            stage.setTitle("Phiếu mượn trả");
             stage.showAndWait();
         } catch (IOException e) {
             ExHandler.handle(e);

@@ -12,6 +12,7 @@ import dao.PublisherDAO;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -28,6 +29,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
@@ -102,22 +104,35 @@ public class SearchBookController {
     public void init() {
 
         TableColumn<Book, String> idCol = new TableColumn<>("ID");
+        idCol.setMinWidth(75.0);
         TableColumn<Book, Timestamp> createdCol = new TableColumn<>("Ngày tạo");
+        createdCol.setMinWidth(150.0);
         TableColumn<Book, String> nameCol = new TableColumn<>("Tên sách");
-        TableColumn<Book, Long> priceCol = new TableColumn<>("Giá");
+        nameCol.setMinWidth(250.0);
+        TableColumn<Book, String> priceCol = new TableColumn<>("Giá");
+        priceCol.setMinWidth(100.0);
+        priceCol.setStyle("-fx-alignment: CENTER-RIGHT;");
         TableColumn<Book, Category> catCol = new TableColumn<>("Thể loại");
+        catCol.setMinWidth(150.0);
         TableColumn<Book, String> authorCol = new TableColumn<>("Tác giả");
+        authorCol.setMinWidth(200.0);
         TableColumn<Book, Publisher> pubCol = new TableColumn<>("NXB");
+        pubCol.setMinWidth(150.0);
         TableColumn<Book, Integer> pubYearCol = new TableColumn<>("Năm XB");
+        pubYearCol.setMinWidth(100.0);
         TableColumn<Book, Language> langCol = new TableColumn<>("Ngôn ngữ");
+        langCol.setMinWidth(150.0);
         TableColumn<Book, String> locationCol = new TableColumn<>("Vị trí");
+        locationCol.setMinWidth(100.0);
         TableColumn<Book, Integer> quantityCol = new TableColumn<>("Số lượng");
+        quantityCol.setMinWidth(50.0);
         TableColumn<Book, Integer> availQuantityCol = new TableColumn<>("Còn lại");
+        availQuantityCol.setMinWidth(50.0);
 
         idCol.setCellValueFactory(new PropertyValueFactory<>("bid"));
         createdCol.setCellValueFactory(new PropertyValueFactory<>("created"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("bookName"));
-        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        priceCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%,d", p.getValue().getPrice())));
         catCol.setCellValueFactory(new PropertyValueFactory<>("category"));
         authorCol.setCellValueFactory(new PropertyValueFactory<>("author"));
         pubCol.setCellValueFactory(new PropertyValueFactory<>("publisher"));
@@ -127,15 +142,12 @@ public class SearchBookController {
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         availQuantityCol.setCellValueFactory(new PropertyValueFactory<>("availQuantity"));
 
-//
-//        dobCol.setCellValueFactory(new PropertyValueFactory<>("dob"));
-//        genderCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<String>(p.getValue().getGender() ? "Nam" : "Nữ"));
-//        statusCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(p.getValue().isCanBorrow() ? "Được mượn" : "Không được mượn"));
 
         bookTable.getColumns().addAll(idCol, createdCol, nameCol, priceCol, catCol, authorCol, pubCol, pubYearCol, langCol, locationCol, quantityCol, availQuantityCol);
-        nameCol.setSortType(TableColumn.SortType.ASCENDING);
 
         reloadData();
+        nameCol.setSortType(TableColumn.SortType.ASCENDING);
+
 
         String searchChoices[] = {"Mã sách", "Tên sách", "Thời gian thêm", "Giá", "Thể loại", "Tác giả", "Nhà xuất bản", "Năm xuất bản", "Ngôn ngữ"};
         //                             0            1       2               3           4           5           6               7              8

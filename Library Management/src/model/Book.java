@@ -40,11 +40,6 @@ public class Book {
         this.availQuantity = availQuantity;
     }
 
-    public Book(String bid, String bookName) {
-        this.bid = bid;
-        this.bookName = bookName;
-    }
-
     public Book(String bid, String bookName, long price, int availQuantity) {
         this.bid = bid;
         this.bookName = bookName;

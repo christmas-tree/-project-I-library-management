@@ -88,7 +88,7 @@ public class SearchStaffController {
 
     public void init() {
 
-        TableColumn<Staff, Integer> idCol = new TableColumn<>("ID");
+        TableColumn<Staff, String> idCol = new TableColumn<>("ID");
         TableColumn<Staff, Timestamp> createdCol = new TableColumn<>("Ngày tạo");
         TableColumn<Staff, String> nameCol = new TableColumn<>("Họ tên");
         TableColumn<Staff, Date> dobCol = new TableColumn<>("Ngày sinh");
@@ -96,7 +96,7 @@ public class SearchStaffController {
         TableColumn<Staff, String> isAdminCol = new TableColumn<>("Vai trò");
         TableColumn<Staff, String> usernameCol = new TableColumn<>("Tên đăng nhập");
 
-        idCol.setCellValueFactory(new PropertyValueFactory<>("sid"));
+        idCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%06d", p.getValue().getSid())));
         createdCol.setCellValueFactory(new PropertyValueFactory<>("created"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         dobCol.setCellValueFactory(new PropertyValueFactory<>("dob"));

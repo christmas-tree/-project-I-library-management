@@ -11,17 +11,16 @@ import dao.PublisherDAO;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import model.Category;
 import model.Language;
 import model.Publisher;
@@ -49,78 +48,75 @@ public class MetaController {
     private TextField languageField;
 
     @FXML
-    private TableView<String> pubTable;
+    private TableView<Publisher> pubTable;
 
     @FXML
     private TextField langIdField;
 
     @FXML
-    private TableView<String> catTable;
+    private TableView<Category> catTable;
 
     @FXML
     private TextField catIdField;
 
     @FXML
-    private TableView<String> langTable;
+    private TableView<Language> langTable;
 
     @FXML
     private Button addLangBtn;
 
     @FXML
-    private TableColumn<String, String> catIdCol;
+    private TableColumn<Category, String> catIdCol;
 
     @FXML
-    private TableColumn<String, Category> catCol;
+    private TableColumn<Category, String> catNameCol;
 
     @FXML
-    private TableColumn<String, String> pubIdCol;
+    private TableColumn<Publisher, String> pubIdCol;
 
     @FXML
-    private TableColumn<String, Publisher> pubCol;
+    private TableColumn<Publisher, String> pubNameCol;
 
     @FXML
-    private TableColumn<String, String> langIdCol;
+    private TableColumn<Language, String> langIdCol;
 
     @FXML
-    private TableColumn<String, Language> langCol;
+    private TableColumn<Language, String> languageCol;
 
-    ObservableMap<String, Category> categories;
-    ObservableMap<String, Publisher> publishers;
-    ObservableMap<String, Language> languages;
-
-    ObservableList<String> catKeys = FXCollections.observableArrayList();
-    ObservableList<String> pubKeys = FXCollections.observableArrayList();
-    ObservableList<String> langKeys = FXCollections.observableArrayList();
+    ObservableList<Category> categories;
+    ObservableList<Publisher> publishers;
+    ObservableList<Language> languages;
 
     public void init() {
         try {
-            categories = FXCollections.observableMap(CategoryDAO.getInstance().getAllCategories());
-            publishers = FXCollections.observableMap(PublisherDAO.getInstance().getAllPublishers());
-            languages = FXCollections.observableMap(LanguageDAO.getInstance().getAllLanguages());
+            categories = CategoryDAO.getInstance().getCategoryList();
+            publishers = PublisherDAO.getInstance().getPublisherList();
+            languages = LanguageDAO.getInstance().getLanguageList();
         } catch (SQLException e) {
             ExHandler.handle(e);
         }
 
         // CATEGORIES
 
-        categories.addListener((MapChangeListener<String, Category>) change -> {
-            boolean removed = change.wasRemoved();
-            if (removed != change.wasAdded()) {
-                // no put for existing key
-                if (removed) {
-                    catKeys.remove(change.getKey());
-                } else {
-                    catKeys.add(change.getKey());
-                }
+        catIdCol.setCellValueFactory(new PropertyValueFactory<>("catId"));
+        catNameCol.setCellValueFactory(new PropertyValueFactory<>("catName"));
+        catNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        catNameCol.setOnEditCommit((event) -> {
+            TablePosition<Category, String> pos = event.getTablePosition();
+            String newName = event.getNewValue();
+            int row = pos.getRow();
+            Category category = event.getTableView().getItems().get(row);
+            try {
+                category.setCatName(newName);
+                CategoryDAO.getInstance().updateCategory(category);
+            } catch (SQLException e) {
+                ExHandler.handle(e);
             }
         });
 
-        catKeys.addAll(categories.keySet());
+        catTable.setItems(categories);
 
-        catIdCol.setCellValueFactory(cd -> Bindings.createStringBinding(() -> cd.getValue()));
-        catCol.setCellValueFactory(cd -> Bindings.valueAt(categories, cd.getValue()));
-
-        catTable.setItems(catKeys);
 
         addCatBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -129,7 +125,7 @@ public class MetaController {
                     ExHandler.handle(new Exception("Mã thể loại hoặc Tên thể loại đang để trống."));
                 } else try {
                     Category newCat = new Category(catIdField.getText(), catNameField.getText());
-                    categories.put(newCat.getCatId(), newCat);
+                    categories.add(newCat);
                     CategoryDAO.getInstance().createCategory(newCat);
                 } catch (SQLException e) {
                     ExHandler.handle(e);
@@ -140,6 +136,7 @@ public class MetaController {
         catIdField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                t1 = t1.toUpperCase();
                 if (t1.length() > 2) {
                     catIdField.setText(t1.substring(0, 2));
                 }
@@ -155,26 +152,34 @@ public class MetaController {
             }
         });
 
-
-        // PUBLISHERS
-        publishers.addListener((MapChangeListener<String, Publisher>) change -> {
-            boolean removed = change.wasRemoved();
-            if (removed != change.wasAdded()) {
-                // no put for existing key
-                if (removed) {
-                    pubKeys.remove(change.getKey());
-                } else {
-                    pubKeys.add(change.getKey());
-                }
+        catNameField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.ENTER))
+                    addCatBtn.fire();
             }
         });
 
-        pubKeys.addAll(publishers.keySet());
+        // PUBLISHERS
+        pubIdCol.setCellValueFactory(new PropertyValueFactory<>("pubId"));
+        pubNameCol.setCellValueFactory(new PropertyValueFactory<>("pubName"));
+        pubNameCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        pubIdCol.setCellValueFactory(cd -> Bindings.createStringBinding(() -> cd.getValue()));
-        pubCol.setCellValueFactory(cd -> Bindings.valueAt(publishers, cd.getValue()));
 
-        pubTable.setItems(pubKeys);
+        pubNameCol.setOnEditCommit((event) -> {
+            TablePosition<Publisher, String> pos = event.getTablePosition();
+            String newName = event.getNewValue();
+            int row = pos.getRow();
+            Publisher pubegory = event.getTableView().getItems().get(row);
+            try {
+                pubegory.setPubName(newName);
+                PublisherDAO.getInstance().updatePublisher(pubegory);
+            } catch (SQLException e) {
+                ExHandler.handle(e);
+            }
+        });
+
+        pubTable.setItems(publishers);
 
         addPubBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -183,7 +188,7 @@ public class MetaController {
                     ExHandler.handle(new Exception("Mã NXB hoặc Tên NXB đang để trống."));
                 } else try {
                     Publisher newPub = new Publisher(pubIdField.getText(), pubNameField.getText());
-                    publishers.put(newPub.getPubId(), newPub);
+                    publishers.add(newPub);
                     PublisherDAO.getInstance().createPublisher(newPub);
                 } catch (SQLException e) {
                     ExHandler.handle(e);
@@ -194,6 +199,7 @@ public class MetaController {
         pubIdField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                t1 = t1.toUpperCase();
                 if (t1.length() > 3) {
                     pubIdField.setText(t1.substring(0, 3));
                 }
@@ -209,25 +215,33 @@ public class MetaController {
             }
         });
 
-        // LANGUAGES
-        languages.addListener((MapChangeListener<String, Language>) change -> {
-            boolean removed = change.wasRemoved();
-            if (removed != change.wasAdded()) {
-                // no put for existing key
-                if (removed) {
-                    langKeys.remove(change.getKey());
-                } else {
-                    langKeys.add(change.getKey());
-                }
+        pubNameField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.ENTER))
+                    addPubBtn.fire();
             }
         });
 
-        langKeys.addAll(languages.keySet());
+        // LANGUAGES
+        langIdCol.setCellValueFactory(new PropertyValueFactory<>("langId"));
+        languageCol.setCellValueFactory(new PropertyValueFactory<>("language"));
+        languageCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        langIdCol.setCellValueFactory(cd -> Bindings.createStringBinding(() -> cd.getValue()));
-        langCol.setCellValueFactory(cd -> Bindings.valueAt(languages, cd.getValue()));
+        langTable.setItems(languages);
 
-        langTable.setItems(langKeys);
+        languageCol.setOnEditCommit((event) -> {
+            TablePosition<Language, String> pos = event.getTablePosition();
+            String newName = event.getNewValue();
+            int row = pos.getRow();
+            Language language = event.getTableView().getItems().get(row);
+            try {
+                language.setLanguage(newName);
+                LanguageDAO.getInstance().updateLanguage(language);
+            } catch (SQLException e) {
+                ExHandler.handle(e);
+            }
+        });
 
         addLangBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -236,7 +250,7 @@ public class MetaController {
                     ExHandler.handle(new Exception("Mã NN hoặc Ngôn ngữ đang để trống."));
                 } else try {
                     Language newLang = new Language(langIdField.getText(), languageField.getText());
-                    languages.put(newLang.getLangId(), newLang);
+                    languages.add(newLang);
                     LanguageDAO.getInstance().createLanguage(newLang);
                 } catch (SQLException e) {
                     ExHandler.handle(e);
@@ -247,6 +261,7 @@ public class MetaController {
         langIdField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                t1 = t1.toUpperCase();
                 if (t1.length() > 2) {
                     langIdField.setText(t1.substring(0, 2));
                 }
@@ -259,6 +274,14 @@ public class MetaController {
                 if (t1.length() > 30) {
                     languageField.setText(t1.substring(0, 30));
                 }
+            }
+        });
+
+        languageField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.ENTER))
+                    addLangBtn.fire();
             }
         });
 

@@ -171,8 +171,8 @@ public class EditBookController {
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
                     quantityTextField.setText(newValue.replaceAll("[^\\d]", ""));
-                    int oldQ = Integer.parseInt(oldValue);
-                    int newQ = Integer.parseInt(newValue);
+                    int oldQ = oldValue.isBlank()?0:Integer.parseInt(oldValue);
+                    int newQ = newValue.isBlank()?0:Integer.parseInt(newValue);
                     int availQ = Integer.parseInt(availQuanTextField.getText());
                     availQuanTextField.setText(String.valueOf(availQ+(newQ - oldQ)));
             }

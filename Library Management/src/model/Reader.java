@@ -21,6 +21,11 @@ public class Reader {
     public Reader() {
     }
 
+    public Reader(int rid, String name) {
+        this.rid = rid;
+        this.name = name;
+    }
+
     public Reader(int rid, Timestamp created, String name, Date dob, boolean gender, long idCardNum, String address, boolean canBorrow) {
         this.rid = rid;
         this.created = created;
@@ -40,9 +45,10 @@ public class Reader {
         this.address = address;
     }
 
-    public Reader(int rid, String name) {
+    public Reader(int rid, String name, boolean canBorrow) {
         this.rid = rid;
         this.name = name;
+        this.canBorrow = canBorrow;
     }
 
     public int getRid() {

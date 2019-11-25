@@ -78,7 +78,7 @@ public class EditReaderController {
         uiInit();
 
         headerLabel.setText("Sửa độc giả");
-        ridTextField.setText(String.valueOf(reader.getRid()));
+        ridTextField.setText(String.format("%06d", reader.getRid()));
         createdTextField.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(reader.getCreated()));
         nameTextField.setText(reader.getName());
         dobDatePicker.setValue(reader.getDob().toLocalDate());

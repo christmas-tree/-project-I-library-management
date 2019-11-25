@@ -6,6 +6,7 @@
 package controller.basic;
 
 import controller.book.MetaController;
+import controller.book.ReportBookController;
 import controller.book.SearchBookController;
 import controller.reader.EditReaderController;
 import controller.reader.SearchReaderController;
@@ -59,35 +60,37 @@ public class IndexController {
         transactMenu.getChildren().add(new TreeItem("Tìm kiếm giao dịch"));
         transactMenu.getChildren().add(new TreeItem("Thêm giao dịch"));
         rootItem.getChildren().add(transactMenu);
+        transactMenu.setExpanded(true);
+
 
         TreeItem bookMenu = new TreeItem("Quản lý sách");
         bookMenu.getChildren().add(new TreeItem("Tìm kiếm sách"));
-        bookMenu.getChildren().add(new TreeItem("Thêm sách"));
         bookMenu.getChildren().add(new TreeItem("Thông tin meta"));
+        bookMenu.getChildren().add(new TreeItem("Thống kê"));
         rootItem.getChildren().add(bookMenu);
+        bookMenu.setExpanded(true);
 
         TreeItem readerMenu = new TreeItem("Quản lý độc giả");
         readerMenu.getChildren().add(new TreeItem("Tìm kiếm độc giả"));
         readerMenu.getChildren().add(new TreeItem("Thêm độc giả"));
         rootItem.getChildren().add(readerMenu);
+        readerMenu.setExpanded(true);
 
         if (currentUser.isAdmin()) {
             TreeItem staffMenu = new TreeItem("Quản lý nhân viên");
             staffMenu.getChildren().add(new TreeItem("Tìm kiếm nhân viên"));
             staffMenu.getChildren().add(new TreeItem("Thêm nhân viên"));
             rootItem.getChildren().add(staffMenu);
+            staffMenu.setExpanded(true);
         }
 
         sideMenu.setRoot(rootItem);
-
-        rootItem.setExpanded(true);
 
         sideMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent event) -> {
             Node node = event.getPickResult().getIntersectedNode();
 
             if (node instanceof Text || (node instanceof TreeCell && ((TreeCell) node).getText() != null)) {
                 String option = (String) ((TreeItem)sideMenu.getSelectionModel().getSelectedItem()).getValue();
-                System.out.println("Đã chọn: " + option);
                 renderMainScene(option);
             }
         });
@@ -129,14 +132,22 @@ public class IndexController {
                     ExHandler.handle(e);
                 }
                 break;
-            case "Thêm sách":
-                break;
             case "Thông tin meta":
                 try {
                     loader.setLocation(getClass().getClassLoader().getResource("view/book/metadata.fxml"));
                     window.setCenter(loader.load());
                     MetaController metaController = loader.getController();
                     metaController.init();
+                } catch (Exception e) {
+                    ExHandler.handle(e);
+                }
+                break;
+            case "Thống kê":
+                try {
+                    loader.setLocation(getClass().getClassLoader().getResource("view/book/reportbook.fxml"));
+                    window.setCenter(loader.load());
+                    ReportBookController reportBookController = loader.getController();
+                    reportBookController.init();
                 } catch (Exception e) {
                     ExHandler.handle(e);
                 }

@@ -188,10 +188,10 @@ public class EditTransactionController {
         uiInit();
 
         System.out.println(transaction.getTransactId());
-        transactIdTextField.setText(String.valueOf(transaction.getTransactId()));
-        ridTextField.setText(String.valueOf(transaction.getBorrower().getRid()));
+        transactIdTextField.setText(String.format("%06d", transaction.getTransactId()));
+        ridTextField.setText(String.format("%06d", transaction.getBorrower().getRid()));
         rnameComboBox.getSelectionModel().select(transaction.getBorrower());
-        sidTextField.setText(String.valueOf(transaction.getBorrowStaff().getSid()));
+        sidTextField.setText(String.format("%06d", transaction.getBorrowStaff().getSid()));
         snameComboBox.getSelectionModel().select(transaction.getBorrowStaff());
         borrowDateTextField.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(transaction.getBorrowingDate()));
         dueDateTextField.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(transaction.getDueDate()));
@@ -425,14 +425,14 @@ public class EditTransactionController {
         snameComboBox.valueProperty().addListener(new ChangeListener<Staff>() {
             @Override
             public void changed(ObservableValue<? extends Staff> observableValue, Staff staff, Staff t1) {
-                sidTextField.setText(String.valueOf(t1.getSid()));
+                sidTextField.setText(String.format("%06d", t1.getSid()));
             }
         });
 
         rnameComboBox.valueProperty().addListener(new ChangeListener<Reader>() {
             @Override
             public void changed(ObservableValue<? extends Reader> observableValue, Reader reader, Reader t1) {
-                ridTextField.setText(String.valueOf(t1.getRid()));
+                ridTextField.setText(String.format("%06d", t1.getRid()));
             }
         });
         newBookComboBox.valueProperty().addListener(new ChangeListener<Book>() {
@@ -608,16 +608,12 @@ public class EditTransactionController {
         // INFO TABLE
         XWPFTable basicInfoTable = doc.getTables().get(1);
 
-        replaceCellText(basicInfoTable.getRow(0).getCell(1), String.valueOf(transaction.getTransactId()));
+        replaceCellText(basicInfoTable.getRow(0).getCell(1), String.format("%06d", transaction.getTransactId()));
 
-        String rid = String.valueOf(transaction.getBorrower().getRid());
-        while (rid.length() < 6) rid = "0" + rid;
-        replaceCellText(basicInfoTable.getRow(1).getCell(1), rid);
+        replaceCellText(basicInfoTable.getRow(1).getCell(1), String.format("%06d", transaction.getBorrower().getRid()));
         replaceCellText(basicInfoTable.getRow(1).getCell(3), transaction.getBorrower().getName());
 
-        String sid1 = String.valueOf(transaction.getBorrowStaff().getSid());
-        while (sid1.length() < 6) sid1 = "0" + sid1;
-        replaceCellText(basicInfoTable.getRow(2).getCell(1), sid1);
+        replaceCellText(basicInfoTable.getRow(2).getCell(1), String.format("%06d", transaction.getBorrowStaff().getSid()));
         replaceCellText(basicInfoTable.getRow(2).getCell(3), transaction.getBorrowStaff().getName());
 
         replaceCellText(basicInfoTable.getRow(3).getCell(1), borrowDateTextField.getText());

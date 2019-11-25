@@ -60,6 +60,21 @@ public class BookDAO {
 
     // READ
 
+    public int getCountByCategory(String catId) throws SQLException {
+        Connection con = DbConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement("SELECT COUNT(*) FROM book WHERE catId=?");
+        stmt.setString(1, catId);
+        ResultSet rs = stmt.executeQuery();
+        rs.next();
+        int result = rs.getInt(1);
+
+        stmt.close();
+        rs.close();
+        con.close();
+
+        return result;
+    }
+
     public Book getBook(String bid) throws SQLException {
         Book book = null;
 
@@ -210,8 +225,8 @@ public class BookDAO {
             case 0: // Ma sach
                 sql += " WHERE bid LIKE ?";
                 con = DbConnection.getConnection();
-                stmt = con.prepareStatement("%" + value + "%");
-                stmt.setString(1, value);
+                stmt = con.prepareStatement(sql);
+                stmt.setString(1, "%" + value + "%");
                 rs = stmt.executeQuery();
                 break;
 
@@ -247,7 +262,7 @@ public class BookDAO {
                 rs = stmt.executeQuery();
                 break;
 
-            case 7: // Ngon ngu
+            case 8: // Ngon ngu
                 sql += " WHERE [langId]=?";
                 con = DbConnection.getConnection();
                 stmt = con.prepareStatement(sql);

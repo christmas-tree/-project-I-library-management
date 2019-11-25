@@ -113,11 +113,14 @@ public class TransactionDAO {
                 "       borrowingDate, " +
                 "       t.rid        ridA, " +
                 "       r.name       rname, " +
+                "       r.canBorrow, " +
                 "       s1.sid       sId1, " +
                 "       s1.name      s1name, " +
                 "       dueDate, " +
                 "       b.bid        bidA, " +
                 "       bookName, " +
+                "       b.quantity, " +
+                "       b.availQuantity, " +
                 "       s2.sid       sId2, " +
                 "       s2.name      s2name, " +
                 "       returnDate, " +
@@ -141,13 +144,13 @@ public class TransactionDAO {
         Transaction transaction = new Transaction(
                 rs.getInt("transactIdA"),
                 rs.getTimestamp("borrowingDate"),
-                new Reader(rs.getInt("ridA"), rs.getNString("rname")),
+                new Reader(rs.getInt("ridA"), rs.getNString("rname"), rs.getBoolean("canBorrow")),
                 new Staff(rs.getInt("sId1"), rs.getNString("s1name")),
                 rs.getTimestamp("dueDate")
         );
         do {
             transaction.addDetail(
-                    new Book(rs.getString("bidA"), rs.getNString("bookName")),
+                    new Book(rs.getString("bidA"), rs.getNString("bookName"), rs.getInt("quantity"), rs.getInt("availQuantity")),
                     new Staff(rs.getInt("sId2"), rs.getNString("s2name")),
                     rs.getTimestamp("returnDate"),
                     rs.getLong("deposit"),
@@ -407,7 +410,7 @@ public class TransactionDAO {
                 stmt2.setLong(5, detail.getDeposit());
                 stmt2.setBoolean(6, detail.isExtended());
 
-                if (detail.getReturnStaff().getName() == null) {
+                if (detail.getReturnStaff() == null || detail.getReturnStaff().getName() == null) {
                     stmt2.setNull(7, java.sql.Types.INTEGER);
                 } else {
                     System.out.println("Not null");

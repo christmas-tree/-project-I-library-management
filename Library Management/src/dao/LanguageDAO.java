@@ -5,6 +5,8 @@
 
 package dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.Language;
 import util.DbConnection;
 
@@ -13,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LanguageDAO {
@@ -71,6 +74,26 @@ public class LanguageDAO {
         while (rs.next()) {
             language = new Language(rs.getString("langId"), rs.getNString("language"));
             langList.put(language.getLangId(), language);
+        }
+
+        rs.close();
+        con.close();
+
+        return langList;
+    }
+
+    public ObservableList<Language> getLanguageList() throws SQLException {
+        String sql = "SELECT * FROM [language]";
+        Language language = null;
+        ObservableList<Language> langList = FXCollections.observableArrayList();
+
+        Connection con = DbConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            language = new Language(rs.getString("langId"), rs.getNString("language"));
+            langList.add(language);
         }
 
         rs.close();

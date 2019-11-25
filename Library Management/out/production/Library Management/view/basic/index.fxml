@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<!--
+  ~ Copyright (c) 2019 Nghia Tran.
+  ~ Project I - Library Management System
+  -->
+
+<GridPane hgap="20" prefHeight="458.0" prefWidth="681.0" vgap="20" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.basic.IndexController">
+    <children>
+<!--        <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" prefHeight="137.0" prefWidth="165.0" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">-->
+<!--            <graphic>-->
+<!--                <ImageView fitHeight="72.0" fitWidth="80.0" preserveRatio="true">-->
+<!--                    <image>-->
+<!--                        <Image url="@../../resources/icon/book.png" />-->
+<!--                    </image>-->
+<!--                </ImageView>-->
+<!--            </graphic>-->
+<!--            <Label text="Heyo"/>-->
+<!--        </Button>-->
+<!--        <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" prefHeight="137.0" prefWidth="165.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">-->
+<!--            <graphic>-->
+<!--                <ImageView fitHeight="72.0" fitWidth="80.0" preserveRatio="true">-->
+<!--                    <image>-->
+<!--                        <Image url="@../../resources/icon/reader.png" />-->
+<!--                    </image>-->
+<!--                </ImageView>-->
+<!--            </graphic>-->
+<!--        </Button>-->
+<!--        <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" prefHeight="137.0" prefWidth="165.0" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1">-->
+<!--            <graphic>-->
+<!--                <ImageView fitHeight="72.0" fitWidth="80.0" preserveRatio="true">-->
+<!--                    <image>-->
+<!--                        <Image url="@../../resources/icon/borrow.png" />-->
+<!--                    </image>-->
+<!--                </ImageView>-->
+<!--            </graphic>-->
+<!--        </Button>-->
+<!--        <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" prefHeight="137.0" prefWidth="165.0" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="1">-->
+<!--            <graphic>-->
+<!--                <ImageView fitHeight="72.0" fitWidth="80.0" preserveRatio="true">-->
+<!--                    <image>-->
+<!--                        <Image url="@../../resources/icon/return.png" />-->
+<!--                    </image>-->
+<!--                </ImageView>-->
+<!--            </graphic>-->
+<!--        </Button>-->
+<!--        <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" prefHeight="137.0" prefWidth="165.0" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="2">-->
+<!--            <graphic>-->
+<!--                <ImageView fitHeight="72.0" fitWidth="80.0" preserveRatio="true">-->
+<!--                    <image>-->
+<!--                        <Image url="@../../resources/icon/category.png" />-->
+<!--                    </image>-->
+<!--                </ImageView>-->
+<!--            </graphic>-->
+<!--        </Button>-->
+<!--        <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" prefHeight="137.0" prefWidth="165.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="2">-->
+<!--            <graphic>-->
+<!--                <ImageView fitHeight="72.0" fitWidth="80.0" preserveRatio="true">-->
+<!--                    <image>-->
+<!--                        <Image url="@../../resources/icon/publisher.png" />-->
+<!--                    </image>-->
+<!--                </ImageView>-->
+<!--            </graphic>-->
+<!--        </Button>-->
+<!--        <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" prefHeight="137.0" prefWidth="165.0" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="2">-->
+<!--            <graphic>-->
+<!--                <ImageView fitHeight="72.0" fitWidth="80.0" preserveRatio="true">-->
+<!--                    <image>-->
+<!--                        <Image url="@../../resources/icon/author.png" />-->
+<!--                    </image>-->
+<!--                </ImageView>-->
+<!--            </graphic>-->
+<!--        </Button>-->
+<!--        <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" prefHeight="137.0" prefWidth="165.0" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="2">-->
+<!--            <graphic>-->
+<!--                <ImageView fitHeight="72.0" fitWidth="80.0" preserveRatio="true">-->
+<!--                    <image>-->
+<!--                        <Image url="@../../resources/icon/staff.png" />-->
+<!--                    </image>-->
+<!--                </ImageView>-->
+<!--            </graphic>-->
+<!--        </Button>-->
+    </children>
+    <columnConstraints>
+        <ColumnConstraints minWidth="0.0" prefWidth="700.0" />
+      <ColumnConstraints minWidth="0.0" prefWidth="700.0" />
+      <ColumnConstraints minWidth="0.0" prefWidth="700.0" />
+      <ColumnConstraints minWidth="0.0" prefWidth="700.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+    </rowConstraints>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+
+</GridPane>

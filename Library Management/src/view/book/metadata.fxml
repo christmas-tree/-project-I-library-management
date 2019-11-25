@@ -53,7 +53,7 @@
             </placeholder>
          <columns>
             <TableColumn fx:id="catIdCol" minWidth="30.0" prefWidth="40.0" text="Mã thể loại" />
-            <TableColumn fx:id="catCol" minWidth="100.0" prefWidth="150.0" text="Thể loại" />
+            <TableColumn fx:id="catNameCol" minWidth="100.0" prefWidth="150.0" text="Thể loại" />
          </columns>
         </TableView>
         <TableView fx:id="pubTable" editable="true" layoutX="357.0" layoutY="65.0" prefHeight="442.0" prefWidth="300.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="2">
@@ -65,7 +65,7 @@
             </placeholder>
          <columns>
             <TableColumn fx:id="pubIdCol" minWidth="30.0" prefWidth="40.0" text="Mã NXB" />
-            <TableColumn fx:id="pubCol" minWidth="100.0" prefWidth="150.0" text="Tên NXB" />
+            <TableColumn fx:id="pubNameCol" minWidth="100.0" prefWidth="150.0" text="Tên NXB" />
          </columns>
         </TableView>
         <TableView fx:id="langTable" editable="true" layoutX="702.0" layoutY="125.0" prefHeight="442.0" prefWidth="472.0" GridPane.columnIndex="6" GridPane.columnSpan="3" GridPane.rowIndex="2">
@@ -77,7 +77,7 @@
             </placeholder>
          <columns>
             <TableColumn fx:id="langIdCol" minWidth="30.0" prefWidth="40.0" text="Mã NN" />
-            <TableColumn fx:id="langCol" minWidth="100.0" prefWidth="150.0" text="Ngôn Ngữ" />
+            <TableColumn fx:id="languageCol" minWidth="100.0" prefWidth="150.0" text="Ngôn Ngữ" />
          </columns>
         </TableView>
 
