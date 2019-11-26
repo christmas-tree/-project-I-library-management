@@ -33,7 +33,7 @@
             <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
          </padding>
       </Button>
-      <Label fx:id="statusLabel" text="Trình trạng CSDL: Chưa kết nối" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+      <Label fx:id="statusLabel" visible="false" text="Trình trạng CSDL: Chưa kết nối" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
    </children>
    <columnConstraints>
       <ColumnConstraints halignment="CENTER" />

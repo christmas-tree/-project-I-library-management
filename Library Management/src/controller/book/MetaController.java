@@ -5,6 +5,7 @@
 
 package controller.book;
 
+import controller.basic.IndexController;
 import dao.CategoryDAO;
 import dao.LanguageDAO;
 import dao.PublisherDAO;
@@ -87,7 +88,7 @@ public class MetaController {
     ObservableList<Publisher> publishers;
     ObservableList<Language> languages;
 
-    public void init() {
+    public void init(IndexController c) {
         try {
             categories = CategoryDAO.getInstance().getCategoryList();
             publishers = PublisherDAO.getInstance().getPublisherList();
@@ -117,47 +118,34 @@ public class MetaController {
 
         catTable.setItems(categories);
 
-
-        addCatBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (catIdField.getText().isBlank() || catNameField.getText().isBlank()) {
-                    ExHandler.handle(new Exception("Mã thể loại hoặc Tên thể loại đang để trống."));
-                } else try {
-                    Category newCat = new Category(catIdField.getText(), catNameField.getText());
-                    categories.add(newCat);
-                    CategoryDAO.getInstance().createCategory(newCat);
-                } catch (SQLException e) {
-                    ExHandler.handle(e);
-                }
+        addCatBtn.setOnAction(event -> {
+            if (catIdField.getText().isBlank() || catNameField.getText().isBlank()) {
+                ExHandler.handle(new Exception("Mã thể loại hoặc Tên thể loại đang để trống."));
+            } else try {
+                Category newCat = new Category(catIdField.getText(), catNameField.getText());
+                categories.add(newCat);
+                CategoryDAO.getInstance().createCategory(newCat);
+            } catch (SQLException e) {
+                ExHandler.handle(e);
             }
         });
 
-        catIdField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                t1 = t1.toUpperCase();
-                if (t1.length() > 2) {
-                    catIdField.setText(t1.substring(0, 2));
-                }
+        catIdField.textProperty().addListener((observableValue, s, t1) -> {
+            t1 = t1.toUpperCase();
+            if (t1.length() > 2) {
+                catIdField.setText(t1.substring(0, 2));
             }
         });
 
-        catNameField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                if (t1.length() > 30) {
-                    catNameField.setText(t1.substring(0, 30));
-                }
+        catNameField.textProperty().addListener((observableValue, s, t1) -> {
+            if (t1.length() > 30) {
+                catNameField.setText(t1.substring(0, 30));
             }
         });
 
-        catNameField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode().equals(KeyCode.ENTER))
-                    addCatBtn.fire();
-            }
+        catNameField.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode().equals(KeyCode.ENTER))
+                addCatBtn.fire();
         });
 
         // PUBLISHERS
@@ -181,46 +169,34 @@ public class MetaController {
 
         pubTable.setItems(publishers);
 
-        addPubBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (pubIdField.getText().isBlank() || pubNameField.getText().isBlank()) {
-                    ExHandler.handle(new Exception("Mã NXB hoặc Tên NXB đang để trống."));
-                } else try {
-                    Publisher newPub = new Publisher(pubIdField.getText(), pubNameField.getText());
-                    publishers.add(newPub);
-                    PublisherDAO.getInstance().createPublisher(newPub);
-                } catch (SQLException e) {
-                    ExHandler.handle(e);
-                }
+        addPubBtn.setOnAction(event -> {
+            if (pubIdField.getText().isBlank() || pubNameField.getText().isBlank()) {
+                ExHandler.handle(new Exception("Mã NXB hoặc Tên NXB đang để trống."));
+            } else try {
+                Publisher newPub = new Publisher(pubIdField.getText(), pubNameField.getText());
+                publishers.add(newPub);
+                PublisherDAO.getInstance().createPublisher(newPub);
+            } catch (SQLException e) {
+                ExHandler.handle(e);
             }
         });
 
-        pubIdField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                t1 = t1.toUpperCase();
-                if (t1.length() > 3) {
-                    pubIdField.setText(t1.substring(0, 3));
-                }
+        pubIdField.textProperty().addListener((observableValue, s, t1) -> {
+            t1 = t1.toUpperCase();
+            if (t1.length() > 3) {
+                pubIdField.setText(t1.substring(0, 3));
             }
         });
 
-        pubNameField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                if (t1.length() > 50) {
-                    pubNameField.setText(t1.substring(0, 50));
-                }
+        pubNameField.textProperty().addListener((observableValue, s, t1) -> {
+            if (t1.length() > 50) {
+                pubNameField.setText(t1.substring(0, 50));
             }
         });
 
-        pubNameField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode().equals(KeyCode.ENTER))
-                    addPubBtn.fire();
-            }
+        pubNameField.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode().equals(KeyCode.ENTER))
+                addPubBtn.fire();
         });
 
         // LANGUAGES
@@ -243,47 +219,39 @@ public class MetaController {
             }
         });
 
-        addLangBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (langIdField.getText().isBlank() || languageField.getText().isBlank()) {
-                    ExHandler.handle(new Exception("Mã NN hoặc Ngôn ngữ đang để trống."));
-                } else try {
-                    Language newLang = new Language(langIdField.getText(), languageField.getText());
-                    languages.add(newLang);
-                    LanguageDAO.getInstance().createLanguage(newLang);
-                } catch (SQLException e) {
-                    ExHandler.handle(e);
-                }
+        addLangBtn.setOnAction(event -> {
+            if (langIdField.getText().isBlank() || languageField.getText().isBlank()) {
+                ExHandler.handle(new Exception("Mã NN hoặc Ngôn ngữ đang để trống."));
+            } else try {
+                Language newLang = new Language(langIdField.getText(), languageField.getText());
+                languages.add(newLang);
+                LanguageDAO.getInstance().createLanguage(newLang);
+            } catch (SQLException e) {
+                ExHandler.handle(e);
             }
         });
 
-        langIdField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                t1 = t1.toUpperCase();
-                if (t1.length() > 2) {
-                    langIdField.setText(t1.substring(0, 2));
-                }
+        langIdField.textProperty().addListener((observableValue, s, t1) -> {
+            t1 = t1.toUpperCase();
+            if (t1.length() > 2) {
+                langIdField.setText(t1.substring(0, 2));
             }
         });
 
-        languageField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                if (t1.length() > 30) {
-                    languageField.setText(t1.substring(0, 30));
-                }
+        languageField.textProperty().addListener((observableValue, s, t1) -> {
+            if (t1.length() > 30) {
+                languageField.setText(t1.substring(0, 30));
             }
         });
 
-        languageField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode().equals(KeyCode.ENTER))
-                    addLangBtn.fire();
-            }
+        languageField.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode().equals(KeyCode.ENTER))
+                addLangBtn.fire();
         });
 
+        c.exportMenu.setDisable(true);
+        c.addMenu.setDisable(true);
+        c.editMenu.setDisable(true);
+        c.deleteMenu.setDisable(true);
     }
 }

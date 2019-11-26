@@ -12,19 +12,24 @@
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
-                <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
+                <Menu fx:id="menuFile" mnemonicParsing="false" text="Hệ thống">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#exit" text="Thoát" />
+                  <MenuItem fx:id="logOutMenu" mnemonicParsing="false" text="Đăng xuất" />
+                        <MenuItem fx:id="exitMenu" mnemonicParsing="false" text="Thoát" />
                     </items>
                 </Menu>
                 <Menu fx:id="menuEdit" mnemonicParsing="false" text="Chỉnh sửa">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem fx:id="addMenu" mnemonicParsing="false" text="Thêm" />
+                  <MenuItem fx:id="editMenu" mnemonicParsing="false" text="Sửa" />
+                        <MenuItem fx:id="deleteMenu" mnemonicParsing="false" text="Xoá" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="exportMenu" mnemonicParsing="false" text="Xuất file" />
                     </items>
                 </Menu>
                 <Menu fx:id="menuHelp" mnemonicParsing="false" text="Trợ giúp">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Giới thiệu" />
+                        <MenuItem fx:id="aboutMenu" mnemonicParsing="false" text="Giới thiệu" />
                     </items>
                 </Menu>
             </menus>

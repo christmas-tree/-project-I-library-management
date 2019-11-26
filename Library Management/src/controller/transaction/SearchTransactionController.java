@@ -5,6 +5,7 @@
 
 package controller.transaction;
 
+import controller.basic.IndexController;
 import controller.transaction.EditTransactionController;
 import dao.TransactionDAO;
 import javafx.animation.Interpolator;
@@ -87,13 +88,13 @@ public class SearchTransactionController {
     @FXML
     private AnchorPane searchTransactionPane;
 
-    private int searchType;
+    private int searchType = -1;
     private ObservableList<Transaction> data;
     private User currentUser;
 
-    public void init(User currentUser) {
+    public void init(IndexController c) {
 
-        this.currentUser = currentUser;
+        this.currentUser = c.currentUser;
 
         TableColumn<Transaction, String> idCol = new TableColumn<>("Mã mượn trả");
         TableColumn<Transaction, Timestamp> borowingDateCol = new TableColumn<>("Ngày mượn");
@@ -177,20 +178,8 @@ public class SearchTransactionController {
                 case 6:
                     searchStartValue.setVisible(true);
                     searchEndValue.setVisible(true);
-                    searchStartValue.textProperty().addListener(new ChangeListener<String>() {
-                        @Override
-                        public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                            String newValue) {
-                            searchStartValue.setText(newValue.replaceAll("[^\\d]", ""));
-                        }
-                    });
-                    searchEndValue.textProperty().addListener(new ChangeListener<String>() {
-                        @Override
-                        public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                            String newValue) {
-                            searchEndValue.setText(newValue.replaceAll("[^\\d]", ""));
-                        }
-                    });
+                    searchStartValue.textProperty().addListener((observable, oldValue, newValue) -> searchStartValue.setText(newValue.replaceAll("[^\\d]", "")));
+                    searchEndValue.textProperty().addListener((observable, oldValue, newValue) -> searchEndValue.setText(newValue.replaceAll("[^\\d]", "")));
                     AnchorPane.clearConstraints(searchBtn);
                     AnchorPane.setLeftAnchor(searchBtn, 670.0);
                     AnchorPane.setTopAnchor(searchBtn, 15.0);
@@ -208,52 +197,33 @@ public class SearchTransactionController {
             return row;
         });
 
-        searchBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                search();
-            }
-        });
+        searchBtn.setOnAction(event -> search());
 
-        editBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                edit();
-            }
-        });
+        editBtn.setOnAction(event -> edit());
 
-        addBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                add();
-            }
-        });
+        addBtn.setOnAction(event -> add());
 
-        refreshBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                refresh();
-            }
-        });
+        refreshBtn.setOnAction(event -> refresh());
+
+        c.editMenu.setDisable(false);
+        c.addMenu.setDisable(false);
+        c.exportMenu.setDisable(false);
+        c.deleteMenu.setDisable(true);
+
+        c.editMenu.setOnAction(event -> editBtn.fire());
+        c.addMenu.setOnAction(event -> addBtn.fire());
+        c.exportMenu.setOnAction(event -> export());
     }
 
     public void reloadData() {
-        Runnable reload = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    data = FXCollections.observableArrayList(TransactionDAO.getInstance().getAllTransactions());
-                    Platform.runLater(() -> {
-                        transactionTable.setItems(data);
-                    });
-                } catch (SQLException e) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            ExHandler.handle(e);
-                        }
-                    });
-                }
+        Runnable reload = () -> {
+            try {
+                data = FXCollections.observableArrayList(TransactionDAO.getInstance().getAllTransactions());
+                Platform.runLater(() -> {
+                    transactionTable.setItems(data);
+                });
+            } catch (SQLException e) {
+                Platform.runLater(() -> ExHandler.handle(e));
             }
         };
         new Thread(reload).start();
@@ -270,42 +240,34 @@ public class SearchTransactionController {
 
     public void search() {
 
-        Runnable searchTask = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    switch (searchType) {
+        Runnable searchTask = () -> {
+            try {
+                switch (searchType) {
 //            String searchChoices[] = {"Mã nhân viên mượn", "Tên nhân viên mượn", "Mã độc giả", "Tên độc giả", "Thời gian mượn", "Hạn trả", "Số lượng sách mượn"};
-                  //                         0                       1                   2            3                  4            5              6
-                        case 0:
-                        case 1:
-                        case 2:
-                        case 3:
-                            data = FXCollections.observableArrayList(TransactionDAO.getInstance().searchTransaction(searchType, searchInputField.getText()));
-                            break;
-                        case 4:
-                        case 5:
-                            Timestamp startDate = Timestamp.valueOf(searchStartDate.getValue().atStartOfDay());
-                            Timestamp endDate = Timestamp.valueOf(searchEndDate.getValue().plusDays(1).atStartOfDay());
-                            data = FXCollections.observableArrayList(TransactionDAO.getInstance().searchTransaction(searchType, startDate, endDate));
-                            break;
-                        case 6:
-                            int startValue = Integer.parseInt(searchStartValue.getText());
-                            int endValue = Integer.parseInt(searchEndValue.getText());
-                            data = FXCollections.observableArrayList(TransactionDAO.getInstance().searchTransactionByBookCount(startValue, endValue));
-                            break;
-                    }
-                    Platform.runLater(() -> {
-                        transactionTable.setItems(data);
-                    });
-                } catch (SQLException e) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            ExHandler.handle(e);
-                        }
-                    });
+              //                         0                       1                   2            3                  4            5              6
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                        data = FXCollections.observableArrayList(TransactionDAO.getInstance().searchTransaction(searchType, searchInputField.getText()));
+                        break;
+                    case 4:
+                    case 5:
+                        Timestamp startDate = Timestamp.valueOf(searchStartDate.getValue().atStartOfDay());
+                        Timestamp endDate = Timestamp.valueOf(searchEndDate.getValue().plusDays(1).atStartOfDay());
+                        data = FXCollections.observableArrayList(TransactionDAO.getInstance().searchTransaction(searchType, startDate, endDate));
+                        break;
+                    case 6:
+                        int startValue = Integer.parseInt(searchStartValue.getText());
+                        int endValue = Integer.parseInt(searchEndValue.getText());
+                        data = FXCollections.observableArrayList(TransactionDAO.getInstance().searchTransactionByBookCount(startValue, endValue));
+                        break;
                 }
+                Platform.runLater(() -> {
+                    transactionTable.setItems(data);
+                });
+            } catch (SQLException e) {
+                Platform.runLater(() -> ExHandler.handle(e));
             }
         };
         new Thread(searchTask).start();
@@ -364,5 +326,9 @@ public class SearchTransactionController {
         }
 
         reloadData();
+    }
+
+    public void export() {
+
     }
 }

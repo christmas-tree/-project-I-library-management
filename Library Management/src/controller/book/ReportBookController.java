@@ -5,26 +5,41 @@
 
 package controller.book;
 
-import javafx.application.Platform;
+import controller.basic.IndexController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
+import javafx.scene.chart.Chart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
+import org.apache.poi.hssf.usermodel.HSSFPatriarch;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.util.IOUtils;
+import org.apache.poi.xssf.model.StylesTable;
+import org.apache.poi.xssf.usermodel.*;
 import util.DbConnection;
 import util.ExHandler;
 
-import javax.sound.sampled.Line;
+import javax.imageio.ImageIO;
+import java.awt.Desktop;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ReportBookController {
 
@@ -93,7 +108,7 @@ public class ReportBookController {
     private final String BOOK_BY_PUB_BY_CAT = "EXEC selectBookByPubByCat";
     private final String BOOK_IMPORT_BY_TIME = "SELECT FORMAT(created, 'yyyy-MM'), SUM(quantity) FROM book b GROUP BY FORMAT(created, 'yyyy-MM') ORDER BY FORMAT(created, 'yyyy-MM') ASC";
 
-    public void init() {
+    public void init(IndexController c) {
         // COUNT INIT
         bookSum = getCount(BOOK_COUNT);
         copySum = getCount(BOOK_SUM);
@@ -151,6 +166,10 @@ public class ReportBookController {
         bookImportByTimeChart.setPrefHeight(400.0);
         AnchorPane.setLeftAnchor(bookImportByTimeChart, 30.0);
         AnchorPane.setRightAnchor(bookImportByTimeChart, 30.0);
+
+        printBtn.setOnAction(event -> export());
+        c.exportMenu.setDisable(false);
+        c.exportMenu.setOnAction(event -> printBtn.fire());
     }
 
     public int getCount(String sql) {
@@ -221,4 +240,162 @@ public class ReportBookController {
             ExHandler.handle(e);
         }
     }
+
+    private boolean export() {
+        File file = new File("src/resources/form/BaoCaoSach.xlsx");
+
+        XSSFWorkbook workbook;
+
+        try {
+            FileInputStream inputStream = new FileInputStream(file);
+            workbook = new XSSFWorkbook(inputStream);
+            inputStream.close();
+        } catch (IOException e) {
+            ExHandler.handle(e);
+            return false;
+        }
+
+        XSSFSheet sheet = workbook.getSheetAt(0);
+
+        sheet.getRow(6).getCell(2).setCellValue(bookSum);
+        sheet.getRow(7).getCell(2).setCellValue(copySum);
+        sheet.getRow(6).getCell(4).setCellValue(Integer.parseInt(pubCount.getText()));
+        sheet.getRow(7).getCell(4).setCellValue(Integer.parseInt(catCount.getText()));
+        sheet.getRow(6).getCell(6).setCellValue(Integer.parseInt(langCount.getText()));
+        sheet.getRow(7).getCell(6).setCellValue(Integer.parseInt(authorCount.getText()));
+
+        // CELL STYLES
+        XSSFCellStyle tableHeaderStyle = workbook.createCellStyle();
+        tableHeaderStyle.setAlignment(HorizontalAlignment.CENTER);
+        tableHeaderStyle.setBorderLeft(BorderStyle.THIN);
+        tableHeaderStyle.setBorderRight(BorderStyle.THIN);
+        tableHeaderStyle.setBorderTop(BorderStyle.THIN);
+        tableHeaderStyle.setBorderBottom(BorderStyle.THIN);
+        tableHeaderStyle.setFont(workbook.createFont());
+        tableHeaderStyle.getFont().setBold(true);
+        tableHeaderStyle.getFont().setFontHeightInPoints((short) 10);
+        tableHeaderStyle.getFont().setFontName("Arial");
+
+        XSSFCellStyle tableElementStyle = workbook.createCellStyle();
+        tableElementStyle.setAlignment(HorizontalAlignment.CENTER);
+        tableElementStyle.setBorderLeft(BorderStyle.THIN);
+        tableElementStyle.setBorderRight(BorderStyle.THIN);
+        tableElementStyle.setBorderTop(BorderStyle.THIN);
+        tableElementStyle.setBorderBottom(BorderStyle.THIN);
+        tableElementStyle.setFont(workbook.createFont());
+        tableElementStyle.getFont().setFontHeightInPoints((short) 10);
+        tableElementStyle.getFont().setFontName("Arial");
+
+        XSSFCellStyle tableFirstElementStyle = workbook.createCellStyle();
+        tableFirstElementStyle.setAlignment(HorizontalAlignment.LEFT);
+        tableFirstElementStyle.setBorderLeft(BorderStyle.THIN);
+        tableFirstElementStyle.setBorderRight(BorderStyle.THIN);
+        tableFirstElementStyle.setBorderTop(BorderStyle.THIN);
+        tableFirstElementStyle.setBorderBottom(BorderStyle.THIN);
+        tableFirstElementStyle.setFont(workbook.createFont());
+        tableFirstElementStyle.getFont().setFontHeightInPoints((short) 10);
+        tableFirstElementStyle.getFont().setFontName("Arial");
+
+        XSSFCell cell = null;
+
+        // BOOK BY CAT
+        sheet.shiftRows(11, sheet.getLastRowNum(), bookByCatData.size() - 1);
+        for (int i = 0; i < bookByCatData.size(); i++) {
+            cell = sheet.createRow(11 + i).createCell(1);
+            cell.setCellValue(bookByCatData.get(i).get(0));
+            cell.setCellStyle(tableFirstElementStyle);
+            cell = sheet.getRow(11 + i).createCell(2);
+            cell.setCellValue(Integer.parseInt(((bookByCatData.get(i).get(1)))));
+            cell.setCellStyle(tableElementStyle);
+            cell = sheet.getRow(11 + i).createCell(3);
+            cell.setCellValue(Integer.parseInt(((bookByCatData.get(i).get(2)))));
+            cell.setCellStyle(tableElementStyle);
+        }
+
+//        addImageOfChartToSheet(sheet, bookByCatChart, 5, 12, 11, 16);
+
+        int newRowPos = 11 + bookByCatData.size() + 4;
+
+        // BOOK BY PUB YEAR
+        sheet.shiftRows(newRowPos, sheet.getLastRowNum(), bookByPubYearData.size() - 1);
+        for (int i = 0; i < bookByPubYearData.size(); i++) {
+            cell = sheet.createRow(newRowPos + i).createCell(1);
+            cell.setCellValue(Integer.parseInt(((bookByPubYearData.get(i).get(0)))));
+            cell.setCellStyle(tableFirstElementStyle);
+
+            cell = sheet.getRow(newRowPos + i).createCell(2);
+            cell.setCellValue(Integer.parseInt(((bookByPubYearData.get(i).get(1)))));
+            cell.setCellStyle(tableElementStyle);
+
+            cell = sheet.getRow(newRowPos + i).createCell(3);
+            cell.setCellValue(Integer.parseInt(((bookByPubYearData.get(i).get(2)))));
+            cell.setCellStyle(tableElementStyle);
+
+        }
+
+        newRowPos = newRowPos + bookByPubYearData.size() + 3;
+
+        // BOOK BY PUB BY CAT
+        sheet.shiftRows(newRowPos, sheet.getLastRowNum(), bookByPubByCatData.size());
+
+        int colNum = bookByPubByCatTable.getColumns().size();
+        sheet.createRow(newRowPos);
+        for (int j = 0; j < colNum; j++) {
+            cell = sheet.getRow(newRowPos).createCell(j + 1);
+            cell.setCellValue(bookByPubByCatTable.getColumns().get(j).getText());
+            cell.setCellStyle(tableHeaderStyle);
+        }
+        newRowPos++;
+        for (int i = 0; i < bookByPubByCatData.size(); i++) {
+            sheet.createRow(newRowPos + i);
+            for (int j = 0; j < colNum; j++) {
+                cell = sheet.getRow(newRowPos + i).createCell(j + 1);
+                if (j == 0) {
+                    cell.setCellValue(bookByPubByCatData.get(i).get(j));
+                    cell.setCellStyle(tableFirstElementStyle);
+                } else {
+                    cell.setCellValue(Integer.parseInt(bookByPubByCatData.get(i).get(j)));
+                    cell.setCellStyle(tableElementStyle);
+                }
+            }
+        }
+        newRowPos = newRowPos + bookByPubByCatData.size() + 4;
+
+//         BOOK IMPORT BY YEAR
+
+        sheet.shiftRows(newRowPos, sheet.getLastRowNum(), bookImportByTimeData.size() - 1);
+        for (int i = 0; i < bookImportByTimeData.size(); i++) {
+            cell = sheet.createRow(newRowPos + i).createCell(1);
+            cell.setCellValue(bookImportByTimeData.get(i).get(0));
+            cell.setCellStyle(tableFirstElementStyle);
+
+            cell = sheet.getRow(newRowPos + i).createCell(2);
+            cell.setCellValue(Integer.parseInt(((bookImportByTimeData.get(i).get(1)))));
+            cell.setCellStyle(tableElementStyle);
+
+        }
+
+        // Ghi file
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Chọn vị trí lưu.");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
+        );
+        fileChooser.setInitialFileName("ThongKeSach - " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+        File selectedFile = fileChooser.showSaveDialog(reportPane.getScene().getWindow());
+
+        try {
+            FileOutputStream output = new FileOutputStream(selectedFile);
+            workbook.write(output);
+            output.close();
+            Desktop.getDesktop().open(selectedFile);
+            return true;
+        } catch (IOException e) {
+            ExHandler.handle(e);
+            return false;
+        }
+    }
+
 }

@@ -38,22 +38,20 @@ public class LoginController {
     private Label statusLabel;
 
     public void init() {
-        Runnable checkDbCon = new Runnable() {
-            @Override
-            public void run() {
-                Connection con = DbConnection.getConnection();
-                if (con == null) {
-                    Platform.runLater(() -> {
-                        ExHandler.handle(new Exception("Lỗi kết nối tới cơ sở dữ liệu! Chương trình sẽ thoát."));
-                        System.exit(0);
-                    });
-                } else {
-                    Platform.runLater(() -> statusLabel.setText("Trình trạng CSDL: Đã kết nối"));
-                    try {
-                        con.close();
-                    } catch (SQLException e) {
-                        ExHandler.handle(e);
-                    }
+        statusLabel.setVisible(true);
+        Runnable checkDbCon = () -> {
+            Connection con = DbConnection.getConnection();
+            if (con == null) {
+                Platform.runLater(() -> {
+                    ExHandler.handle(new Exception("Lỗi kết nối tới cơ sở dữ liệu! Chương trình sẽ thoát."));
+                    System.exit(0);
+                });
+            } else {
+                Platform.runLater(() -> statusLabel.setText("Trình trạng CSDL: Đã kết nối"));
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    ExHandler.handle(e);
                 }
             }
         };

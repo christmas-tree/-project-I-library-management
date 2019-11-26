@@ -1,5 +1,6 @@
 package controller.reader;
 
+import controller.basic.IndexController;
 import dao.ReaderDAO;
 import javafx.animation.*;
 import javafx.application.Platform;
@@ -92,9 +93,9 @@ public class SearchReaderController {
 
     private ObservableList<Reader> data;
 
-    private int searchType = 0;
+    private int searchType = -1;
 
-    public void init() {
+    public void init(IndexController c) {
 
         idCol.setCellValueFactory(p -> new ReadOnlyObjectWrapper<>(String.format("%06d", p.getValue().getRid())));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -177,40 +178,21 @@ public class SearchReaderController {
             return row;
         });
 
-        searchBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                search();
-            }
-        });
+        searchBtn.setOnAction(event -> search());
+        editBtn.setOnAction(event -> edit());
+        addBtn.setOnAction(event -> add());
+        deleteBtn.setOnAction(event -> delete());
+        refreshBtn.setOnAction(event -> refresh());
 
-        editBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                edit();
-            }
-        });
+        c.addMenu.setDisable(false);
+        c.editMenu.setDisable(false);
+        c.deleteMenu.setDisable(false);
+        c.exportMenu.setDisable(false);
 
-        addBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                add();
-            }
-        });
-
-        deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                delete();
-            }
-        });
-
-        refreshBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                refresh();
-            }
-        });
+        c.addMenu.setOnAction(e -> addBtn.fire());
+        c.editMenu.setOnAction(e -> editBtn.fire());
+        c.deleteMenu.setOnAction(e -> deleteBtn.fire());
+        c.exportMenu.setOnAction(e -> export());
     }
 
     public void reloadData() {
@@ -375,5 +357,9 @@ public class SearchReaderController {
         }
 
         reloadData();
+    }
+
+    public void export() {
+
     }
 }

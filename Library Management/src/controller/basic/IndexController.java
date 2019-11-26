@@ -18,14 +18,21 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import jfxtras.styles.jmetro.JMetro;
+import jfxtras.styles.jmetro.Style;
 import model.Reader;
 import model.User;
 import util.ExHandler;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class IndexController {
@@ -34,21 +41,30 @@ public class IndexController {
     private BorderPane window;
 
     @FXML
-    private Label footerNote;
-
-    @FXML
-    private Menu menuEdit;
-
-    @FXML
-    private Menu menuFile;
-
-    @FXML
-    private Menu menuHelp;
-
-    @FXML
     private TreeView sideMenu;
 
-    private User currentUser;
+    @FXML
+    private MenuItem exitMenu;
+
+    @FXML
+    private MenuItem logOutMenu;
+
+    @FXML
+    public MenuItem editMenu;
+
+    @FXML
+    public MenuItem addMenu;
+
+    @FXML
+    public MenuItem deleteMenu;
+
+    @FXML
+    public MenuItem exportMenu;
+
+    @FXML
+    private MenuItem aboutMenu;
+
+    public User currentUser;
 
     public void init(User user) {
 
@@ -95,15 +111,47 @@ public class IndexController {
             }
         });
 
-    }
+        exitMenu.setOnAction(event-> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Thoát chương trình");
+            alert.setHeaderText("Bạn chắc chắn muốn thoát?");
+            Optional<ButtonType> option = alert.showAndWait();
+            if (option.get() == ButtonType.OK)
+                System.exit(0);
+        });
 
-    public void exit(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Thoát chương trình");
-        alert.setHeaderText("Bạn chắc chắn muốn thoát?");
-        Optional<ButtonType> option = alert.showAndWait();
-        if (option.get() == ButtonType.OK)
-            System.exit(0);
+        aboutMenu.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Về ứng dụng");
+            alert.setHeaderText("PHẦN MỀM QUẢN LÝ THƯ VIỆN");
+            alert.setContentText("Trần Trung Nghĩa - 20173281");
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.showAndWait();
+        });
+
+        editMenu.setDisable(true);
+        exportMenu.setDisable(true);
+        deleteMenu.setDisable(true);
+        addMenu.setDisable(true);
+
+        logOutMenu.setOnAction(event -> {
+            try {
+                Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/basic/login.fxml"));
+                Scene firstScene = new Scene(root, 1000, 600);
+                firstScene.getStylesheets().add(getClass().getResource("/resources/css/style.css").toExternalForm());
+                new JMetro(root, Style.DARK);
+                Stage stage = new Stage();
+                stage.setTitle("Đăng nhập - QLTV");
+                stage.setScene(firstScene);
+                stage.setResizable(false);
+                stage.setScene(firstScene);
+                window.getScene().getWindow().hide();
+                stage.show();
+            } catch (IOException e) {
+                ExHandler.handle(e);
+                System.exit(0);
+            }
+        });
     }
 
     public void renderMainScene(String option) {
@@ -115,7 +163,7 @@ public class IndexController {
                     loader.setLocation(getClass().getClassLoader().getResource("view/transaction/searchtransaction.fxml"));
                     window.setCenter(loader.load());
                     SearchTransactionController searchTransactionController = loader.getController();
-                    searchTransactionController.init(currentUser);
+                    searchTransactionController.init(this);
                 } catch (Exception e) {
                     ExHandler.handle(e);
                 }
@@ -127,7 +175,7 @@ public class IndexController {
                     loader.setLocation(getClass().getClassLoader().getResource("view/book/searchbook.fxml"));
                     window.setCenter(loader.load());
                     SearchBookController searchBookController = loader.getController();
-                    searchBookController.init();
+                    searchBookController.init(this);
                 } catch (Exception e) {
                     ExHandler.handle(e);
                 }
@@ -137,7 +185,7 @@ public class IndexController {
                     loader.setLocation(getClass().getClassLoader().getResource("view/book/metadata.fxml"));
                     window.setCenter(loader.load());
                     MetaController metaController = loader.getController();
-                    metaController.init();
+                    metaController.init(this);
                 } catch (Exception e) {
                     ExHandler.handle(e);
                 }
@@ -147,7 +195,7 @@ public class IndexController {
                     loader.setLocation(getClass().getClassLoader().getResource("view/book/reportbook.fxml"));
                     window.setCenter(loader.load());
                     ReportBookController reportBookController = loader.getController();
-                    reportBookController.init();
+                    reportBookController.init(this);
                 } catch (Exception e) {
                     ExHandler.handle(e);
                 }
@@ -159,20 +207,12 @@ public class IndexController {
                     loader.setLocation(getClass().getClassLoader().getResource("view/reader/searchreader.fxml"));
                     window.setCenter(loader.load());
                     SearchReaderController searchReaderController = loader.getController();
-                    searchReaderController.init();
+                    searchReaderController.init(this);
                 } catch (Exception e) {
                     ExHandler.handle(e);
                 }
                 break;
             case "Thêm độc giả":
-                try {
-                    loader.setLocation(getClass().getClassLoader().getResource("view/reader/editreader.fxml"));
-                    window.setCenter(loader.load());
-                    EditReaderController editReaderController = loader.getController();
-                    editReaderController.init();
-                } catch (Exception e) {
-                    ExHandler.handle(e);
-                }
                 break;
 
             // Quan ly nhan vien
@@ -181,7 +221,7 @@ public class IndexController {
                     loader.setLocation(getClass().getClassLoader().getResource("view/staff/searchstaff.fxml"));
                     window.setCenter(loader.load());
                     SearchStaffController searchStaffController = loader.getController();
-                    searchStaffController.init();
+                    searchStaffController.init(this);
                 } catch (Exception e) {
                     ExHandler.handle(e);
                 }

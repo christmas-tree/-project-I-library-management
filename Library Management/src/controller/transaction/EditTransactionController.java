@@ -5,6 +5,7 @@
 
 package controller.transaction;
 
+import controller.basic.IndexController;
 import dao.BookDAO;
 import dao.ReaderDAO;
 import dao.TransactionDAO;
@@ -696,4 +697,5 @@ public class EditTransactionController {
             ExHandler.handle(e);
         }
     }
+
 }

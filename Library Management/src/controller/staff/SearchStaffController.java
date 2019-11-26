@@ -5,6 +5,7 @@
 
 package controller.staff;
 
+import controller.basic.IndexController;
 import controller.staff.EditStaffController;
 import dao.StaffDAO;
 import javafx.animation.Interpolator;
@@ -84,9 +85,9 @@ public class SearchStaffController {
 
     private ObservableList<Staff> data;
 
-    private int searchType;
+    private int searchType = -1;
 
-    public void init() {
+    public void init(IndexController c) {
 
         TableColumn<Staff, String> idCol = new TableColumn<>("ID");
         TableColumn<Staff, Timestamp> createdCol = new TableColumn<>("Ngày tạo");
@@ -209,6 +210,16 @@ public class SearchStaffController {
                 refresh();
             }
         });
+
+        c.addMenu.setDisable(false);
+        c.deleteMenu.setDisable(false);
+        c.editMenu.setDisable(false);
+        c.exportMenu.setDisable(false);
+
+        c.addMenu.setOnAction(event -> addBtn.fire());
+        c.deleteMenu.setOnAction(event -> deleteBtn.fire());
+        c.editMenu.setOnAction(event -> editBtn.fire());
+        c.exportMenu.setOnAction(event -> export());
     }
 
     public void reloadData() {
@@ -377,6 +388,10 @@ public class SearchStaffController {
         }
 
         reloadData();
+    }
+
+    public void export() {
+
     }
 }
 

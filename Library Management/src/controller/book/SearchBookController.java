@@ -5,6 +5,7 @@
 
 package controller.book;
 
+import controller.basic.IndexController;
 import dao.BookDAO;
 import dao.CategoryDAO;
 import dao.LanguageDAO;
@@ -99,9 +100,9 @@ public class SearchBookController {
     private Map<String, Publisher> publishers;
     private Map<String, Language> languages;
 
-    private int searchType = 0;
+    private int searchType = -1;
 
-    public void init() {
+    public void init(IndexController c) {
 
         TableColumn<Book, String> idCol = new TableColumn<>("ID");
         idCol.setMinWidth(75.0);
@@ -252,40 +253,22 @@ public class SearchBookController {
             return row;
         });
 
-        searchBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                search();
-            }
-        });
+        searchBtn.setOnAction(event -> search());
+        editBtn.setOnAction(event -> edit());
+        addBtn.setOnAction(event -> add());
+        deleteBtn.setOnAction(event -> delete());
+        refreshBtn.setOnAction(event -> bookTable.refresh());
 
-        editBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                edit();
-            }
-        });
+        c.exportMenu.setDisable(false);
+        c.addMenu.setDisable(false);
+        c.editMenu.setDisable(false);
+        c.deleteMenu.setDisable(false);
 
-        addBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                add();
-            }
-        });
+        c.exportMenu.setOnAction(event -> export());
+        c.deleteMenu.setOnAction(event -> deleteBtn.fire());
+        c.editMenu.setOnAction(event -> editBtn.fire());
+        c.addMenu.setOnAction(event -> addBtn.fire());
 
-        deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                delete();
-            }
-        });
-
-        refreshBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                bookTable.refresh();
-            }
-        });
     }
 
     public void reloadData() {
@@ -480,6 +463,10 @@ public class SearchBookController {
         }
 
         reloadData();
+    }
+
+    public void export() {
+
     }
 
 }
