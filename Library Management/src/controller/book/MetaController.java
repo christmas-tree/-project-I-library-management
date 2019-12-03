@@ -22,12 +22,24 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
 import model.Category;
 import model.Language;
 import model.Publisher;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import util.ExHandler;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Optional;
+
+import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.CREATE_NULL_AS_BLANK;
 
 public class MetaController {
     @FXML
@@ -132,9 +144,10 @@ public class MetaController {
 
         catIdField.textProperty().addListener((observableValue, s, t1) -> {
             t1 = t1.toUpperCase();
-            if (t1.length() > 2) {
-                catIdField.setText(t1.substring(0, 2));
+            if (t1.length() > 3) {
+                t1 = t1.substring(0, 3);
             }
+            catIdField.setText(t1);
         });
 
         catNameField.textProperty().addListener((observableValue, s, t1) -> {
@@ -184,8 +197,9 @@ public class MetaController {
         pubIdField.textProperty().addListener((observableValue, s, t1) -> {
             t1 = t1.toUpperCase();
             if (t1.length() > 3) {
-                pubIdField.setText(t1.substring(0, 3));
+                t1 = t1.substring(0, 3);
             }
+            pubIdField.setText(t1);
         });
 
         pubNameField.textProperty().addListener((observableValue, s, t1) -> {
@@ -233,9 +247,10 @@ public class MetaController {
 
         langIdField.textProperty().addListener((observableValue, s, t1) -> {
             t1 = t1.toUpperCase();
-            if (t1.length() > 2) {
-                langIdField.setText(t1.substring(0, 2));
+            if (t1.length() > 3) {
+                t1 = t1.substring(0, 3);
             }
+            langIdField.setText(t1);
         });
 
         languageField.textProperty().addListener((observableValue, s, t1) -> {
@@ -253,5 +268,109 @@ public class MetaController {
         c.addMenu.setDisable(true);
         c.editMenu.setDisable(true);
         c.deleteMenu.setDisable(true);
+        c.importMenu.setDisable(false);
+
+        c.importMenu.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Nhập thông tin phụ");
+            alert.setContentText("Chọn loại thông tin nhập:");
+
+            ButtonType catImportBtn = new ButtonType("Thể loại");
+            ButtonType pubImportBtn = new ButtonType("Nhà xuất bản");
+            ButtonType langImportBtn = new ButtonType("Ngôn ngữ");
+            ButtonType cancelBtn = new ButtonType("Huỷ", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            alert.getButtonTypes().setAll(catImportBtn, pubImportBtn, langImportBtn, cancelBtn);
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == catImportBtn){
+                XSSFSheet sheet = getSheet();
+
+                ArrayList<Category> newCategories = new ArrayList<>();
+                // DATA
+                Iterator rows = sheet.rowIterator();
+                XSSFRow row = (XSSFRow) rows.next();
+                if (row.getLastCellNum() >= 2) {
+                    while (rows.hasNext()) {
+                        row = (XSSFRow) rows.next();
+                        Category newItem = new Category(
+                                row.getCell(0, CREATE_NULL_AS_BLANK).getStringCellValue(),
+                                row.getCell(1, CREATE_NULL_AS_BLANK).getStringCellValue()
+                        );
+                        newCategories.add(newItem);
+                        categories.add(newItem);
+                    }
+                } else
+                    ExHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
+                CategoryDAO.getInstance().importCategory(newCategories);
+
+            } else if (result.get() == pubImportBtn) {
+                XSSFSheet sheet = getSheet();
+
+                ArrayList<Publisher> newPublishers = new ArrayList<>();
+                // DATA
+                Iterator rows = sheet.rowIterator();
+                XSSFRow row = (XSSFRow) rows.next();
+                if (row.getLastCellNum() >= 2) {
+                    while (rows.hasNext()) {
+                        row = (XSSFRow) rows.next();
+                        Publisher newItem = new Publisher(
+                                row.getCell(0, CREATE_NULL_AS_BLANK).getStringCellValue(),
+                                row.getCell(1, CREATE_NULL_AS_BLANK).getStringCellValue()
+                        );
+                        newPublishers.add(newItem);
+                        publishers.add(newItem);
+                    }
+                } else
+                    ExHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
+                PublisherDAO.getInstance().importPublisher(newPublishers);
+
+            } else if (result.get() == langImportBtn) {
+                XSSFSheet sheet = getSheet();
+
+                ArrayList<Language> newLanguages = new ArrayList<>();
+                // DATA
+                Iterator rows = sheet.rowIterator();
+                XSSFRow row = (XSSFRow) rows.next();
+                if (row.getLastCellNum() >= 2) {
+                    while (rows.hasNext()) {
+                        row = (XSSFRow) rows.next();
+                        Language newItem = new Language(
+                                row.getCell(0, CREATE_NULL_AS_BLANK).getStringCellValue(),
+                                row.getCell(1, CREATE_NULL_AS_BLANK).getStringCellValue()
+                        );
+                        newLanguages.add(newItem);
+                        languages.add(newItem);
+                    }
+                } else
+                    ExHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
+                LanguageDAO.getInstance().importLanguage(newLanguages);
+            }
+        });
+    }
+
+    public XSSFSheet getSheet() {
+        XSSFWorkbook excelWorkBook;
+
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Chọn file.");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
+            );
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+            File selectedFile = fileChooser.showOpenDialog(catTable.getScene().getWindow());
+
+            FileInputStream inputStream = new FileInputStream(selectedFile);
+            excelWorkBook = new XSSFWorkbook(inputStream);
+            inputStream.close();
+        } catch (IOException e) {
+            ExHandler.handle(e);
+            return null;
+        }
+
+        return excelWorkBook.getSheetAt(0);
     }
 }

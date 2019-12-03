@@ -7,6 +7,7 @@ package dao;
 
 import model.Staff;
 import util.DbConnection;
+import util.ExHandler;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -46,6 +47,42 @@ public class StaffDAO {
         con.close();
 
         return result;
+    }
+
+    public void importStaff(ArrayList<Staff> staffs) {
+        String sql = "INSERT INTO [staff](isAdmin, username, password, name, dob, gender, idCardNum, address)" +
+                "VALUES (?, ?, HASHBYTES('SHA2_256', ?), ?, ?, ?, ?, ?)";
+
+        try {
+            Connection con = DbConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            String err = "";
+            Staff staff = null;
+            for (int i = 0; i < staffs.size(); i++) {
+                staff = staffs.get(i);
+                try {
+                    stmt.setBoolean(1, staff.isAdmin());
+                    stmt.setString(2, staff.getUsername());
+                    stmt.setNString(3, staff.getPassword());
+                    stmt.setNString(4, staff.getName());
+                    stmt.setDate(5, staff.getDob());
+                    stmt.setBoolean(6, staff.getGender());
+                    stmt.setLong(7, staff.getIdCardNum());
+                    stmt.setNString(8, staff.getAddress());
+
+                    stmt.executeUpdate();
+                } catch (SQLException e) {
+                    err += "Có vấn đề nhập nhân viên số " + (i+1) + " - "+ staff.getSid() + ".\n";
+                }
+            }
+            stmt.close();
+            con.close();
+
+            if (!err.isBlank())
+                ExHandler.handleLong(err);
+        } catch (SQLException e) {
+            ExHandler.handle(e);
+        }
     }
 
     // READ

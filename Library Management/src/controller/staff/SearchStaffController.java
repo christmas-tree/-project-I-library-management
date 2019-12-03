@@ -6,7 +6,6 @@
 package controller.staff;
 
 import controller.basic.IndexController;
-import controller.staff.EditStaffController;
 import dao.StaffDAO;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -14,30 +13,45 @@ import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 import model.Staff;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.xssf.usermodel.*;
 import util.ExHandler;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
+
+import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.CREATE_NULL_AS_BLANK;
 
 public class SearchStaffController {
 
@@ -176,50 +190,29 @@ public class SearchStaffController {
             return row;
         });
 
-        searchBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                search();
-            }
-        });
+        searchBtn.setOnAction(event -> search());
 
-        editBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                edit();
-            }
-        });
+        editBtn.setOnAction(event -> edit());
 
-        addBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                add();
-            }
-        });
+        addBtn.setOnAction(event -> add());
 
-        deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                delete();
-            }
-        });
+        deleteBtn.setOnAction(event -> delete());
 
-        refreshBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                refresh();
-            }
-        });
+        refreshBtn.setOnAction(event -> refresh());
 
         c.addMenu.setDisable(false);
         c.deleteMenu.setDisable(false);
         c.editMenu.setDisable(false);
         c.exportMenu.setDisable(false);
+//        c.backupMenu.setDisable(false);
+        c.importMenu.setDisable(false);
 
         c.addMenu.setOnAction(event -> addBtn.fire());
         c.deleteMenu.setOnAction(event -> deleteBtn.fire());
         c.editMenu.setOnAction(event -> editBtn.fire());
         c.exportMenu.setOnAction(event -> export());
+        // c.backupMenu.setOnAction(event -> backup());
+        c.importMenu.setOnAction(event -> restore());
     }
 
     public void reloadData() {
@@ -246,6 +239,10 @@ public class SearchStaffController {
 
     public void refresh() {
         reloadData();
+
+        searchChoiceBox.getSelectionModel().clearSelection();
+        searchType = -1;
+
         RotateTransition rt = new RotateTransition(Duration.millis(750), refreshIcon);
         rt.setByAngle(360 * 3);
         rt.setCycleCount(1);
@@ -391,7 +388,271 @@ public class SearchStaffController {
     }
 
     public void export() {
+        if (data.size() == 0) {
+            ExHandler.handle(new Exception("Không tìm thấy dữ liệu phù hợp với lựa chọn tìm kiếm."));
+        } else {
+            File file = new File("src/resources/form/DsNhanVien.xlsx");
 
+            XSSFWorkbook workbook;
+
+            try {
+                FileInputStream inputStream = new FileInputStream(file);
+                workbook = new XSSFWorkbook(inputStream);
+                inputStream.close();
+            } catch (IOException e) {
+                ExHandler.handle(e);
+                return;
+            }
+
+            XSSFSheet sheet = workbook.getSheetAt(0);
+
+            // CELL STYLES
+            XSSFCellStyle tableElementStyle = workbook.createCellStyle();
+            tableElementStyle.setBorderLeft(BorderStyle.THIN);
+            tableElementStyle.setBorderRight(BorderStyle.THIN);
+            tableElementStyle.setFont(workbook.createFont());
+            tableElementStyle.getFont().setFontHeightInPoints((short) 9);
+            tableElementStyle.getFont().setFontName("Arial");
+            tableElementStyle.setWrapText(true);
+
+            XSSFCellStyle dateStyle = workbook.createCellStyle();
+            dateStyle.setFont(workbook.createFont());
+            dateStyle.getFont().setFontHeightInPoints((short) 9);
+            dateStyle.getFont().setFontName("Arial");
+            dateStyle.setAlignment(HorizontalAlignment.CENTER);
+            dateStyle.getFont().setItalic(true);
+
+            XSSFCellStyle searchInfoStyle = workbook.createCellStyle();
+            searchInfoStyle.setFont(workbook.createFont());
+            searchInfoStyle.getFont().setFontHeightInPoints((short) 9);
+            searchInfoStyle.setAlignment(HorizontalAlignment.CENTER);
+            searchInfoStyle.getFont().setFontName("Arial");
+
+            XSSFCell cell = null;
+
+            Staff staff;
+
+            // DATE
+            cell = sheet.getRow(1).getCell(6);
+            cell.setCellValue(LocalDate.now().format(DateTimeFormatter.ofPattern("'Ngày 'dd' tháng 'MM' năm 'yyyy")));
+            cell.setCellStyle(dateStyle);
+
+            // SEARCH TYPE
+            if (searchType != -1) {
+                String searchChoices[] = {"Mã nhân viên", "Tên", "Thời gian tạo", "Giới tính", "Vai trò", "Tên đăng nhập"};
+                //                              0             1         2               3         4              5
+                String searchInfoString = searchChoices[searchType];
+
+                switch (searchType) {
+                    case 0:
+                        searchInfoString += ": " + searchInputField.getText();
+                        break;
+                    case 1:
+                    case 5:
+                        searchInfoString += " có chữ: " + searchInputField.getText();
+                        break;
+                    case 2:
+                        searchInfoString += " từ " +
+                                DateTimeFormatter.ofPattern("dd/MM/YYYY").format(searchStartDate.getValue()) + " đến " +
+                                DateTimeFormatter.ofPattern("dd/MM/YYYY").format(searchEndDate.getValue());
+                        break;
+                    case 3:
+                    case 4:
+                        searchInfoString += ": " + searchConditionChoiceBox.getSelectionModel().getSelectedItem();
+                        break;
+                }
+
+                cell = sheet.getRow(5).getCell(0);
+                cell.setCellStyle(searchInfoStyle);
+                cell.setCellValue(searchInfoString);
+            }
+
+            // DATA
+            for (int i = 0; i < data.size(); i++) {
+                staff = data.get(i);
+                int row = 8 + i;
+                sheet.createRow(row);
+
+                cell = sheet.getRow(row).createCell(0);
+                cell.setCellValue(i + 1);
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(1);
+                cell.setCellValue(String.format("%06d", staff.getSid()));
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(2);
+                cell.setCellValue(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(staff.getCreated()));
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(3);
+                cell.setCellValue(staff.isAdmin() ? "Quản lý" : "Nhân viên");
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(4);
+                cell.setCellValue(staff.getName());
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(5);
+                cell.setCellValue(new SimpleDateFormat("dd/MM/yyyy").format(staff.getDob()));
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(6);
+                cell.setCellValue(staff.getGender() ? "Nam" : "Nữ");
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(7);
+                cell.setCellValue(String.valueOf(staff.getIdCardNum()));
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(8);
+                cell.setCellValue(staff.getAddress());
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(9);
+                cell.setCellValue(staff.getUsername());
+                cell.setCellStyle(tableElementStyle);
+            }
+
+            // Ghi file
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Chọn vị trí lưu.");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
+            );
+            fileChooser.setInitialFileName("Thong Tin Nhan Vien " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+            File selectedFile = fileChooser.showSaveDialog(staffTable.getScene().getWindow());
+
+            try {
+                FileOutputStream output = new FileOutputStream(selectedFile);
+                workbook.write(output);
+                output.close();
+                Desktop.getDesktop().open(selectedFile);
+            } catch (IOException e) {
+                ExHandler.handle(e);
+            }
+        }
+    }
+//    public void backup() {
+//        List<Staff> staffs;
+//        Staff staff;
+//
+//        try {
+//            staffs = StaffDAO.getInstance().getAllStaffs();
+//        } catch (SQLException e) {
+//            ExHandler.handle(e);
+//            return;
+//        }
+//
+//        XSSFWorkbook excelWorkBook = new XSSFWorkbook();
+//        XSSFSheet sheet = excelWorkBook.createSheet();
+//
+//        String[] props = {"sid", "created", "isAdmin", "username", "name", "dob", "gender", "idCardNum", "address"};
+//
+//        XSSFRow row = sheet.createRow(0);
+//        row.createCell(0).setCellValue(props[0]);
+//        row.createCell(1).setCellValue(props[1]);
+//        row.createCell(2).setCellValue(props[2]);
+//        row.createCell(3).setCellValue(props[3]);
+//        row.createCell(4).setCellValue(props[4]);
+//        row.createCell(5).setCellValue(props[5]);
+//        row.createCell(6).setCellValue(props[6]);
+//        row.createCell(7).setCellValue(props[7]);
+//        row.createCell(8).setCellValue(props[8]);
+//        row.createCell(9).setCellValue(props[9]);
+//
+//        for (int i = 0; i < data.size(); i++) {
+//            int j = i + 1;
+//
+//            staff = staffs.get(i);
+//            row = sheet.createRow(j);
+//
+//            row.createCell(0).setCellValue(staff.getSid());
+//            row.createCell(1).setCellValue(staff.getCreated());
+//            row.createCell(2).setCellValue(staff.isAdmin());
+//            row.createCell(3).setCellValue(staff.getUsername());
+//            row.createCell(4).setCellValue(staff.getName());
+//            row.createCell(5).setCellValue(staff.getDob());
+//            row.createCell(6).setCellValue(staff.getGender());
+//            row.createCell(7).setCellValue(staff.getIdCardNum());
+//            row.createCell(8).setCellValue(staff.getAddress());
+//        }
+//
+//        // Ghi file
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setTitle("Chọn vị trí lưu.");
+//        fileChooser.getExtensionFilters().add(
+//                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
+//        );
+//        fileChooser.setInitialFileName("StaffBackup " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+//        fileChooser.setInitialDirectory(new File(System.getProperty("user.home/Desktop")));
+//
+//        File selectedFile = fileChooser.showSaveDialog(staffTable.getScene().getWindow());
+//
+//        try {
+//            FileOutputStream output = new FileOutputStream(selectedFile);
+//            excelWorkBook.write(output);
+//            output.close();
+//            Desktop.getDesktop().open(selectedFile);
+//        } catch (IOException e) {
+//            ExHandler.handle(e);
+//        }
+//    }
+
+    public void restore() {
+
+        ArrayList<Staff> newStaffs = new ArrayList<>();
+        Staff newStaff;
+
+        XSSFWorkbook excelWorkBook;
+
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Chọn file.");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
+            );
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+            File selectedFile = fileChooser.showOpenDialog(staffTable.getScene().getWindow());
+
+
+            FileInputStream inputStream = new FileInputStream(selectedFile);
+            excelWorkBook = new XSSFWorkbook(inputStream);
+            inputStream.close();
+        } catch (IOException e) {
+            ExHandler.handle(e);
+            return;
+        }
+
+        XSSFSheet sheet = excelWorkBook.getSheetAt(0);
+
+        // DATA
+        Iterator rows = sheet.rowIterator();
+        XSSFRow row = (XSSFRow) rows.next();
+        if (row.getLastCellNum() >= 8) {
+            while (rows.hasNext()) {
+                row = (XSSFRow) rows.next();
+                newStaff = new Staff();
+
+                newStaff.setAdmin(row.getCell(0, CREATE_NULL_AS_BLANK).getBooleanCellValue());
+                newStaff.setUsername(row.getCell(1, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newStaff.setPassword(row.getCell(2, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newStaff.setName(row.getCell(3, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newStaff.setDob(new Date(row.getCell(4, CREATE_NULL_AS_BLANK).getDateCellValue().getTime()));
+                newStaff.setGender(row.getCell(5, CREATE_NULL_AS_BLANK).getBooleanCellValue());
+                newStaff.setIdCardNum((long) row.getCell(6, CREATE_NULL_AS_BLANK).getNumericCellValue());
+                newStaff.setAddress(row.getCell(7, CREATE_NULL_AS_BLANK).getStringCellValue());
+
+                newStaffs.add(newStaff);
+            }
+        } else
+            ExHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
+
+        StaffDAO.getInstance().importStaff(newStaffs);
+        refresh();
     }
 }
 

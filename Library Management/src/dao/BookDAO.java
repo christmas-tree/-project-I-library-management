@@ -12,6 +12,7 @@ import model.Category;
 import model.Language;
 import model.Publisher;
 import util.DbConnection;
+import util.ExHandler;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -56,6 +57,45 @@ public class BookDAO {
         con.close();
 
         return result;
+    }
+
+    public void importBook(ArrayList<Book> books) {
+        String sql = "INSERT INTO [book](bid, bookName, price, catId, author, pubId, pubYear, langId, location, quantity, availQuantity)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            Connection con = DbConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            String err = "";
+            Book book = null;
+            for (int i = 0; i < books.size(); i++) {
+                book = books.get(i);
+                try {
+                    stmt.setString(1, book.getBid());
+                    stmt.setNString(2, book.getBookName());
+                    stmt.setLong(3, book.getPrice());
+                    stmt.setString(4, book.getCategory().getCatId());
+                    stmt.setString(5, book.getAuthor());
+                    stmt.setString(6, book.getPublisher().getPubId());
+                    stmt.setInt(7, book.getPubYear());
+                    stmt.setString(8, book.getLanguage().getLangId());
+                    stmt.setNString(9, book.getLocation());
+                    stmt.setInt(10, book.getQuantity());
+                    stmt.setInt(11, book.getAvailQuantity());
+
+                    stmt.executeUpdate();
+                } catch (SQLException e) {
+                    err += "Có vấn đề nhập đầu sách số " + (i+1) + " - Mã: " + book.getBid() + ".\n";
+                }
+            }
+            stmt.close();
+            con.close();
+
+            if (!err.isBlank())
+                ExHandler.handleLong(err);
+        } catch (SQLException e) {
+            ExHandler.handle(e);
+        }
     }
 
     // READ

@@ -265,6 +265,13 @@ public class ReportBookController {
         sheet.getRow(7).getCell(6).setCellValue(Integer.parseInt(authorCount.getText()));
 
         // CELL STYLES
+        XSSFCellStyle dateStyle = workbook.createCellStyle();
+        dateStyle.setFont(workbook.createFont());
+        dateStyle.getFont().setFontHeightInPoints((short) 10);
+        dateStyle.getFont().setFontName("Arial");
+        dateStyle.setAlignment(HorizontalAlignment.CENTER);
+        dateStyle.getFont().setItalic(true);
+
         XSSFCellStyle tableHeaderStyle = workbook.createCellStyle();
         tableHeaderStyle.setAlignment(HorizontalAlignment.CENTER);
         tableHeaderStyle.setBorderLeft(BorderStyle.THIN);
@@ -297,6 +304,11 @@ public class ReportBookController {
         tableFirstElementStyle.getFont().setFontName("Arial");
 
         XSSFCell cell = null;
+
+        // DATE
+        cell = sheet.getRow(1).getCell(5);
+        cell.setCellValue(LocalDate.now().format(DateTimeFormatter.ofPattern("'Ngày 'dd' tháng 'MM' năm 'yyyy")));
+        cell.setCellStyle(dateStyle);
 
         // BOOK BY CAT
         sheet.shiftRows(11, sheet.getLastRowNum(), bookByCatData.size() - 1);

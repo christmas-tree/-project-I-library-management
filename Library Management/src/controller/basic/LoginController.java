@@ -15,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
@@ -91,6 +92,7 @@ public class LoginController {
                     IndexController indexController = loader.getController();
                     indexController.init(user);
 
+                    stage.getIcons().add(new Image("/resources/icon/app-icon.png"));
                     stage.show();
                     ((Node)(event.getSource())).getScene().getWindow().hide();
                 } catch (IOException e) {

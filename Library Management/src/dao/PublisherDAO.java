@@ -9,11 +9,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Publisher;
 import util.DbConnection;
+import util.ExHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +42,35 @@ public class PublisherDAO {
         con.close();
 
         return result;
+    }
+
+    public void importPublisher(ArrayList<Publisher> publishers) {
+        String sql = "INSERT INTO [publisher](pubId, pubName) VALUES (?, ?)";
+
+        try {
+            Connection con = DbConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            String err = "";
+            Publisher publisher = null;
+            for (int i = 0; i < publishers.size(); i++) {
+                publisher = publishers.get(i);
+                try {
+                    stmt.setString(1, publisher.getPubId());
+                    stmt.setNString(2, publisher.getPubName());
+
+                    stmt.executeUpdate();
+                } catch (SQLException e) {
+                    err += "Có vấn đề nhập mục thứ " + (i+1) + " - Mã: " + publisher.getPubId() + ".\n";
+                }
+            }
+            stmt.close();
+            con.close();
+
+            if (!err.isBlank())
+                ExHandler.handleLong(err);
+        } catch (SQLException e) {
+            ExHandler.handle(e);
+        }
     }
     // READ
 

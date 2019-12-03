@@ -167,13 +167,10 @@ public class EditTransactionController {
         borrowDateTextField.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(now));
         dueDateTextField.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(due));
 
-        confirmBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (validate()) {
-                    add();
-                    ((Node) (event.getSource())).getScene().getWindow().hide();
-                }
+        confirmBtn.setOnAction(event -> {
+            if (validate()) {
+                add();
+                ((Node) (event.getSource())).getScene().getWindow().hide();
             }
         });
     }
@@ -202,15 +199,12 @@ public class EditTransactionController {
         for (int i = 0; i < size; i++) {
             depositSum += transaction.getAllDetails().get(i).getDeposit();
         }
-        depositSumTextField.setText(String.format("%,d",depositSum));
+        depositSumTextField.setText(String.format("%,d", depositSum));
 
-        confirmBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (validate()) {
-                    update();
-                    ((Node) (event.getSource())).getScene().getWindow().hide();
-                }
+        confirmBtn.setOnAction(event -> {
+            if (validate()) {
+                update();
+                ((Node) (event.getSource())).getScene().getWindow().hide();
             }
         });
     }
@@ -241,7 +235,7 @@ public class EditTransactionController {
                 if (isEmpty() || index < 0)
                     setText(null);
                 else
-                    setText(Integer.toString(index+1));
+                    setText(Integer.toString(index + 1));
             }
         });
 
@@ -260,6 +254,7 @@ public class EditTransactionController {
                 public String toString(Long deposit) {
                     return String.format("%,d", deposit);
                 }
+
                 @Override
                 public Long fromString(String string) {
                     return Long.parseLong(string.replaceAll("[^\\d]", ""));
@@ -282,13 +277,10 @@ public class EditTransactionController {
             booleanProp.addListener((observable, oldValue, newValue) -> detail.setExtended(newValue));
             return booleanProp;
         });
-        isExtendedCol.setCellFactory(new Callback<>() {
-            @Override
-            public TableCell<Transaction.TransactionDetail, Boolean> call(TableColumn<Transaction.TransactionDetail, Boolean> p) {
-                CheckBoxTableCell<Transaction.TransactionDetail, Boolean> cell = new CheckBoxTableCell<>();
-                cell.setAlignment(Pos.CENTER);
-                return cell;
-            }
+        isExtendedCol.setCellFactory(p -> {
+            CheckBoxTableCell<Transaction.TransactionDetail, Boolean> cell = new CheckBoxTableCell<>();
+            cell.setAlignment(Pos.CENTER);
+            return cell;
         });
 
 
@@ -300,6 +292,7 @@ public class EditTransactionController {
                 public String toString(Long fineCol) {
                     return String.format("%,d", fineCol);
                 }
+
                 @Override
                 public Long fromString(String string) {
                     return Long.parseLong(string.replaceAll("[^\\d]", ""));
@@ -319,129 +312,86 @@ public class EditTransactionController {
 
         // FIELDS LISTENERS
 
-        newDepositTextField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                newDepositTextField.setText(newValue.replaceAll("[^\\d]", ""));
-            }
-        });
+        newDepositTextField.textProperty().addListener((observable, oldValue, newValue) -> newDepositTextField.setText(newValue.replaceAll("[^\\d]", "")));
 
-        transaction.getAllDetails().addListener(new ListChangeListener<Transaction.TransactionDetail>() {
-            @Override
-            public void onChanged(Change<? extends Transaction.TransactionDetail> change) {
-                int size = transaction.getAllDetails().size();
-                long depositSum = 0;
-                for (int i = 0; i < size; i++) {
-                    depositSum += transaction.getAllDetails().get(i).getDeposit();
-                }
-                depositSumTextField.setText(String.format("%,d",depositSum));
+        transaction.getAllDetails().addListener((ListChangeListener<Transaction.TransactionDetail>) change -> {
+            int size = transaction.getAllDetails().size();
+            long depositSum = 0;
+            for (int i = 0; i < size; i++) {
+                depositSum += transaction.getAllDetails().get(i).getDeposit();
             }
+            depositSumTextField.setText(String.format("%,d", depositSum));
         });
 
         // BUTTON ACTIONS
 
-        addDetailBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (validateDetail()) {
-                    Transaction.TransactionDetail newDetail = transaction.addDetail(newBookComboBox.getSelectionModel().getSelectedItem(), Long.parseLong(newDepositTextField.getText()));
-                    Book book = newDetail.getBook();
-                    book.setAvailQuantity(book.getAvailQuantity() - 1);
-                }
+        addDetailBtn.setOnAction(event -> {
+            if (validateDetail()) {
+                Transaction.TransactionDetail newDetail = transaction.addDetail(newBookComboBox.getSelectionModel().getSelectedItem(), Long.parseLong(newDepositTextField.getText()));
+                Book book = newDetail.getBook();
+                book.setAvailQuantity(book.getAvailQuantity() - 1);
             }
         });
 
-        deleteDetailBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Transaction.TransactionDetail toBeDeletedDetail = detailTableView.getSelectionModel().getSelectedItem();
-                if (toBeDeletedDetail.getReturnDate() != null)
-                    ExHandler.handle(new Exception("Không thể xoá sách đã trả."));
-                else {
-                    pendingDelete.add(toBeDeletedDetail);
-                    transaction.getAllDetails().remove(toBeDeletedDetail);
-                    Book book = toBeDeletedDetail.getBook();
-                    book.setAvailQuantity(book.getAvailQuantity() + 1);
-                    detailTableView.getSelectionModel().clearSelection();
-                }
+        deleteDetailBtn.setOnAction(event -> {
+            Transaction.TransactionDetail toBeDeletedDetail = detailTableView.getSelectionModel().getSelectedItem();
+            if (toBeDeletedDetail.getReturnDate() != null)
+                ExHandler.handle(new Exception("Không thể xoá sách đã trả."));
+            else {
+                pendingDelete.add(toBeDeletedDetail);
+                transaction.getAllDetails().remove(toBeDeletedDetail);
+                Book book = toBeDeletedDetail.getBook();
+                book.setAvailQuantity(book.getAvailQuantity() + 1);
+                detailTableView.getSelectionModel().clearSelection();
             }
         });
 
-        returnBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Transaction.TransactionDetail detail = detailTableView.getSelectionModel().getSelectedItem();
-                if (detail == null) {
-                    ExHandler.handle(new RuntimeException("Bạn chưa chọn chi tiết mượn trả nào."));
-                } else {
-                    detail.setReturnStaff(currentUser);
-                    detail.setReturnDate(new Timestamp(System.currentTimeMillis()));
-                    Book book = detail.getBook();
-                    book.setAvailQuantity(book.getAvailQuantity() + 1);
-                    detailTableView.refresh();
-                }
-            }
-        });
-
-        returnAllBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                transaction.getAllDetails().forEach(detail -> {
-                    if (detail.getReturnDate() == null) {
-                        detail.setReturnStaff(currentUser);
-                        detail.setReturnDate(new Timestamp(System.currentTimeMillis()));
-                        Book book = detail.getBook();
-                        book.setAvailQuantity(book.getAvailQuantity() + 1);
-                    }
-                });
+        returnBtn.setOnAction(event -> {
+            Transaction.TransactionDetail detail = detailTableView.getSelectionModel().getSelectedItem();
+            if (detail == null) {
+                ExHandler.handle(new RuntimeException("Bạn chưa chọn chi tiết mượn trả nào."));
+            } else {
+                detail.setReturnStaff(currentUser);
+                detail.setReturnDate(new Timestamp(System.currentTimeMillis()));
+                Book book = detail.getBook();
+                book.setAvailQuantity(book.getAvailQuantity() + 1);
                 detailTableView.refresh();
             }
         });
 
-        printBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Xuất phiếu");
-                alert.setHeaderText("Lưu thay đổi?");
-                alert.setContentText("Dữ liệu cần được lưu trước khi xuất phiếu.\nLưu dữ liệu?");
-                alert.showAndWait();
-                if (alert.getResult() == ButtonType.OK) {
-                    confirmBtn.fire();
-                    export();
+        returnAllBtn.setOnAction(event -> {
+            transaction.getAllDetails().forEach(detail -> {
+                if (detail.getReturnDate() == null) {
+                    detail.setReturnStaff(currentUser);
+                    detail.setReturnDate(new Timestamp(System.currentTimeMillis()));
+                    Book book = detail.getBook();
+                    book.setAvailQuantity(book.getAvailQuantity() + 1);
                 }
+            });
+            detailTableView.refresh();
+        });
+
+        printBtn.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Xuất phiếu");
+            alert.setHeaderText("Lưu thay đổi?");
+            alert.setContentText("Dữ liệu cần được lưu trước khi xuất phiếu.\nLưu dữ liệu?");
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.OK) {
+                confirmBtn.fire();
+                export();
             }
         });
 
-        cancelBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                ((Node) (event.getSource())).getScene().getWindow().hide();
-            }
-        });
+        cancelBtn.setOnAction(event -> ((Node) (event.getSource())).getScene().getWindow().hide());
 
         // COMBOBOX LISTENERS
 
-        snameComboBox.valueProperty().addListener(new ChangeListener<Staff>() {
-            @Override
-            public void changed(ObservableValue<? extends Staff> observableValue, Staff staff, Staff t1) {
-                sidTextField.setText(String.format("%06d", t1.getSid()));
-            }
-        });
+        snameComboBox.valueProperty().addListener((observableValue, staff, t1) -> sidTextField.setText(String.format("%06d", t1.getSid())));
 
-        rnameComboBox.valueProperty().addListener(new ChangeListener<Reader>() {
-            @Override
-            public void changed(ObservableValue<? extends Reader> observableValue, Reader reader, Reader t1) {
-                ridTextField.setText(String.format("%06d", t1.getRid()));
-            }
-        });
-        newBookComboBox.valueProperty().addListener(new ChangeListener<Book>() {
-            @Override
-            public void changed(ObservableValue<? extends Book> observableValue, Book book, Book t1) {
-                newDepositTextField.setText(String.valueOf(t1.getPrice()*50/100));
-            }
-        });
+        rnameComboBox.valueProperty().addListener((observableValue, reader, t1) -> ridTextField.setText(String.format("%06d", t1.getRid())));
+
+        newBookComboBox.valueProperty().addListener((observableValue, book, t1) -> newDepositTextField.setText(String.valueOf(t1.getPrice() * 50 / 100)));
     }
 
     //// END OF UI INITIALIZATION
@@ -465,13 +415,17 @@ public class EditTransactionController {
             ExHandler.handle(e);
         }
 
-        transaction.getAllDetails().forEach(transactionDetail -> {
+        boolean allIsReturned = true;
+        for (int i = 0; i < transaction.getAllDetails().size(); i++) {
             try {
-                BookDAO.getInstance().updateBookAvailQuantity(transactionDetail.getBook());
+                Transaction.TransactionDetail detail = transaction.getAllDetails().get(i);
+                BookDAO.getInstance().updateBookAvailQuantity(detail.getBook());
+                if (detail.getReturnDate() == null)
+                    allIsReturned = false;
             } catch (SQLException e) {
                 ExHandler.handle(e);
             }
-        });
+        };
 
         pendingDelete.forEach(transactionDetail -> {
             try {
@@ -480,6 +434,15 @@ public class EditTransactionController {
                 ExHandler.handle(e);
             }
         });
+
+        if (allIsReturned) {
+            transaction.getBorrower().setCanBorrow(true);
+            try {
+                ReaderDAO.getInstance().updateReader(transaction.getBorrower());
+            } catch (SQLException e) {
+                ExHandler.handle(e);
+            }
+        }
 
         if (success) {
             System.out.println("Sucessfully updated Transaction " + transaction.getTransactId());
@@ -493,48 +456,64 @@ public class EditTransactionController {
     }
 
     public void add() {
-
-        transaction.setBorrower(rnameComboBox.getSelectionModel().getSelectedItem());
-        transaction.setBorrowStaff(snameComboBox.getSelectionModel().getSelectedItem());
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            java.util.Date parsedDate = dateFormat.parse(borrowDateTextField.getText());
-            transaction.setBorrowingDate(new java.sql.Timestamp(parsedDate.getTime()));
-        } catch (Exception e) {
-            ExHandler.handle(e);
-        }
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            java.util.Date parsedDate = dateFormat.parse(dueDateTextField.getText());
-            transaction.setDueDate(new java.sql.Timestamp(parsedDate.getTime()));
-        } catch (Exception e) {
-            ExHandler.handle(e);
-        }
-
-        boolean success = false;
-
-        try {
-            success = TransactionDAO.getInstance().createTransaction(transaction);
-        } catch (SQLException e) {
-            ExHandler.handle(e);
-        }
-
-        transaction.getAllDetails().forEach(transactionDetail -> {
+        Reader reader = rnameComboBox.getSelectionModel().getSelectedItem();
+        if (!reader.isCanBorrow()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Lỗi");
+            alert.setHeaderText("Mượn sách không thành công");
+            alert.setContentText("Độc giả " + reader.getName() + " còn sách chưa trả. Không được mượn thêm sách mới.");
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            alert.showAndWait();
+        } else {
+            transaction.setBorrower(rnameComboBox.getSelectionModel().getSelectedItem());
+            transaction.setBorrowStaff(snameComboBox.getSelectionModel().getSelectedItem());
             try {
-                BookDAO.getInstance().updateBookAvailQuantity(transactionDetail.getBook());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                java.util.Date parsedDate = dateFormat.parse(borrowDateTextField.getText());
+                transaction.setBorrowingDate(new java.sql.Timestamp(parsedDate.getTime()));
+            } catch (Exception e) {
+                ExHandler.handle(e);
+            }
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                java.util.Date parsedDate = dateFormat.parse(dueDateTextField.getText());
+                transaction.setDueDate(new java.sql.Timestamp(parsedDate.getTime()));
+            } catch (Exception e) {
+                ExHandler.handle(e);
+            }
+
+            boolean success = false;
+
+            try {
+                success = TransactionDAO.getInstance().createTransaction(transaction);
             } catch (SQLException e) {
                 ExHandler.handle(e);
             }
-        });
 
-        if (success) {
-            System.out.println("Sucessfully added new transaction ID " + transaction.getTransactId());
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Thành công!");
-            alert.setHeaderText("Thêm mượn trả thành công");
-            alert.setContentText("Phiếu mượn trả ID " + transaction.getTransactId() + " đã được thêm thành công.");
-            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-            alert.showAndWait();
+            transaction.getAllDetails().forEach(transactionDetail -> {
+                try {
+                    BookDAO.getInstance().updateBookAvailQuantity(transactionDetail.getBook());
+                } catch (SQLException e) {
+                    ExHandler.handle(e);
+                }
+            });
+
+            reader.setCanBorrow(false);
+            try {
+                ReaderDAO.getInstance().updateReader(reader);
+            } catch (SQLException e) {
+                ExHandler.handle(e);
+            }
+
+            if (success) {
+                System.out.println("Sucessfully added new transaction ID " + transaction.getTransactId());
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thành công!");
+                alert.setHeaderText("Thêm mượn trả thành công");
+                alert.setContentText("Phiếu mượn trả ID " + transaction.getTransactId() + " đã được thêm thành công.");
+                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                alert.showAndWait();
+            }
         }
     }
 
@@ -627,7 +606,7 @@ public class EditTransactionController {
 
         LocalDate now = LocalDate.now();
 
-        replaceCellText(signatureTable.getRow(0).getCell(1), "Ngày "+now.getDayOfMonth()+" tháng "+now.getMonthValue()+" năm "+now.getYear());
+        replaceCellText(signatureTable.getRow(0).getCell(1), "Ngày " + now.getDayOfMonth() + " tháng " + now.getMonthValue() + " năm " + now.getYear());
         replaceCellText(signatureTable.getRow(2).getCell(0), transaction.getBorrower().getName());
         replaceCellText(signatureTable.getRow(2).getCell(1), currentUser.getName());
 
@@ -636,14 +615,14 @@ public class EditTransactionController {
         int size = transaction.getAllDetails().size();
         for (int i = 0; i < size; i++) {
             Transaction.TransactionDetail detail = transaction.getAllDetails().get(i);
-            int j = i+1;
+            int j = i + 1;
             replaceCellText(detailsTable.getRow(j).getCell(0), String.valueOf(j));
             replaceCellText(detailsTable.getRow(j).getCell(1), detail.getBook().getBid());
             replaceCellText(detailsTable.getRow(j).getCell(2), detail.getBook().getBookName());
-            replaceCellText(detailsTable.getRow(j).getCell(3), (detail.getReturnDate()==null)?"":new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(detail.getReturnDate()));
-            replaceCellText(detailsTable.getRow(j).getCell(4), (detail.getReturnStaff()==null)?"":detail.getReturnStaff().getName());
+            replaceCellText(detailsTable.getRow(j).getCell(3), (detail.getReturnDate() == null) ? "" : new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(detail.getReturnDate()));
+            replaceCellText(detailsTable.getRow(j).getCell(4), (detail.getReturnStaff() == null) ? "" : detail.getReturnStaff().getName());
             replaceCellText(detailsTable.getRow(j).getCell(5), String.format("%,d", detail.getDeposit()));
-            replaceCellText(detailsTable.getRow(j).getCell(6), detail.isExtended()?"Có":"Không");
+            replaceCellText(detailsTable.getRow(j).getCell(6), detail.isExtended() ? "Có" : "Không");
             replaceCellText(detailsTable.getRow(j).getCell(7), String.format("%,d", detail.getFine()));
 
             createNewRowWithFormat(detailsTable);

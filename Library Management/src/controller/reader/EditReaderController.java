@@ -8,7 +8,6 @@ package controller.reader;
 import dao.ReaderDAO;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,8 +21,6 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Optional;
 
 public class EditReaderController {
 
@@ -62,13 +59,10 @@ public class EditReaderController {
 
     public void init() {
         uiInit();
-        confirmBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (validate()) {
-                    add();
-                    ((Node) (event.getSource())).getScene().getWindow().hide();
-                }
+        confirmBtn.setOnAction(event -> {
+            if (validate()) {
+                add();
+                ((Node) (event.getSource())).getScene().getWindow().hide();
             }
         });
     }
@@ -87,13 +81,10 @@ public class EditReaderController {
         addressTextArea.setText(reader.getAddress());
         canBorrowCheckBox.setSelected(reader.isCanBorrow());
 
-        confirmBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (validate()) {
-                    update(reader);
-                    ((Node) (event.getSource())).getScene().getWindow().hide();
-                }
+        confirmBtn.setOnAction(event -> {
+            if (validate()) {
+                update(reader);
+                ((Node) (event.getSource())).getScene().getWindow().hide();
             }
         });
     }

@@ -10,7 +10,7 @@
   ~ Project I - Library Management System
   -->
 
-<ScrollPane centerShape="false" fitToWidth="true" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.book.ReportBookController">
+<ScrollPane centerShape="false" fitToHeight="true" fitToWidth="true" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.book.ReportBookController">
    <content>
       <AnchorPane fx:id="reportPane" style="-fx-background-color: #f0f0f0;">
           <children>

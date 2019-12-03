@@ -7,30 +7,45 @@ import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
 import model.Reader;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.xssf.usermodel.*;
 import util.ExHandler;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
+
+import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.CREATE_NULL_AS_BLANK;
 
 public class SearchReaderController {
 
@@ -188,11 +203,13 @@ public class SearchReaderController {
         c.editMenu.setDisable(false);
         c.deleteMenu.setDisable(false);
         c.exportMenu.setDisable(false);
+        c.importMenu.setDisable(false);
 
         c.addMenu.setOnAction(e -> addBtn.fire());
         c.editMenu.setOnAction(e -> editBtn.fire());
         c.deleteMenu.setOnAction(e -> deleteBtn.fire());
         c.exportMenu.setOnAction(e -> export());
+        c.importMenu.setOnAction(event -> importData());
     }
 
     public void reloadData() {
@@ -201,12 +218,7 @@ public class SearchReaderController {
                 data = FXCollections.observableArrayList(ReaderDAO.getInstance().getAllReaders());
                 readerTable.setItems(data);
             } catch (SQLException e) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        ExHandler.handle(e);
-                    }
-                });
+                Platform.runLater(() -> ExHandler.handle(e));
             }
         };
         new Thread(reload).start();
@@ -214,6 +226,9 @@ public class SearchReaderController {
 
     public void refresh() {
         reloadData();
+
+        searchChoiceBox.getSelectionModel().clearSelection();
+        searchType = -1;
 
         RotateTransition rt = new RotateTransition(Duration.millis(750), refreshIcon);
         rt.setByAngle(360 * 3);
@@ -251,12 +266,7 @@ public class SearchReaderController {
                     readerTable.setItems(data);
                 });
             } catch (SQLException e) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        ExHandler.handle(e);
-                    }
-                });
+                Platform.runLater(() -> ExHandler.handle(e));
             }
         };
 
@@ -360,6 +370,198 @@ public class SearchReaderController {
     }
 
     public void export() {
+        if (data.size() == 0) {
+            ExHandler.handle(new Exception("Không tìm thấy dữ liệu phù hợp với lựa chọn tìm kiếm."));
+        } else {
+            File file = new File("src/resources/form/DsDocGia.xlsx");
 
+            XSSFWorkbook workbook;
+
+            try {
+                FileInputStream inputStream = new FileInputStream(file);
+                workbook = new XSSFWorkbook(inputStream);
+                inputStream.close();
+            } catch (IOException e) {
+                ExHandler.handle(e);
+                return;
+            }
+
+            XSSFSheet sheet = workbook.getSheetAt(0);
+
+            // CELL STYLES
+            XSSFCellStyle tableElementStyle = workbook.createCellStyle();
+            tableElementStyle.setBorderLeft(BorderStyle.THIN);
+            tableElementStyle.setBorderRight(BorderStyle.THIN);
+            tableElementStyle.setFont(workbook.createFont());
+            tableElementStyle.getFont().setFontHeightInPoints((short) 9);
+            tableElementStyle.getFont().setFontName("Arial");
+            tableElementStyle.setWrapText(true);
+
+            XSSFCellStyle dateStyle = workbook.createCellStyle();
+            dateStyle.setFont(workbook.createFont());
+            dateStyle.getFont().setFontHeightInPoints((short) 9);
+            dateStyle.getFont().setFontName("Arial");
+            dateStyle.setAlignment(HorizontalAlignment.CENTER);
+            dateStyle.getFont().setItalic(true);
+
+            XSSFCellStyle searchInfoStyle = workbook.createCellStyle();
+            searchInfoStyle.setFont(workbook.createFont());
+            searchInfoStyle.getFont().setFontHeightInPoints((short) 9);
+            searchInfoStyle.setAlignment(HorizontalAlignment.CENTER);
+            searchInfoStyle.getFont().setFontName("Arial");
+
+            XSSFCell cell = null;
+
+            Reader reader;
+
+            // DATE
+            cell = sheet.getRow(1).getCell(5);
+            cell.setCellValue(LocalDate.now().format(DateTimeFormatter.ofPattern("'Ngày 'dd' tháng 'MM' năm 'yyyy")));
+            cell.setCellStyle(dateStyle);
+
+            // SEARCH TYPE
+            if (searchType != -1) {
+                String searchChoices[] = {"Mã độc giả", "Tên", "Thời gian tạo", "Giới tính", "Trạng thái"};
+                //                             0            1       2               3           4
+                String searchInfoString = searchChoices[searchType];
+
+                switch (searchType) {
+                    case 0:
+                        searchInfoString += ": " + searchInputField.getText();
+                        break;
+                    case 1:
+                        searchInfoString += " có chữ: " + searchInputField.getText();
+                        break;
+                    case 2:
+                        searchInfoString += " từ " +
+                                DateTimeFormatter.ofPattern("dd/MM/YYYY").format(searchStartDate.getValue()) + " đến " +
+                                DateTimeFormatter.ofPattern("dd/MM/YYYY").format(searchEndDate.getValue());
+                        break;
+                    case 3:
+                    case 4:
+                        searchInfoString += ": " + searchConditionChoiceBox.getSelectionModel().getSelectedItem();
+                        break;
+                }
+
+                cell = sheet.getRow(5).getCell(0);
+                cell.setCellStyle(searchInfoStyle);
+                cell.setCellValue(searchInfoString);
+            }
+
+            // DATA
+            for (int i = 0; i < data.size(); i++) {
+                reader = data.get(i);
+                int row = 8 + i;
+                sheet.createRow(row);
+
+                cell = sheet.getRow(row).createCell(0);
+                cell.setCellValue(i + 1);
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(1);
+                cell.setCellValue(String.format("%06d", reader.getRid()));
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(2);
+                cell.setCellValue(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(reader.getCreated()));
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(3);
+                cell.setCellValue(reader.getName());
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(4);
+                cell.setCellValue(new SimpleDateFormat("dd/MM/yyyy").format(reader.getDob()));
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(5);
+                cell.setCellValue(reader.getGender() ? "Nam" : "Nữ");
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(6);
+                cell.setCellValue(String.valueOf(reader.getIdCardNum()));
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(7);
+                cell.setCellValue(reader.getAddress());
+                cell.setCellStyle(tableElementStyle);
+
+                cell = sheet.getRow(row).createCell(8);
+                cell.setCellValue(reader.isCanBorrow() ? "Được mượn" : "Không được mượn");
+                cell.setCellStyle(tableElementStyle);
+            }
+
+            // Ghi file
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Chọn vị trí lưu.");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
+            );
+            fileChooser.setInitialFileName("Thong Tin Doc Gia " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+            File selectedFile = fileChooser.showSaveDialog(readerTable.getScene().getWindow());
+
+            try {
+                FileOutputStream output = new FileOutputStream(selectedFile);
+                workbook.write(output);
+                output.close();
+                Desktop.getDesktop().open(selectedFile);
+            } catch (IOException e) {
+                ExHandler.handle(e);
+            }
+        }
+    }
+
+    public void importData() {
+
+        ArrayList<Reader> newReaders = new ArrayList<>();
+        Reader newReader;
+
+        XSSFWorkbook excelWorkBook;
+
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Chọn file.");
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
+            );
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
+            File selectedFile = fileChooser.showOpenDialog(readerTable.getScene().getWindow());
+
+
+            FileInputStream inputStream = new FileInputStream(selectedFile);
+            excelWorkBook = new XSSFWorkbook(inputStream);
+            inputStream.close();
+        } catch (IOException e) {
+            ExHandler.handle(e);
+            return;
+        }
+
+        XSSFSheet sheet = excelWorkBook.getSheetAt(0);
+
+        // DATA
+        Iterator rows = sheet.rowIterator();
+        XSSFRow row = (XSSFRow) rows.next();
+        if (row.getLastCellNum() >= 6) {
+            while (rows.hasNext()) {
+                row = (XSSFRow) rows.next();
+                newReader = new Reader();
+
+                newReader.setName(row.getCell(0, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newReader.setDob(new Date(row.getCell(1, CREATE_NULL_AS_BLANK).getDateCellValue().getTime()));
+                newReader.setGender(row.getCell(2, CREATE_NULL_AS_BLANK).getBooleanCellValue());
+                newReader.setIdCardNum((long) row.getCell(3, CREATE_NULL_AS_BLANK).getNumericCellValue());
+                newReader.setAddress(row.getCell(4, CREATE_NULL_AS_BLANK).getStringCellValue());
+                newReader.setCanBorrow(row.getCell(5, CREATE_NULL_AS_BLANK).getBooleanCellValue());
+
+                newReaders.add(newReader);
+            }
+        } else
+            ExHandler.handle(new Exception("File không đúng định dạng." + row.getLastCellNum()));
+
+        ReaderDAO.getInstance().importReader(newReaders);
+        refresh();
     }
 }

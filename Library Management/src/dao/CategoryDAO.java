@@ -9,11 +9,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Category;
 import util.DbConnection;
+import util.ExHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,36 @@ public class CategoryDAO {
 
         return result;
     }
+
+    public void importCategory(ArrayList<Category> categories) {
+        String sql = "INSERT INTO [category](catId, catName) VALUES (?, ?)";
+
+        try {
+            Connection con = DbConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            String err = "";
+            Category category = null;
+            for (int i = 0; i < categories.size(); i++) {
+                category = categories.get(i);
+                try {
+                    stmt.setString(1, category.getCatId());
+                    stmt.setNString(2, category.getCatName());
+
+                    stmt.executeUpdate();
+                } catch (SQLException e) {
+                    err += "Có vấn đề nhập mục thứ " + (i+1) + " - Mã: " + category.getCatId() + ".\n";
+                }
+            }
+            stmt.close();
+            con.close();
+
+            if (!err.isBlank())
+                ExHandler.handleLong(err);
+        } catch (SQLException e) {
+            ExHandler.handle(e);
+        }
+    }
+
     // READ
 
     public Category getCategory(String catId) throws SQLException {

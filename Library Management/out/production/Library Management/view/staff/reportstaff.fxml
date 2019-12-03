@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<!--
+  ~ Copyright (c) 2019 Nghia Tran.
+  ~ Project I - Library Management System
+  -->
+
+<ScrollPane centerShape="false" fitToHeight="true" fitToWidth="true" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.staff.ReportStaffController">
+   <content>
+      <AnchorPane fx:id="reportPane" style="-fx-background-color: #f0f0f0;">
+          <children>
+              <Label fx:id="headerLabel" layoutX="29.0" layoutY="26.0" text="Thống kê nhân viên" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
+                  <font>
+                      <Font size="36.0" />
+                  </font>
+              </Label>
+              <Button fx:id="printBtn" layoutX="607.0" layoutY="44.0" mnemonicParsing="false" prefHeight="30.0" text="Xuất báo cáo" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="45.0" />
+            <Label layoutX="38.0" layoutY="103.0" text="Tổng số NV" AnchorPane.leftAnchor="30.0" />
+            <Label layoutX="290.0" layoutY="103.0" text="Số quản lý" />
+            <Label layoutX="523.0" layoutY="103.0" text="Số thủ thư:" />
+            <Label layoutX="30.0" layoutY="133.0" text="Số nhân viên theo giới tính" />
+            <TableView fx:id="table1" layoutX="30.0" layoutY="167.0" prefHeight="175.0" prefWidth="329.0" AnchorPane.leftAnchor="30.0" />
+            <PieChart fx:id="pieChart1" layoutX="30.0" layoutY="383.0" legendVisible="false" prefHeight="279.0" prefWidth="324.0" titleSide="BOTTOM" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="868.0" />
+            <Label layoutX="400.0" layoutY="133.0" text="Số nhân viên gia nhập theo thời gian theo giới tính " />
+            <TableView fx:id="table2" layoutX="400.0" layoutY="167.0" prefHeight="450.0" prefWidth="687.0" AnchorPane.leftAnchor="400.0" />
+            <Label fx:id="staffCount" layoutX="145.0" layoutY="103.0" text="Label" />
+            <Label fx:id="adminCount" layoutX="409.0" layoutY="103.0" text="Label" />
+            <Label fx:id="noAdminCount" layoutX="636.0" layoutY="103.0" text="Label" />
+
+          </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>

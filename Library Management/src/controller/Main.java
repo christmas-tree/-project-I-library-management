@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import jfxtras.styles.jmetro.JMetro;
 import jfxtras.styles.jmetro.Style;
@@ -27,6 +28,7 @@ public class Main extends Application {
         primaryStage.setTitle("Đăng nhập - QLTV");
         primaryStage.setScene(firstScene);
         primaryStage.setResizable(false);
+        primaryStage.getIcons().add(new Image("/resources/icon/app-icon.png"));
         primaryStage.show();
         LoginController loginController = loader.getController();
         loginController.init();

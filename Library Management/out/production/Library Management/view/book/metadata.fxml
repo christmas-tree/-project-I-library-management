@@ -16,25 +16,25 @@
          <font>
             <Font size="30.0" />
          </font></Label>
-        <TextField fx:id="catIdField" promptText="Mã thể loại" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextField fx:id="catNameField" promptText="Thể loại" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Button fx:id="addCatBtn" mnemonicParsing="false" prefWidth="150.0" text="Thêm" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        <TextField fx:id="catIdField" minHeight="30.0" prefHeight="30.0" promptText="Mã thể loại" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="catNameField" minHeight="30.0" prefHeight="30.0" promptText="Thể loại" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Button fx:id="addCatBtn" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Thêm" GridPane.columnIndex="2" GridPane.rowIndex="1" />
 
         <Label text="Nhà xuất bản" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="0">
          <font>
             <Font size="30.0" />
          </font></Label>
-        <TextField fx:id="pubIdField" promptText="Mã NXB" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-        <TextField fx:id="pubNameField" promptText="Tên NXB" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-        <Button fx:id="addPubBtn" mnemonicParsing="false" prefWidth="150.0" text="Thêm" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+        <TextField fx:id="pubIdField" minHeight="30.0" prefHeight="30.0" promptText="Mã NXB" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+        <TextField fx:id="pubNameField" minHeight="30.0" prefHeight="30.0" promptText="Tên NXB" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+        <Button fx:id="addPubBtn" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Thêm" GridPane.columnIndex="5" GridPane.rowIndex="1" />
 
         <Label text="Ngôn ngữ" GridPane.columnIndex="6" GridPane.columnSpan="3" GridPane.rowIndex="0">
          <font>
             <Font size="30.0" />
          </font></Label>
-        <TextField fx:id="langIdField" promptText="Mã NN" GridPane.columnIndex="6" GridPane.rowIndex="1" />
-        <TextField fx:id="languageField" promptText="Ngôn ngữ" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-        <Button fx:id="addLangBtn" mnemonicParsing="false" prefWidth="150.0" text="Thêm" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+        <TextField fx:id="langIdField" minHeight="30.0" prefHeight="30.0" promptText="Mã NN" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+        <TextField fx:id="languageField" minHeight="30.0" prefHeight="30.0" promptText="Ngôn ngữ" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+        <Button fx:id="addLangBtn" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Thêm" GridPane.columnIndex="8" GridPane.rowIndex="1" />
 <!--        <Button fx:id="refreshBtn" layoutY="20.0" mnemonicParsing="false" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="15.0">-->
 <!--            <graphic>-->
 <!--                <ImageView fx:id="refreshIcon" fitHeight="18.0" fitWidth="15.0" layoutX="807.0" layoutY="20.0" pickOnBounds="false" preserveRatio="true">-->
@@ -44,7 +44,7 @@
 <!--                </ImageView>-->
 <!--            </graphic>-->
 <!--        </Button>-->
-        <TableView fx:id="catTable" editable="true" layoutX="115.0" layoutY="125.0" prefHeight="442.0" prefWidth="262.0" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="2">
+        <TableView fx:id="catTable" editable="true" layoutX="115.0" layoutY="125.0" prefHeight="442.0" prefWidth="262.0" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
@@ -56,7 +56,7 @@
             <TableColumn fx:id="catNameCol" minWidth="100.0" prefWidth="150.0" text="Thể loại" />
          </columns>
         </TableView>
-        <TableView fx:id="pubTable" editable="true" layoutX="357.0" layoutY="65.0" prefHeight="442.0" prefWidth="300.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="2">
+        <TableView fx:id="pubTable" editable="true" layoutX="357.0" layoutY="65.0" prefHeight="442.0" prefWidth="300.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
@@ -68,7 +68,7 @@
             <TableColumn fx:id="pubNameCol" minWidth="100.0" prefWidth="150.0" text="Tên NXB" />
          </columns>
         </TableView>
-        <TableView fx:id="langTable" editable="true" layoutX="702.0" layoutY="125.0" prefHeight="442.0" prefWidth="472.0" GridPane.columnIndex="6" GridPane.columnSpan="3" GridPane.rowIndex="2">
+        <TableView fx:id="langTable" editable="true" layoutX="702.0" layoutY="125.0" prefHeight="442.0" prefWidth="472.0" GridPane.columnIndex="6" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
@@ -95,7 +95,7 @@
    </columnConstraints>
    <rowConstraints>
       <RowConstraints />
-      <RowConstraints />
+      <RowConstraints prefHeight="30.0" />
       <RowConstraints />
    </rowConstraints>
    <padding>

@@ -9,11 +9,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Language;
 import util.DbConnection;
+import util.ExHandler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +43,36 @@ public class LanguageDAO {
 
         return result;
     }
+
+    public void importLanguage(ArrayList<Language> languages) {
+        String sql = "INSERT INTO [language](langId, language) VALUES (?, ?)";
+
+        try {
+            Connection con = DbConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            String err = "";
+            Language language = null;
+            for (int i = 0; i < languages.size(); i++) {
+                language = languages.get(i);
+                try {
+                    stmt.setString(1, language.getLangId());
+                    stmt.setNString(2, language.getLanguage());
+
+                    stmt.executeUpdate();
+                } catch (SQLException e) {
+                    err += "Có vấn đề nhập mục thứ " + (i+1) + " - Mã: " + language.getLangId() + ".\n";
+                }
+            }
+            stmt.close();
+            con.close();
+
+            if (!err.isBlank())
+                ExHandler.handleLong(err);
+        } catch (SQLException e) {
+            ExHandler.handle(e);
+        }
+    }
+
     // READ
 
     public Language getLanguage(String langId) throws SQLException {

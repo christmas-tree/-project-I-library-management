@@ -8,28 +8,44 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="window" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.basic.IndexController">
+<BorderPane fx:id="window" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.basic.IndexController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu fx:id="menuFile" mnemonicParsing="false" text="Hệ thống">
                     <items>
-                  <MenuItem fx:id="logOutMenu" mnemonicParsing="false" text="Đăng xuất" />
-                        <MenuItem fx:id="exitMenu" mnemonicParsing="false" text="Thoát" />
+                        <MenuItem fx:id="logOutMenu" mnemonicParsing="false" text="Đăng xuất"/>
+                        <MenuItem fx:id="exitMenu" mnemonicParsing="false" text="Thoát"/>
                     </items>
                 </Menu>
                 <Menu fx:id="menuEdit" mnemonicParsing="false" text="Chỉnh sửa">
                     <items>
-                  <MenuItem fx:id="addMenu" mnemonicParsing="false" text="Thêm" />
-                  <MenuItem fx:id="editMenu" mnemonicParsing="false" text="Sửa" />
-                        <MenuItem fx:id="deleteMenu" mnemonicParsing="false" text="Xoá" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="exportMenu" mnemonicParsing="false" text="Xuất file" />
+                        <MenuItem fx:id="addMenu" mnemonicParsing="false" text="Thêm"/>
+                        <MenuItem fx:id="editMenu" mnemonicParsing="false" text="Sửa"/>
+                        <MenuItem fx:id="deleteMenu" mnemonicParsing="false" text="Xoá"/>
+                        <SeparatorMenuItem mnemonicParsing="false"/>
+                        <MenuItem fx:id="exportMenu" mnemonicParsing="false" text="Xuất danh sách"/>
+                        <!--                        <MenuItem fx:id="backupMenu" mnemonicParsing="false" text="Sao lưu"/>-->
+                        <MenuItem fx:id="importMenu" mnemonicParsing="false" text="Nhập dữ liệu"/>
+
+                    </items>
+                </Menu>
+                <Menu fx:id="menuForm" mnemonicParsing="false" text="Biểu mẫu">
+                    <items>
+                        <Menu mnemonicParsing="false" text="Biểu mẫu nhập sách">
+                            <items>
+                                <MenuItem fx:id="formBookMenu" mnemonicParsing="false" text="Biểu mẫu nhập đầu sách"/>
+                                <MenuItem fx:id="formMetaMenu" mnemonicParsing="false" text="Biểu mẫu thể loại/NN/NXB"/>
+                            </items>
+                        </Menu>
+                        <MenuItem fx:id="formReaderMenu" mnemonicParsing="false" text="Biểu mẫu nhập độc giả"/>
+                        <MenuItem fx:id="formStaffMenu" mnemonicParsing="false" text="Biểu mẫu nhập nhân viên"/>
                     </items>
                 </Menu>
                 <Menu fx:id="menuHelp" mnemonicParsing="false" text="Trợ giúp">
                     <items>
-                        <MenuItem fx:id="aboutMenu" mnemonicParsing="false" text="Giới thiệu" />
+                        <MenuItem fx:id="aboutMenu" mnemonicParsing="false" text="Giới thiệu"/>
                     </items>
                 </Menu>
             </menus>
@@ -38,13 +54,15 @@
     <left>
         <VBox fx:id="leftVBox" xmlns:fx="http://javafx.com/fxml">
             <children>
-                <TreeView fx:id="sideMenu" maxHeight="1.7976931348623157E308" prefHeight="741.0" prefWidth="200.0" showRoot="false" />
+                <TreeView fx:id="sideMenu" maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="200.0"
+                          showRoot="false"/>
             </children>
         </VBox>
     </left>
     <bottom>
         <HBox alignment="CENTER">
-            <Label fx:id="footerNote" alignment="CENTER" contentDisplay="CENTER" text="Trần Trung Nghĩa - 20173281 - © 2019" textAlignment="CENTER" />
+            <Label fx:id="footerNote" alignment="CENTER" contentDisplay="CENTER"
+                   text="Trần Trung Nghĩa - 20173281 - © 2019" textAlignment="CENTER"/>
         </HBox>
     </bottom>
 

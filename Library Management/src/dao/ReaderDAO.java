@@ -29,6 +29,7 @@ public class ReaderDAO {
 
         Connection con = DbConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(sql);
+
         stmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
         stmt.setNString(2, reader.getName());
         stmt.setDate(3, reader.getDob());
@@ -42,6 +43,43 @@ public class ReaderDAO {
 
         return result;
     }
+
+    public void importReader(ArrayList<Reader> readers) {
+        String sql = "INSERT INTO [reader](created, name, dob, gender, idCardNum, address, canBorrow) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            Connection con = DbConnection.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            String err = "";
+            Reader reader = null;
+            for (int i = 0; i < readers.size(); i++) {
+                reader = readers.get(i);
+                try {
+                    stmt.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+                    stmt.setNString(2, reader.getName());
+                    stmt.setDate(3, reader.getDob());
+                    stmt.setBoolean(4, reader.getGender());
+                    stmt.setLong(5, reader.getIdCardNum());
+                    stmt.setNString(6, reader.getAddress());
+                    stmt.setBoolean(7, reader.isCanBorrow());
+
+                    stmt.executeUpdate();
+                } catch (SQLException e) {
+                    err += "Có vấn đề nhập độc giả số " + (i+1) + " - "+ reader.getName() + ".\n";
+                }
+            }
+            stmt.close();
+            con.close();
+
+            if (!err.isBlank())
+                ExHandler.handleLong(err);
+        } catch (SQLException e) {
+            ExHandler.handle(e);
+        }
+    }
+
+
+
     // READ
 
     public Reader getReader(String rid) throws SQLException {
@@ -234,6 +272,7 @@ public class ReaderDAO {
 
         return result;
     }
+
 
     // DELETE
     public boolean deleteReader(Reader reader) throws SQLException {
