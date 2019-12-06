@@ -96,7 +96,15 @@ public class ReportReaderController {
         // TABLE 2
         populateTable(SQLTable2, table2, table2Data);
 
+        // BUTTON
         printBtn.setOnAction(event -> export());
+
+// MENU
+        c.addMenu.setDisable(true);
+        c.editMenu.setDisable(true);
+        c.deleteMenu.setDisable(true);
+        c.importMenu.setDisable(true);
+
         c.exportMenu.setDisable(false);
         c.exportMenu.setOnAction(event -> printBtn.fire());
     }
@@ -152,7 +160,7 @@ public class ReportReaderController {
     }
 
     private boolean export() {
-        File file = new File("src/resources/form/BaoCaoNhanVien.xlsx");
+        File file = new File("src/resources/form/BaoCaoDocGia.xlsx");
 
         XSSFWorkbook workbook;
 
@@ -219,8 +227,8 @@ public class ReportReaderController {
 
         // TABLE 2
         for (int i = 0; i < table2Data.size(); i++) {
-            XSSFRow row = sheet.getRow(10+i);
-            if (row == null) row = sheet.createRow(10+i);
+            XSSFRow row = sheet.getRow(10 + i);
+            if (row == null) row = sheet.createRow(10 + i);
 
             cell = row.createCell(4);
             cell.setCellValue(table2Data.get(i).get(0));

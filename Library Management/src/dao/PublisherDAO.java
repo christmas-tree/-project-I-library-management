@@ -94,7 +94,7 @@ public class PublisherDAO {
     }
 
     public Map<String, Publisher> getAllPublishers() throws SQLException {
-        String sql = "SELECT * FROM [publisher]";
+        String sql = "SELECT * FROM [publisher] ORDER BY pubId";
         Publisher publisher = null;
         Map<String, Publisher> pubList = new HashMap<>();
 

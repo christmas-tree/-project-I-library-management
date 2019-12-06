@@ -111,7 +111,7 @@ public class ReaderDAO {
     }
 
     public List<Reader> getAllReaders() throws SQLException {
-        String sql = "SELECT * FROM [reader]";
+        String sql = "SELECT * FROM [reader] ORDER BY name ASC";
         Reader reader = null;
         List<Reader> readerList = new ArrayList<>();
 
@@ -266,6 +266,21 @@ public class ReaderDAO {
         stmt.setNString(5, reader.getAddress());
         stmt.setBoolean(6, reader.isCanBorrow());
         stmt.setInt(7, reader.getRid());
+
+        boolean result = (stmt.executeUpdate() > 0);
+        con.close();
+
+        return result;
+    }
+
+    public boolean updateReaderStatus(Reader reader) throws SQLException {
+        String sql = "UPDATE [reader] SET canBorrow=? WHERE rid=?";
+
+        Connection con = DbConnection.getConnection();
+        PreparedStatement stmt = con.prepareStatement(sql);
+
+        stmt.setBoolean(1, reader.isCanBorrow());
+        stmt.setInt(2, reader.getRid());
 
         boolean result = (stmt.executeUpdate() > 0);
         con.close();

@@ -116,13 +116,17 @@ public class ReportTransactionController {
     // STATISTIC
 
     private final String SQLTable1 = "SELECT FORMAT(t.borrowingDate, 'yyyy-MM') [Thời gian], COUNT(*) [Số lượt] FROM transactionDetail dt, [transaction] t WHERE dt.transactId=t.transactId GROUP BY FORMAT(t.borrowingDate, 'yyyy-MM') ORDER BY FORMAT(t.borrowingDate, 'yyyy-MM') DESC";
-    private final String SQLTable2 = "SELECT catName [Thể loại], COUNT(*) [Số lượt mượn], AVG(DATEDIFF(day, borrowingDate, returnDate)) [Thời gian mượn TB]\n" +
+    private final String SQLTable2 = "SELECT catName [Thể loại], COUNT(*) [Số lượt mượn], [Thời gian mượn TB] = ISNULL(AVG(DATEDIFF(day, borrowingDate, returnDate)), 0)\n" +
             "FROM [transaction] t, transactionDetail dt, book b, category c\n" +
             "WHERE t.transactId = dt.transactId AND dt.bid = b.bid AND b.catId = c.catId\n" +
             "GROUP BY catName";
     private final String SQLTable3L = "SELECT TOP 100 bookName [Tên sách], COUNT(transactId) [Số lượt] FROM book b LEFT JOIN transactionDetail dt ON dt.bid=b.bid GROUP BY bookName ORDER BY [Số lượt] DESC";
     private final String SQLTable3R = "SELECT TOP 100 bookName [Tên sách], COUNT(transactId) [Số lượt] FROM book b LEFT JOIN transactionDetail dt ON dt.bid=b.bid GROUP BY bookName ORDER BY [Số lượt] ASC";
-    private final String SQLTable4 = "SELECT FORMAT(borrowingDate, 'yyyy-MM') [Thời gian], SUM(fine) [Tổng tiền phạt], AVG(fine) [Trung bình] FROM transactionDetail dt, [transaction] t WHERE dt.transactId=t.transactId GROUP BY FORMAT(borrowingDate, 'yyyy-MM')";
+    private final String SQLTable4 = "SELECT FORMAT(borrowingDate, 'yyyy - MM') [Thời gian], [Tổng tiền phạt] = ISNULL(SUM(fine), 0), [Trung bình] = ISNULL(AVG(fine), 0)\n" +
+            "FROM transactionDetail dt,\n" +
+            "     [transaction] t\n" +
+            "WHERE dt.transactId = t.transactId\n" +
+            "GROUP BY FORMAT(borrowingDate, 'yyyy - MM')\n";
 
     public void init(IndexController c) {
 
@@ -163,8 +167,8 @@ public class ReportTransactionController {
         // CHART 2
         XYChart.Series<String, Integer> barChart2Data = new XYChart.Series<>();
         barChart2Data.setName("Tổng số lượt mượn sách theo thể loại");
-        for (int j = 0; j < table1Data.size(); j++) {
-            barChart2Data.getData().add(new XYChart.Data(table1Data.get(j).get(0), Integer.parseInt(table1Data.get(j).get(1))));
+        for (int j = 0; j < table2Data.size(); j++) {
+            barChart2Data.getData().add(new XYChart.Data(table2Data.get(j).get(0), Integer.parseInt(table2Data.get(j).get(1))));
         }
         barChart2.getData().add(barChart2Data);
 
@@ -175,7 +179,7 @@ public class ReportTransactionController {
         // TABLE 4
         populateTable(SQLTable4, table4, table4Data);
 
-        // CHART 2
+        // CHART 4
         XYChart.Series<String, Integer> lineChart4Data1 = new XYChart.Series<>();
         lineChart4Data1.setName("Tổng số tiền phạt theo thời gian");
         XYChart.Series<String, Integer> lineChart4Data2 = new XYChart.Series<>();
@@ -189,7 +193,12 @@ public class ReportTransactionController {
         lineChart4.getData().addAll(lineChart4Data1, lineChart4Data2);
 
         // BUTTONS
-//        printBtn.setOnAction(event -> export());
+        printBtn.setOnAction(event -> export());
+        c.addMenu.setDisable(true);
+        c.editMenu.setDisable(true);
+        c.deleteMenu.setDisable(true);
+        c.importMenu.setDisable(true);
+
         c.exportMenu.setDisable(false);
         c.exportMenu.setOnAction(event -> printBtn.fire());
     }
@@ -243,9 +252,9 @@ public class ReportTransactionController {
             ExHandler.handle(e);
         }
     }
-/*
+
     private boolean export() {
-        File file = new File("src/resources/form/BaoCaoNhanVien.xlsx");
+        File file = new File("src/resources/form/BaoCaoMuonTra.xlsx");
 
         XSSFWorkbook workbook;
 
@@ -260,9 +269,16 @@ public class ReportTransactionController {
 
         XSSFSheet sheet = workbook.getSheetAt(0);
 
-        sheet.getRow(6).getCell(2).setCellValue(Integer.parseInt(staffCount.getText()));
-        sheet.getRow(6).getCell(4).setCellValue(Integer.parseInt(adminCount.getText()));
-        sheet.getRow(6).getCell(6).setCellValue(Integer.parseInt(noAdminCount.getText()));
+        sheet.getRow(6).getCell(2).setCellValue(number1);
+        sheet.getRow(7).getCell(2).setCellValue(number2);
+        sheet.getRow(6).getCell(4).setCellValue(number3);
+        sheet.getRow(7).getCell(4).setCellValue(number4);
+        sheet.getRow(6).getCell(6).setCellValue(number5);
+        sheet.getRow(7).getCell(6).setCellValue(number6);
+        sheet.getRow(6).getCell(8).setCellValue(number7);
+        sheet.getRow(7).getCell(8).setCellValue(number8);
+
+
 
         // CELL STYLES
         XSSFCellStyle dateStyle = workbook.createCellStyle();
@@ -299,21 +315,30 @@ public class ReportTransactionController {
         cell.setCellValue(LocalDate.now().format(DateTimeFormatter.ofPattern("'Ngày 'dd' tháng 'MM' năm 'yyyy")));
         cell.setCellStyle(dateStyle);
 
+        int nextRowIndex = 11;
+        int shiftedRows = 0;
+
+        if (table2Data.size() > table1Data.size())
+            shiftedRows =  table2Data.size() - 1;
+        else
+            shiftedRows = table1Data.size() - 1;
+
         // TABLE 1
+        sheet.shiftRows(nextRowIndex, sheet.getLastRowNum(), shiftedRows);
         for (int i = 0; i < table1Data.size(); i++) {
-            cell = sheet.createRow(10 + i).createCell(1);
+            cell = sheet.createRow(11 + i).createCell(1);
             cell.setCellValue(table1Data.get(i).get(0));
             cell.setCellStyle(tableFirstElementStyle);
 
-            cell = sheet.getRow(10 + i).createCell(2);
+            cell = sheet.getRow(11 + i).createCell(2);
             cell.setCellValue(Integer.parseInt(((table1Data.get(i).get(1)))));
             cell.setCellStyle(tableElementStyle);
         }
 
         // TABLE 2
         for (int i = 0; i < table2Data.size(); i++) {
-            XSSFRow row = sheet.getRow(10 + i);
-            if (row == null) row = sheet.createRow(10 + i);
+            XSSFRow row = sheet.getRow(11+i);
+            if (row == null) row = sheet.createRow(11+i);
 
             cell = row.createCell(4);
             cell.setCellValue(table2Data.get(i).get(0));
@@ -328,13 +353,54 @@ public class ReportTransactionController {
             cell.setCellStyle(tableElementStyle);
         }
 
+        nextRowIndex = nextRowIndex + shiftedRows + 5;
+
+        // TABLE 3L
+        sheet.shiftRows(nextRowIndex, sheet.getLastRowNum(), 99);
+        for (int i = 0; i < table3LData.size(); i++) {
+            cell = sheet.createRow(nextRowIndex + i).createCell(1);
+            cell.setCellValue(table3LData.get(i).get(0));
+            cell.setCellStyle(tableFirstElementStyle);
+
+            cell = sheet.getRow(nextRowIndex + i).createCell(2);
+            cell.setCellValue(Integer.parseInt(((table3LData.get(i).get(1)))));
+            cell.setCellStyle(tableElementStyle);
+        }
+
+        // TABLE 3R
+        for (int i = 0; i < table3RData.size(); i++) {
+            cell = sheet.getRow(nextRowIndex + i).createCell(4);
+            cell.setCellValue(table3RData.get(i).get(0));
+            cell.setCellStyle(tableFirstElementStyle);
+
+            cell = sheet.getRow(nextRowIndex + i).createCell(5);
+            cell.setCellValue(Integer.parseInt(((table3RData.get(i).get(1)))));
+            cell.setCellStyle(tableElementStyle);
+        }
+
+        nextRowIndex = nextRowIndex + 104;
+
+        for (int i = 0; i < table4Data.size(); i++) {
+            cell = sheet.createRow(nextRowIndex + i).createCell(1);
+            cell.setCellValue(table4Data.get(i).get(0));
+            cell.setCellStyle(tableFirstElementStyle);
+
+            cell = sheet.getRow(nextRowIndex + i).createCell(2);
+            cell.setCellValue(Integer.parseInt(((table4Data.get(i).get(1)))));
+            cell.setCellStyle(tableElementStyle);
+
+            cell = sheet.getRow(nextRowIndex + i).createCell(3);
+            cell.setCellValue(Integer.parseInt(((table4Data.get(i).get(2)))));
+            cell.setCellStyle(tableElementStyle);
+        }
+
         // Ghi file
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Chọn vị trí lưu.");
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
         );
-        fileChooser.setInitialFileName("ThongKeNhanVien - " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+        fileChooser.setInitialFileName("ThongKeMuonTra - " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 
         File selectedFile = fileChooser.showSaveDialog(reportPane.getScene().getWindow());
@@ -350,5 +416,4 @@ public class ReportTransactionController {
             return false;
         }
     }
-*/
 }

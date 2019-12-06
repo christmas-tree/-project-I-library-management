@@ -98,7 +98,15 @@ public class ReportStaffController {
         // TABLE 2
         populateTable(SQLTable2, table2, table2Data);
 
+        // BUTTON
         printBtn.setOnAction(event -> export());
+
+        // MENU
+        c.addMenu.setDisable(true);
+        c.editMenu.setDisable(true);
+        c.deleteMenu.setDisable(true);
+        c.importMenu.setDisable(true);
+
         c.exportMenu.setDisable(false);
         c.exportMenu.setOnAction(event -> printBtn.fire());
     }

@@ -88,6 +88,9 @@ public class EditTransactionController {
     private TextField depositSumTextField;
 
     @FXML
+    private TextField fineSumTextField;
+
+    @FXML
     private TextField transactIdTextField;
 
     @FXML
@@ -195,11 +198,8 @@ public class EditTransactionController {
         dueDateTextField.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(transaction.getDueDate()));
 
         int size = transaction.getAllDetails().size();
-        long depositSum = 0;
-        for (int i = 0; i < size; i++) {
-            depositSum += transaction.getAllDetails().get(i).getDeposit();
-        }
-        depositSumTextField.setText(String.format("%,d", depositSum));
+
+        calculateSums();
 
         confirmBtn.setOnAction(event -> {
             if (validate()) {
@@ -269,6 +269,7 @@ public class EditTransactionController {
             int row = pos.getRow();
             Transaction.TransactionDetail detail = event.getTableView().getItems().get(row);
             detail.setDeposit(newDeposit);
+            calculateSums();
         });
 
         isExtendedCol.setCellValueFactory(p -> {
@@ -306,6 +307,7 @@ public class EditTransactionController {
             int row = pos.getRow();
             Transaction.TransactionDetail detail = event.getTableView().getItems().get(row);
             detail.setFine(newFine);
+            calculateSums();
         });
 
         detailTableView.setItems(transaction.getAllDetails());
@@ -314,14 +316,7 @@ public class EditTransactionController {
 
         newDepositTextField.textProperty().addListener((observable, oldValue, newValue) -> newDepositTextField.setText(newValue.replaceAll("[^\\d]", "")));
 
-        transaction.getAllDetails().addListener((ListChangeListener<Transaction.TransactionDetail>) change -> {
-            int size = transaction.getAllDetails().size();
-            long depositSum = 0;
-            for (int i = 0; i < size; i++) {
-                depositSum += transaction.getAllDetails().get(i).getDeposit();
-            }
-            depositSumTextField.setText(String.format("%,d", depositSum));
-        });
+        transaction.getAllDetails().addListener((ListChangeListener<Transaction.TransactionDetail>) change -> calculateSums());
 
         // BUTTON ACTIONS
 
@@ -425,7 +420,8 @@ public class EditTransactionController {
             } catch (SQLException e) {
                 ExHandler.handle(e);
             }
-        };
+        }
+        ;
 
         pendingDelete.forEach(transactionDetail -> {
             try {
@@ -438,7 +434,7 @@ public class EditTransactionController {
         if (allIsReturned) {
             transaction.getBorrower().setCanBorrow(true);
             try {
-                ReaderDAO.getInstance().updateReader(transaction.getBorrower());
+                ReaderDAO.getInstance().updateReaderStatus(transaction.getBorrower());
             } catch (SQLException e) {
                 ExHandler.handle(e);
             }
@@ -500,7 +496,7 @@ public class EditTransactionController {
 
             reader.setCanBorrow(false);
             try {
-                ReaderDAO.getInstance().updateReader(reader);
+                ReaderDAO.getInstance().updateReaderStatus(reader);
             } catch (SQLException e) {
                 ExHandler.handle(e);
             }
@@ -517,6 +513,17 @@ public class EditTransactionController {
         }
     }
 
+    public void calculateSums() {
+        long depositSum = 0, fineSum = 0;
+        for (int i = 0; i < transaction.getAllDetails().size(); i++) {
+            Transaction.TransactionDetail detail = transaction.getAllDetails().get(i);
+            depositSum += detail.getDeposit();
+            fineSum += detail.getFine();
+        }
+        depositSumTextField.setText(String.format("%,d", depositSum));
+        fineSumTextField.setText(String.format("%,d", fineSum));
+    }
+
     // INPUT VALIDATION METHODS
 
     public boolean validate() {
@@ -526,14 +533,10 @@ public class EditTransactionController {
         if (reader == null)
             err += "Không được bỏ trống độc giả.\n";
         else {
-            if (!reader.isCanBorrow())
-                err += "Độc giả " + reader.getName() + " không được phép mượn.\n";
-            else {
-                if (dueDateTextField.getText().isBlank())
-                    err += "Không được bỏ trống hạn trả.\n";
-                if (transaction.getAllDetails().size() == 0)
-                    err += "Chưa có sách nào được mượn.\n";
-            }
+            if (dueDateTextField.getText().isBlank())
+                err += "Không được bỏ trống hạn trả.\n";
+            if (transaction.getAllDetails().size() == 0)
+                err += "Chưa có sách nào được mượn.\n";
         }
 
         if (err.equals("")) {
@@ -600,6 +603,7 @@ public class EditTransactionController {
         replaceCellText(basicInfoTable.getRow(3).getCell(3), dueDateTextField.getText());
 
         replaceCellText(basicInfoTable.getRow(4).getCell(1), depositSumTextField.getText());
+        replaceCellText(basicInfoTable.getRow(4).getCell(3), fineSumTextField.getText());
 
         // SIGNATURE TABLE
         XWPFTable signatureTable = doc.getTables().get(3);

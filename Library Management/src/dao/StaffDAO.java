@@ -121,7 +121,7 @@ public class StaffDAO {
         List<Staff> staffSearchResults = new ArrayList<>();
         Staff staff;
 
-        String sql = "SELECT * FROM [staff]";
+        String sql = "SELECT * FROM [staff] ORDER BY name ASC";
         Connection con = DbConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(sql);
         ResultSet rs = stmt.executeQuery();
@@ -171,7 +171,7 @@ public class StaffDAO {
                 break;
 
             case 1:
-                sql += " WHERE [name] LIKE ?";
+                sql += " WHERE [name] LIKE ? ORDER BY name ASC";
                 con = DbConnection.getConnection();
                 stmt = con.prepareStatement(sql);
                 stmt.setNString(1, "%" + value + "%");
@@ -233,7 +233,7 @@ public class StaffDAO {
         List<Staff> staffSearchResults = new ArrayList<>();
         Staff staff;
 
-        String sql = "SELECT * FROM [staff] WHERE [created] BETWEEN ? AND ?";
+        String sql = "SELECT * FROM [staff] WHERE [created] BETWEEN ? AND ? ORDER BY created ASC";
 
         Connection con = DbConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(sql);

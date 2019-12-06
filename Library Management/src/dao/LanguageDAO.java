@@ -95,7 +95,7 @@ public class LanguageDAO {
     }
 
     public Map<String, Language> getAllLanguages() throws SQLException {
-        String sql = "SELECT * FROM [language]";
+        String sql = "SELECT * FROM [language] ORDER BY langId";
         Language language = null;
         Map<String, Language> langList = new HashMap<>();
 

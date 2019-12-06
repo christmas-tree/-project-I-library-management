@@ -96,7 +96,7 @@ public class CategoryDAO {
     }
 
     public Map<String, Category> getAllCategories() throws SQLException {
-        String sql = "SELECT * FROM [category]";
+        String sql = "SELECT * FROM [category] ORDER BY catId";
         Category category = null;
         Map<String, Category> catList = new HashMap();
 

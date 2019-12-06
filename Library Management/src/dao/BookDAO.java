@@ -177,7 +177,8 @@ public class BookDAO {
                         "b.bookName," +
                         "b.price," +
                         "b.availQuantity " +
-                        "FROM book b";
+                        "FROM book b " +
+                        "ORDER BY bookName ASC";
 
         Connection con = DbConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(sql);
@@ -217,7 +218,8 @@ public class BookDAO {
                         "b.location," +
                         "b.quantity," +
                         "b.availQuantity " +
-                        "FROM book b";
+                        "FROM book b " +
+                        "ORDER BY bookName ASC";
 
         Connection con = DbConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(sql);
@@ -263,7 +265,7 @@ public class BookDAO {
         switch (searchMethod) {
 
             case 0: // Ma sach
-                sql += " WHERE bid LIKE ?";
+                sql += " WHERE bid LIKE ? ORDER BY bid ASC";
                 con = DbConnection.getConnection();
                 stmt = con.prepareStatement(sql);
                 stmt.setString(1, "%" + value + "%");
@@ -271,7 +273,7 @@ public class BookDAO {
                 break;
 
             case 1: // Ten sach
-                sql += " WHERE [bookName] LIKE ?";
+                sql += " WHERE [bookName] LIKE ? ORDER BY bookName ASC";
                 con = DbConnection.getConnection();
                 stmt = con.prepareStatement(sql);
                 stmt.setNString(1, "%" + value + "%");
@@ -287,7 +289,7 @@ public class BookDAO {
                 break;
 
             case 5: // Tac gia
-                sql += " WHERE [author] LIKE ?";
+                sql += " WHERE [author] LIKE ? ORDER BY author ASC";
                 con = DbConnection.getConnection();
                 stmt = con.prepareStatement(sql);
                 stmt.setNString(1, "%" + value + "%");
@@ -354,7 +356,7 @@ public class BookDAO {
         switch (searchMethod) {
 
             case 3: // Gia
-                sql += " WHERE [price] BETWEEN ? AND ?";
+                sql += " WHERE [price] BETWEEN ? AND ? ORDER BY price ASC";
                 con = DbConnection.getConnection();
                 stmt = con.prepareStatement(sql);
                 stmt.setInt(1, value1);
@@ -363,7 +365,7 @@ public class BookDAO {
                 break;
 
             case 7: // Nam xuat ban
-                sql += " WHERE [pubYear] BETWEEN ? AND ?";
+                sql += " WHERE [pubYear] BETWEEN ? AND ? ORDER BY pubYear ASC";
                 con = DbConnection.getConnection();
                 stmt = con.prepareStatement(sql);
                 stmt.setInt(1, value1);
@@ -404,7 +406,7 @@ public class BookDAO {
         List<Book> bookSearchResults = new ArrayList<>();
         Book book;
 
-        String sql = "SELECT * FROM [book] WHERE [created] BETWEEN ? AND ?";
+        String sql = "SELECT * FROM [book] WHERE [created] BETWEEN ? AND ? ORDER BY created ASC";
 
         Connection con = DbConnection.getConnection();
         PreparedStatement stmt = con.prepareStatement(sql);

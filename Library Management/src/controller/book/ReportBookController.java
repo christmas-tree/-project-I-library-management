@@ -170,6 +170,9 @@ public class ReportBookController {
         printBtn.setOnAction(event -> export());
         c.exportMenu.setDisable(false);
         c.exportMenu.setOnAction(event -> printBtn.fire());
+        c.importMenu.setDisable(true);
+
+
     }
 
     public int getCount(String sql) {
@@ -306,7 +309,7 @@ public class ReportBookController {
         XSSFCell cell = null;
 
         // DATE
-        cell = sheet.getRow(1).getCell(5);
+        cell = sheet.getRow(1).getCell(6);
         cell.setCellValue(LocalDate.now().format(DateTimeFormatter.ofPattern("'Ngày 'dd' tháng 'MM' năm 'yyyy")));
         cell.setCellStyle(dateStyle);
 
